@@ -1,5 +1,7 @@
 const inquirer = require("inquirer");
 const readdirp = require("readdirp");
+const fs = require("fs");
+const pathBase = process.cwd();
 
 function filewalker(dir, type, myFilter) {
   return new Promise((resolve) => {
@@ -32,9 +34,10 @@ const queryParams = (type, choices = []) => {
       choices: [...choices.map((d) => d.path), "Añadir ruta manualmente"],
     },
     typeFile: {
-      name: "fileName",
+      name: "file",
       type: "input",
-      message: "Escribe la extension del fichero del fichero: ",
+      message:
+        "Escribe las extensiones de los archivos separadas por ',' si no escribes nada se analizaran todos los archivos: ",
     },
   };
   const qs = [message[type]];
@@ -43,22 +46,36 @@ const queryParams = (type, choices = []) => {
 
 const analyzeRoute = async (path) => {
   const typeFile = await queryParams("typeFile");
-  let filter = "";
-  if (typeFile.fileName !== "") {
-    console.log(typeFile);
+  let filter = undefined;
+  if (typeFile.file !== "") {
+    filter = typeFile.file
+      .replace(" ", "")
+      .split(",")
+      .map((item) => `*.${item}`);
   }
-  const files = await filewalker(
-    path.type,
-    "files",
-    typeFile.fileName === "" ? undefined : "js"
-  );
-  console.log(files);
+  const files = await filewalker(path.type, "files", filter);
+  return files;
+};
+
+const readFile = (file) => {
+    console.log(file)
+}
+
+const openFiles = (direcPath, filePath) => {
+  return new Promise((resolve) => {
+    let stylesPatuco = [];
+    filePath.map((item) => {
+      const archivo = fs.readFileSync(`${pathBase}/${direcPath}/${item.path}`, "utf-8");
+      readFile(archivo);
+    });
+  });
 };
 
 const createCSS = (async () => {
   const direcctories = await filewalker(".", "directories");
-  const path = await queryParams("direcctories", direcctories);
-  const data = await analyzeRoute(path);
+  const direcPath = await queryParams("direcctories", direcctories);
+  const filePath = await analyzeRoute(direcPath);
+  const open = await openFiles(direcPath.type, filePath);
 })();
 
 module.exports.createCSS = createCSS;

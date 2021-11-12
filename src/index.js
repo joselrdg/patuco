@@ -1,7 +1,6 @@
 const chalk = require("chalk");
 const figlet = require("figlet");
 const inquirer = require("inquirer");
-const fs = require("fs");
 const pathBase = process.cwd();
 
 const msn = (msn) => {
@@ -42,8 +41,7 @@ const createFile = (data) => {
 const start = async () => {
   msn(`
 ---------
-'PATUCO'
----------`);
+'PATUCO'`);
   createFile(await queryParams());
 };
 
