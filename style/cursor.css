@@ -1,0 +1,15 @@
+.pointer {
+  cursor: pointer;
+}
+
+.zoom_in {
+  cursor: zoom-in;
+}
+
+.e-resize {
+  cursor: e-resize;
+}
+
+.grabbing {
+  cursor: grabbing;
+}

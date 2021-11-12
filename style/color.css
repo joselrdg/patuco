@@ -1,0 +1,56 @@
+._c_p1 {
+    color: var(--primary-color1);
+  }
+
+  .dos:before {
+    background: rgba(0,0,150,.4)
+  }
+  
+  ._c_p1_l {
+    /* color:  color(var(--primary-color1) lightness(-50%));  */
+    color: color-mix(in lch, var(--primary-color1), rgb(255, 255, 255));
+  }
+  
+  ._c_p1_b {
+    color: color(var(--primary-color1) blackness(-80%));
+  }
+  
+  ._c_p1_s {
+    color: color(var(--primary-color1) shade(+ 70%));
+  }
+  
+  ._c_p1_t {
+    color: color(var(--primary-color1) tint(+ 70%));
+  }
+  
+  ._c_i1 {
+    color: var(--color-icon);
+  }
+  
+  /* Color */
+  
+  ._c_w {
+    color: var(--color-white);
+  }
+
+  ._c_r {
+    color: red;
+  }
+  ._c_g {
+    color: rgb(2, 197, 2);
+  }
+  
+  ._c_dg {
+    color: var(--dark-grey);
+  }
+  
+  ._c_lg {
+    color: var(--ligth-grey);
+  }
+  
+  ._c_l {
+    color: rgb(155, 155, 155);
+  }
+  ._c_r {
+    color: rgb(230, 4, 4);
+  }

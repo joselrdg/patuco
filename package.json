@@ -1,0 +1,36 @@
+{
+  "name": "patucostrap",
+  "version": "1.0.0",
+  "description": "Css library to speed up the creation of the style and layout of web pages.",
+  "main": "patucostrap.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "javascript",
+    "style",
+    "layout",
+    "node",
+    "npm"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joselrdg/PatucosTrap.git"
+  },
+  "author": "Jose Luis Rodriguez Gonzalez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joselrdg/PatucosTrap/issues"
+  },
+  "homepage": "https://github.com/joselrdg/PatucosTrap#readme",
+  "bin": {
+    "patuco": "./bin/global.js"
+  },
+  "preferGlobal": true,
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "figlet": "^1.5.2",
+    "inquirer": "^8.2.0",
+    "readdirp": "^3.6.0"
+  }
+}

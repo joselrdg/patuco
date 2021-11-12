@@ -1,0 +1,131 @@
+._td_lt {
+  text-decoration: line-through;
+}
+
+._ff_r {
+  font-family: "Roboto", sans-serif;
+}
+
+._ff_p1 {
+  font-family: var(--primaryfontFamily1);
+}
+._ff_p2 {
+  font-family: var(--primaryfontFamily2);
+}
+._ff_p3 {
+  font-family: var(--primaryfontFamily3);
+}
+._ff_p4 {
+  font-family: var(--primaryfontFamily4);
+}
+._ff_p5 {
+  font-family: var(--primaryfontFamily5);
+}
+
+._ff_s1 {
+  font-family: var(--secundaryfontFamily1);
+}
+._ff_s2 {
+  font-family: var(--secundaryfontFamily2);
+}
+._ff_s3 {
+  font-family: var(--secundaryfontFamily3);
+}
+._ff_s4 {
+  font-family: var(--secundaryfontFamily4);
+}
+._ff_s5 {
+  font-family: var(--secundaryfontFamily5);
+}
+
+._fw_1 {
+  font-weight: 100;
+}
+._fw_2 {
+  font-weight: 200;
+}
+._fw_3 {
+  font-weight: 300;
+}
+._fw_4 {
+  font-weight: 400;
+}
+._fw_5 {
+  font-weight: 500;
+}
+._fw_6 {
+  font-weight: 600;
+}
+._fw_7 {
+  font-weight: 700;
+}
+._fw_8 {
+  font-weight: 100;
+}
+._fw_9 {
+  font-weight: 900;
+}
+
+._fs_1ws {
+  font-size: 0.2vw;
+}
+._fs_2ws {
+  font-size: 0.3vw;
+}
+._fs_3ws {
+  font-size: 0.4vw;
+}
+._fs_4ws {
+  font-size: 0.5vw;
+}
+._fs_5ws {
+  font-size: 0.8vw;
+}
+
+._fs_1w {
+  font-size: 2vw;
+}
+._fs_2w {
+  font-size: 3vw;
+}
+._fs_3w {
+  font-size: 5vw;
+}
+._fs_4w {
+  font-size: 8vw;
+}
+._fs_5w {
+  font-size: 12vw;
+}
+
+._fs_1 {
+  font-size: 20px;
+}
+._fs_2 {
+  font-size: 24px;
+}
+._fs_3 {
+  font-size: 30px;
+}
+._fs_4 {
+  font-size: 40px;
+}
+._fs_5 {
+  font-size: 50px;
+}
+
+._fs_1s {
+  font-size: 8px;
+}
+._fs_2s {
+  font-size: 10px;
+}
+._fs_3s {
+  font-size: 12px;
+}
+._fs_4s {
+  font-size: 14px;
+}
+._fs_5s {
+  font-size: 16px;
+}
