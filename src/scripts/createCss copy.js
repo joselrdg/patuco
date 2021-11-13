@@ -4,8 +4,6 @@ const readline = require("readline");
 const fs = require("fs");
 const pathBase = process.cwd();
 
-const patucoStyles = require('../../style/Base.js')
-
 function filewalker(dir, type, myFilter) {
   return new Promise((resolve) => {
     const data = [];
@@ -66,10 +64,10 @@ const analyzeRoute = async (path) => {
   return files;
 };
 
-const readStyles = async (file, typeClass) => {
+const readFile = async (file, typeClass) => {
   // return new Promise((resolve) => {
-  if (/class=/g.test(file)) {
-    console.log(patucoStyles);
+  if (/class=/g.test(file) || /className=/g.test(file)) {
+    console.log(true);
   } else {
     console.log("No se encontraron clases");
   }
@@ -77,6 +75,7 @@ const readStyles = async (file, typeClass) => {
 };
 
 const openFiles = async (direcPath, filePath) => {
+  const typeClass = await queryParams("typeClass");
   let stylesPatuco = [];
   for (let index = 0; index < filePath.length; index++) {
     const file = fs.readFileSync(
@@ -84,7 +83,39 @@ const openFiles = async (direcPath, filePath) => {
       "utf-8"
     );
     if (/class=/g.test(file) || /className=/g.test(file)) {
-     const data = await readStyles(file)
+      const readInterface = readline.createInterface({
+        input: fs.createReadStream(
+          `${pathBase}/${direcPath}/${filePath[index].path}`
+        ),
+        // output: process.stdout,
+        // console: false,
+      });
+
+      readInterface.on("line", function (line) {
+        const sliceClass = (type) => {
+          let lineSplit = line.slice(line.indexOf(type));
+          console.log(lineSplit);
+          let counter = type === "class=" ? 6 : 10;
+          while (lineSplit[counter] === " ") {
+            counter++;
+          }
+          const simbol = lineSplit[counter];
+          lineSplit = lineSplit.slice(counter);
+          console.log(lineSplit);
+
+          // if (/[${]/g.test(lineSplit)) {
+          //   console.log(lineSplit);
+          // } else {
+          //   lineSplit = lineSplit.slice(0, lineSplit.indexOf(simbol));
+          // }
+        };
+
+        if (/class=/g.test(line)) {
+          sliceClass("class=");
+        } else if (/className=/g.test(line)) {
+          sliceClass("className=");
+        }
+      });
     }
     // const patucoClass = await readFile(archivo, typeClass);
 
