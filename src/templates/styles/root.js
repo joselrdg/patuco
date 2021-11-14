@@ -1,7 +1,5 @@
 const variables = require("./variables.js");
 
-console.log(variables);
-
 const fonts = () => {
   let str = "";
   variables.fonts.forEach((element) => {

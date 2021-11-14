@@ -1,4 +1,5 @@
 const inquirer = require("inquirer");
+let end = false;
 
 const queryParams = () => {
   const qs = [
@@ -12,6 +13,7 @@ const queryParams = () => {
         "Ver clases",
         "Crear archivo .css",
         "Animaciones",
+        "Salir",
       ],
     },
   ];
@@ -35,16 +37,18 @@ const setOptions = (data) => {
     case "Animaciones":
       require("./animations.js");
       break;
+    case "Salir":
+      end = true;
+      break;
     default:
       break;
   }
 };
 
-
-
 const configStyles = (async () => {
-  console.log('baseCss')
-  setOptions(await queryParams());
+  while (!end) {
+    setOptions(await queryParams());
+  }
 })();
 
 module.exports.configStyles = configStyles;
