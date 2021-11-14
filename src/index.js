@@ -30,7 +30,7 @@ const queryParams = () => {
 const createFile = (data) => {
   switch (data.type) {
     case "Style":
-      require('./scripts/createCss.js');
+      require('./scripts/ConfigStyles/index.js');
       break;
   
     default:

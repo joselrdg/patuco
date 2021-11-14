@@ -15,12 +15,12 @@ const position = require("./position.js");
 const size = require("./size.js");
 const transform = require("./transform.js");
 
-const base = {
+const baseCss = {
   grid,
   root,
   background,
   border,
-  boxshado,
+  boxshadow,
   color,
   cursor,
   flex,
@@ -33,3 +33,6 @@ const base = {
   size,
   transform,
 };
+
+
+module.exports = baseCss;

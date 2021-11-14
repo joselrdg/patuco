@@ -31,14 +31,14 @@ const queryParams = (type, choices = []) => {
     direcctories: {
       name: "type",
       type: "list",
-      message: "Selecciona el directorio a analizar: ",
+      message: "Selecciona el directorio un directorio para analizar o selecciona añadir ruta manualmente: ",
       choices: [...choices.map((d) => d.path), "Añadir ruta manualmente"],
     },
     typeFile: {
       name: "file",
       type: "input",
       message:
-        "Escribe las extensiones de los archivos separadas por ',' si no escribes nada se analizaran todos los archivos: ",
+        "Escribe las extensiones de los archivos que quieres analizar separadas por ',' si no escribes nada se analizaran todos los archivos: ",
     },
     typeClass: {
       name: "type",
@@ -69,14 +69,17 @@ const readStyles = (stylesPath) => {
     let stylesPatuco = [];
     for (let index = 0; index < stylesPath.length; index++) {
       const elementPath = `./style/${stylesPath[index].path}`;
-      const nameFile = stylesPath[index].path.slice(
-        0,
-        stylesPath[index].path.indexOf(".css")
-      );
-      const file = fs.readFileSync(elementPath, "utf-8");
-      console.log(nameFile);
+      const readInterface = readline.createInterface({
+        input: fs.createReadStream(elementPath),
+      });
+      readInterface.on("line", function (line) {
+        if (line[0] === "." && line[1] !== "/") {
+          const str = line.slice(1, line.indexOf(" "));
+          stylesPatuco.push(str);
+        }
+      });
     }
-    // console.log(stylesPatuco);
+    console.log(stylesPatuco);
     resolve(stylesPatuco);
   });
 };

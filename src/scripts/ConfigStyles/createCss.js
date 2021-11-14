@@ -2,6 +2,7 @@ const inquirer = require("inquirer");
 const readdirp = require("readdirp");
 const readline = require("readline");
 const fs = require("fs");
+const baseCss = require("../../templates/styles/baseCss.js");
 const pathBase = process.cwd();
 
 function filewalker(dir, type, myFilter) {
@@ -69,17 +70,14 @@ const readStyles = (stylesPath) => {
     let stylesPatuco = [];
     for (let index = 0; index < stylesPath.length; index++) {
       const elementPath = `./style/${stylesPath[index].path}`;
-      const readInterface = readline.createInterface({
-        input: fs.createReadStream(elementPath),
-      });
-      readInterface.on("line", function (line) {
-        if (line[0] === "." && line[1] !== "/") {
-          const str = line.slice(1, line.indexOf(" "));
-          stylesPatuco.push(str);
-        }
-      });
+      const nameFile = stylesPath[index].path.slice(
+        0,
+        stylesPath[index].path.indexOf(".css")
+      );
+      const file = fs.readFileSync(elementPath, "utf-8");
+      console.log(nameFile);
     }
-    console.log(stylesPatuco);
+    // console.log(stylesPatuco);
     resolve(stylesPatuco);
   });
 };
@@ -110,6 +108,7 @@ const openFiles = async (direcPath, filePath) => {
 };
 
 const createCSS = (async () => {
+  // console.log(baseCss)
   const direcctories = await filewalker(".", "directories");
   const direcPath = await queryParams("direcctories", direcctories);
   const filePath = await analyzeRoute(direcPath);

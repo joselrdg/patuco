@@ -1,33 +1,41 @@
+const variables = require("./variables.js");
+
+console.log(variables);
+
+const fonts = () => {
+  let str = "";
+  variables.fonts.forEach((element) => {
+    str = str + `${element}; `;
+  });
+  return str;
+};
+
 const root = [
   {
     other: `
-    @import url("https://fonts.googleapis.com/css2?family=Ranchers&family=Roboto:wght@100&family=Vast+Shadow&display=swap");
-    @import url("https://fonts.googleapis.com/css2?family=Spartan:wght@300&display=swap");
-    @import url("https://fonts.googleapis.com/css2?family=Fira+Sans:wght@800&display=swap");
-    @import url("https://fonts.googleapis.com/css?family=Bentham|Playfair+Display|Raleway:400,500|Suranna|Trocchi");
-    @import url("https://fonts.googleapis.com/css2?family=Ranchers&family=Vast+Shadow&display=swap");
+    ${fonts()};
     
     :root {
-      --primaryfontFamily1: "Spartan";
-      --primaryfontFamily2: "'Bentham', serif";
-      --primaryfontFamily3: "Vast Shadow";
-      --primaryfontFamily4: "Spartan";
-      --primaryfontFamily5: "Spartan";
-      --secundaryfontFamily1: "Fira Sans";
-      --secundaryfontFamily2: "'Raleway', sans-serif";
-      --secundaryfontFamily3: "'Playfair Display', serif";
-      --secundaryfontFamily4: "Fira Sans";
-      --secundaryfontFamily5: "'Trocchi', serif";
-      --primary-color1: #666569;
-      --color-icon: #8b8b8b;
-      --dark-grey: #929292;
-      --ligth-grey: #c8c7c7;
-      --color-white: white;
-      --color-red: #de5246;
-      --background-colorBody: #e9eaea;
-      --background-color1: #e9eaea;
-      --background-color2: #e9eaea;
-      --container: 0 9% 0 9%;
+      --primaryfontFamily1: ${variables.primaryfontFamily1};
+      --primaryfontFamily2: ${variables.primaryfontFamily2};
+      --primaryfontFamily3: ${variables.primaryfontFamily3};
+      --primaryfontFamily4: ${variables.primaryfontFamily4};
+      --primaryfontFamily5: ${variables.primaryfontFamily5};
+      --secundaryfontFamily1: ${variables.primaryfontFamily1};
+      --secundaryfontFamily2: ${variables.primaryfontFamily2};
+      --secundaryfontFamily3: ${variables.primaryfontFamily3};
+      --secundaryfontFamily4: ${variables.primaryfontFamily4};
+      --secundaryfontFamily5: ${variables.primaryfontFamily5};
+      --primary-color1: ${variables.primaryColor1};
+      --color-icon: ${variables.iconColor};
+      --dark-grey: ${variables.darkGrey};
+      --ligth-grey: ${variables.ligthGrey};
+      --color-white: ${variables.colorWhite};
+      --color-red: ${variables.colorRed};
+      --background-colorBody: ${variables.backgroundColorBody};
+      --background-color1: ${variables.backgroundColor1};
+      --background-color2: ${variables.backgroundColor2};
+      --container: ${variables.container};
     }
     
     
