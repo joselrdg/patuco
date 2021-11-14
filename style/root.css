@@ -21,6 +21,7 @@
   --ligth-grey: #c8c7c7;
   --color-white: white;
   --color-red: #de5246;
+  --background-colorBody: #e9eaea;
   --background-color1: #e9eaea;
   --background-color2: #e9eaea;
   --container: 0 9% 0 9%;
@@ -29,13 +30,7 @@
 
 body {
   font-family: var(--primaryfontFamily1);
-  /* background-color:  var(--background-color1); */
-}
-
-.sticky {
-  position: fixed;
-  top: 0;
-  width: 100%;
+  background-color:  var(--background-colorBody);
 }
 
 /* Change the white to any color ;) */
@@ -43,7 +38,7 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-    transition: background-color 5000s ease-in-out 0s;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 /*Change text in autofill textbox*/
@@ -51,11 +46,8 @@ input:-webkit-autofill {
   -webkit-text-fill-color: var(--primary-color1) !important;
 }
 
-/* // Colors
-$primary:#5C62C5;
-$dark-grey: #363636;
-$ligth-grey: #d8d8d8;
-
-$white: #fff;
-$google-blue: #4285f4;
-$button-active-blue: #1669f2; */
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}

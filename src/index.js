@@ -1,7 +1,7 @@
 const chalk = require("chalk");
 const figlet = require("figlet");
 const inquirer = require("inquirer");
-const pathBase = process.cwd();
+
 
 const msn = (msn) => {
   console.log(
