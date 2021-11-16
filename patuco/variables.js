@@ -3,7 +3,7 @@ const variables = {
 "@import url('https://fonts.googleapis.com/css2?family=Spartan:wght@300&display=swap')",
 "@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@800&display=swap')"
 ],
-   primaryfontFamily1: "jose",
+   primaryfontFamily1: "pepe",
    primaryfontFamily2: "Spartan",
    primaryfontFamily3: "Spartan",
    primaryfontFamily4: "Spartan",

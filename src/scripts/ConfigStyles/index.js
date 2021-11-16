@@ -1,5 +1,5 @@
 const inquirer = require("inquirer");
-let end = false;
+// let end = false;
 
 const queryParams = () => {
   const qs = [
@@ -8,11 +8,12 @@ const queryParams = () => {
       type: "list",
       message: "Selecciona una opción: ",
       choices: [
-        "Configurar variables",
-        "Crear clases",
         "Ver clases",
-        "Crear archivo .css",
-        "Animaciones",
+        "Crear clases",
+        "Configurar variables",
+        "Configurar animaciones",
+        "Actualizar .css schema",
+        "Crear archivo .css en tu proyecto",
         "Salir",
       ],
     },
@@ -31,10 +32,13 @@ const setOptions = (data) => {
     case "Ver clases":
       require("./readClasses.js");
       break;
-    case "Crear archivo .css":
+    case "Actualizar .css schema":
+      require("./updateCssSchema.js");
+      break;
+    case "Crear archivo .css en tu proyecto":
       require("./createCss.js");
       break;
-    case "Animaciones":
+    case "Configurar animaciones":
       require("./animations.js");
       break;
     case "Salir":
@@ -46,9 +50,9 @@ const setOptions = (data) => {
 };
 
 const configStyles = (async () => {
-  while (!end) {
-    setOptions(await queryParams());
-  }
+  // while (!end) {
+  setOptions(await queryParams());
+  // }
 })();
 
 module.exports.configStyles = configStyles;

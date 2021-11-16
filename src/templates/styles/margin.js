@@ -157,7 +157,11 @@ const margin = [
   },
   {
     name: "_ml_1s",
-    items: ["_ml_2s"],
+    items: ["margin-left: 0.2rem"],
+  },
+  {
+    name: "_ml_2s",
+    items: ["margin-left: 0.3rem"],
   },
   {
     name: "_ml_3s",

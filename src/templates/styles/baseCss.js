@@ -1,5 +1,5 @@
-const grid = require("./grid.js");
 const root = require("./root.js");
+const grid = require("./grid.js");
 const background = require("./background.js");
 const border = require("./border.js");
 const boxshadow = require("./boxshadow.js");
@@ -16,8 +16,8 @@ const size = require("./size.js");
 const transform = require("./transform.js");
 
 const baseCss = {
-  grid,
   root,
+  grid,
   background,
   border,
   boxshadow,

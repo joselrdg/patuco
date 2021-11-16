@@ -2,8 +2,14 @@ const inquirer = require("inquirer");
 const readdirp = require("readdirp");
 const chalk = require("chalk");
 const fs = require("fs");
-const variables = require("../../templates/styles/variables.js");
+
 const pathBase = process.cwd();
+const pathVariables = `${pathBase}/patuco/variables.js`;
+const variables = require(fs.existsSync(pathVariables) ?  pathVariables : "../../templates/styles/variables.js");
+
+
+const root = require("../../templates/styles/root.js");
+// const variables = require("../../templates/styles/variables.js");
 
 let end = false;
 
@@ -99,10 +105,8 @@ const prepareStr = () => {
 };
 
 const loadVariables = async (key) => {
-  // const dir = await queryParams("dir");
   const path = `${pathBase}/patuco`;
-  console.log(`${pathBase}/patuco`);
-  const file = `${path}/variables.js`;
+  // const file = `${path}/variables.js`;
   const str = `const variables = {
       ${prepareStr()}};
   
@@ -114,7 +118,7 @@ module.exports = variables;
     fs.mkdirSync(path, 0777);
   }
   try {
-    fs.writeFileSync(file, str, { mode: 0o777 });
+    fs.writeFileSync(pathVariables, str, { mode: 0o777 });
   } catch (err) {
     console.error(err);
   } finally {
@@ -122,7 +126,7 @@ module.exports = variables;
           ------ CREADO CORRECTAMENTE ------\n
           Se ha creado el siguiente elemento\n
           - Tipo: ${chalk.blue.bold("variables.js")}\n
-          - Ruta: ${chalk.blue.bold(file)}\n
+          - Ruta: ${chalk.blue.bold(pathVariables)}\n
           ----------------------------------\n
         `);
   }
@@ -149,7 +153,6 @@ const init = async () => {
 const setVariables = (async () => {
   end = false;
   while (!end) {
-    // console.log(upgrade);
     await init();
   }
 })();
