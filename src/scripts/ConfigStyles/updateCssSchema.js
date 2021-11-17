@@ -73,16 +73,16 @@ const updateSchema = async () => {
     console.error(err);
   } finally {
     console.log(`
-          ------ CREADO CORRECTAMENTE ------\n
-          Se ha creado el siguiente elemento\n
-          - Archivo: ${chalk.blue.bold("patucoSchema.css")}\n
-          - Ruta: ${chalk.blue.bold(pathSchema)}\n
-          ----------------------------------\n
-        `);
+------ CREADO CORRECTAMENTE ------\n
+Se ha creado el siguiente elemento\n
+- Archivo: ${chalk.blue.bold("patucoSchema.css")}\n
+- Ruta: ${chalk.blue.bold(pathSchema)}\n
+----------------------------------\n
+`);
   }
 };
 
-const updateCssSchema = (async () => {
+const updateCssSchema = (async (savedClasses, pathUser) => {
   const option = await queryParams("typeClass");
   switch (option.type) {
     case "Actualizar":

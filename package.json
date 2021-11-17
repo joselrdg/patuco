@@ -8,6 +8,7 @@
   },
   "keywords": [
     "javascript",
+    "css",
     "style",
     "layout",
     "node",
@@ -24,7 +25,8 @@
   },
   "homepage": "https://github.com/joselrdg/PatucosTrap#readme",
   "bin": {
-    "patuco": "./bin/global.js"
+    "patuco": "./bin/global.js",
+    "patuco-create-classes": "./bin/createClasses.js"
   },
   "preferGlobal": true,
   "dependencies": {

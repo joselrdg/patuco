@@ -27,6 +27,7 @@ const queryParams = () => {
         "Layouts",
         "Models",
         "Javascript",
+        "Config",
       ],
     },
   ];
@@ -37,6 +38,9 @@ const createFile = (data) => {
   switch (data.type) {
     case "Style":
       require("./scripts/ConfigStyles/index.js");
+      break;
+    case "Config":
+      require("./scripts/config.js");
       break;
 
     default:
@@ -56,7 +60,7 @@ const start = async () => {
   `;
   const b = `
   +                                         *
-              *              +\n`
+              *              +\n`;
 
   console.log(chalk.bold.cyan(a));
 

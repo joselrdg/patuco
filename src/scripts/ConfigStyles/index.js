@@ -1,5 +1,4 @@
 const inquirer = require("inquirer");
-// let end = false;
 
 const queryParams = () => {
   const qs = [
@@ -50,9 +49,7 @@ const setOptions = (data) => {
 };
 
 const configStyles = (async () => {
-  // while (!end) {
   setOptions(await queryParams());
-  // }
 })();
 
 module.exports.configStyles = configStyles;

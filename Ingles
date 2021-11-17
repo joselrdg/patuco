@@ -1,0 +1,11 @@
+const patucoConfig = {
+  path: {
+    patucoConfig: "Ingles",
+    patucoModule: "Ingles",
+    userTemplate: undefined
+    },
+  },
+  language: "es",
+};
+
+module.exports = patucoConfig;
