@@ -4,6 +4,8 @@ const baseCss = require("../../templates/styles/baseCss.js");
 
 const group = Object.keys(baseCss);
 
+const back = chalk.bold.italic.magentaBright("Volver\n");
+
 const queryParams = (type, choices = []) => {
   const message = {
     typeClass: {
@@ -12,8 +14,11 @@ const queryParams = (type, choices = []) => {
       message:
         "Selecciona un conjunto de clases o busca por nombre de clase o propiedad: ",
       choices: [
-        "Buscar por nombre de clase o propiedad",
+        chalk.bold.italic.bgBlackBright(
+          "Buscar por nombre de clase o propiedad"
+        ),
         ...group.filter((i) => i !== "root"),
+        back,
       ],
     },
     search: {
@@ -36,7 +41,7 @@ const queryParams = (type, choices = []) => {
       name: "type",
       type: "list",
       message: "Selecciona: ",
-      choices,
+      choices: choices.filter((e) => e !== undefined),
     },
   };
   const qs = [message[type]];
@@ -47,7 +52,7 @@ const readStyles = (styles) => {
   let str = "";
   if (styles) {
     for (let index = 0; index < styles.length; index++) {
-      str = str + `  ${chalk.green.bold(styles[index])}\n`;
+      str = str + `  ${chalk.green.bold(styles[index])}`;
     }
   }
   return str;
@@ -58,8 +63,8 @@ const readGroup = async (typeClass) => {
     const items = typeClass[i].items;
     const name = typeClass[i].name;
     name &&
-      console.log(`- Nombre: ${chalk.blue.bold(name)}
-${readStyles(items)}`);
+      console.log(`\n- Nombre: ${chalk.blue.bold(name)}
+${readStyles(items)}\n`);
   }
 };
 
@@ -91,8 +96,10 @@ const selectQuery = (typeClass, type) => {
       queryArr.push(typeClass[i].name);
     } else if (type === "items") {
       const array = typeClass[i].items;
-      for (let index = 0; index < array.length; index++) {
-        queryArr.push(array[index]);
+      if (array !== undefined) {
+        for (let index = 0; index < array.length; index++) {
+          queryArr.push(array[index]);
+        }
       }
     }
   }
@@ -105,9 +112,10 @@ const readFilter = async (arr, type, filter) => {
   } else if (type === "items") {
     const arrProperties = [];
     for (let i = 0; i < arr.length; i++) {
-      for (let index = 0; index < arr[i].items.length; index++) {
-        arr[i].items[index] === filter && arrProperties.push(arr[i]);
-      }
+      if (arr[i].items !== undefined)
+        for (let index = 0; index < arr[i].items.length; index++) {
+          arr[i].items[index] === filter && arrProperties.push(arr[i]);
+        }
     }
     return arrProperties;
   }
@@ -143,17 +151,25 @@ const options = async (typeClass, option) => {
       break;
   }
   // await readGroup(typeClass);
+  readClasses();
 };
 
-const readClasses = (async () => {
+const readClasses = async () => {
   const typeClass = await queryParams("typeClass");
-  if (typeClass.type === "Buscar por nombre de clase o propiedad") {
+  if (
+    typeClass.type ===
+    chalk.bold.italic.bgBlackBright("Buscar por nombre de clase o propiedad")
+  ) {
     const search = await queryParams("search");
     await searchClass(search.type);
+    readClasses();
+  } else if (typeClass.type === back) {
+    const configStyles = require("./index.js");
+    configStyles.configStyles();
   } else {
     const option = await queryParams("options");
     await options(typeClass.type, option.type);
   }
-})();
+};
 
-module.exports.readClasses = readClasses;
+module.exports = { readClasses };

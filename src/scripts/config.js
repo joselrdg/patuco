@@ -2,8 +2,11 @@ const inquirer = require("inquirer");
 const readdirp = require("readdirp");
 const chalk = require("chalk");
 const fs = require("fs");
+const pathBase = `${process.cwd()}/patuco/patucoSchema.css`;
 const start = require("../index");
 const patucoConfig = require("./constants/patucoConfig.js");
+
+const back = chalk.bold.italic.magentaBright("Volver\n");
 
 function filewalker(
   dir = "/home/jose/.nvm/versions/node/v16.2.0/lib/node_modules",
@@ -12,7 +15,7 @@ function filewalker(
   filFilter = "patucoConfig.js"
 ) {
   if (dir === "") {
-    dir = "/home";
+    dir = "/home/jose/.nvm/versions/node/v16.2.0/lib/node_modules";
   }
   return new Promise((resolve) => {
     const data = [];
@@ -38,6 +41,16 @@ patucoConfig;
 
 const queryParams = (type, choices = []) => {
   const message = {
+    dat: {
+      name: "type",
+      type: "list",
+      message:
+        "Quieres actualizar el archivo patucoSchema.css en tu proyecto o el modulo patucostrap: ",
+      choices: [
+        `Actualizar en ${pathBase}`,
+        "Actualizar el modulo patucostrap",
+      ],
+    },
     pathOk: {
       name: "type",
       type: "list",
@@ -52,14 +65,14 @@ const queryParams = (type, choices = []) => {
         "Configurar path modulo patucostrap",
         "Configurar path de las plantillas del usuario",
         "Configurar idioma",
-        "Volver",
+        back,
       ],
     },
     language: {
       name: "type",
       type: "list",
       message: "Selecciona idioma: ",
-      choices: ["Ingles", "Español"],
+      choices: ["Ingles", "Español", back],
     },
     configPaths: {
       name: "type",
@@ -68,6 +81,7 @@ const queryParams = (type, choices = []) => {
       choices: [
         "Buscar directorio 'patucostrap' automaticamente",
         "Introducir el path manualmente",
+        back,
       ],
     },
     path: {
@@ -100,7 +114,19 @@ const queryParams = (type, choices = []) => {
 };
 
 const writeArr = async (data) => {
-  const fileStr = `const patucoConfig = {
+  if (
+    !fs.existsSync(data.patucoConfigOk) ||
+    !fs.existsSync(data.patucoModuleOk)
+  ) {
+    console.log(
+      chalk.green
+        .bold(`Algo salio mal... Comprueba que sean conrrectas las siguientes rutas:
+ - ${data.patucoModuleOk}
+ - ${data.patucoConfigOk}
+ `)
+    );
+  } else {
+    const fileStr = `const patucoConfig = {
   path: {
     patucoConfig: "${data.patucoConfigOk}",
     patucoModule: "${data.patucoModuleOk}",
@@ -112,14 +138,16 @@ const writeArr = async (data) => {
 };
 
 module.exports = patucoConfig;`;
-  try {
-    fs.writeFileSync(data.patucoConfigOk, fileStr, { mode: 0o777 });
-  } catch (err) {
-    console.error(err);
-  } finally {
-    console.log(
-      chalk.green.bold("\n------ ACTUALIZADO CORRECTAMENTE ------\n")
-    );
+    try {
+      fs.writeFileSync(data.patucoConfigOk, fileStr, { mode: 0o777 });
+    } catch (err) {
+      console.error(err);
+      init();
+    } finally {
+      console.log(
+        chalk.green.bold("\n------ ACTUALIZADO CORRECTAMENTE ------\n")
+      );
+    }
   }
 };
 
@@ -154,7 +182,7 @@ const updateFile = async (key, path) => {
   }
 
   await writeArr(data);
-  init();
+  // init();
 };
 
 const createDirFilter = async (dirFilter) => {
@@ -184,6 +212,9 @@ const findPath = async () => {
 const configPaths = async () => {
   const options = await queryParams("configPaths");
   switch (options.type) {
+    case back:
+      init();
+      break;
     case "Buscar directorio 'patucostrap' automaticamente":
       const pathOk = await findPath();
       await updateFile("patucoConfig", pathOk);
@@ -207,7 +238,7 @@ const configPaths = async () => {
 
 const configLanguage = async () => {
   const language = await queryParams("language");
-  await updateFile("language", language.type);
+  language.type === back ? init() : await updateFile("language", language.type);
 };
 
 const configTemplates = async () => {
@@ -253,7 +284,7 @@ const init = async () => {
     case "Configurar idioma":
       mm() ? await configLanguage() : init();
       break;
-    case "Volver":
+    case back:
       start.start();
       break;
     default:
@@ -261,8 +292,8 @@ const init = async () => {
   }
 };
 
-const createClasses = (async () => {
+const config = async () => {
   await init();
-})();
+};
 
-module.exports.createClasses = createClasses;
+module.exports = { config };

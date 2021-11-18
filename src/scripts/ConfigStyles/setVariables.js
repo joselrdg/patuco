@@ -5,13 +5,11 @@ const fs = require("fs");
 
 const pathBase = process.cwd();
 const pathVariables = `${pathBase}/patuco/variables.js`;
-const variables = require(fs.existsSync(pathVariables) ?  pathVariables : "../../templates/styles/variables.js");
+const variables = require(fs.existsSync(pathVariables)
+  ? pathVariables
+  : "../../templates/styles/variables.js");
 
-
-const root = require("../../templates/styles/root.js");
-// const variables = require("../../templates/styles/variables.js");
-
-let end = false;
+const back = chalk.bold.italic.bgBlackBright("Volver\n");
 
 const upgrade = {
   ...variables,
@@ -29,7 +27,7 @@ const queryParams = (type, value = []) => {
       name: "type",
       type: "list",
       message: "Selecciona opción: ",
-      choices: ["Editar variables", "Set variables", "Salir"],
+      choices: ["Editar variables", "Set variables", back],
     },
     optionsFonts: {
       name: "type",
@@ -123,12 +121,11 @@ module.exports = variables;
     console.error(err);
   } finally {
     console.log(`
-          ------ CREADO CORRECTAMENTE ------\n
-          Se ha creado el siguiente elemento\n
-          - Tipo: ${chalk.blue.bold("variables.js")}\n
-          - Ruta: ${chalk.blue.bold(pathVariables)}\n
-          ----------------------------------\n
-        `);
+  ------ CREADO CORRECTAMENTE ------\n
+  Se ha creado el siguiente elemento\n
+  - Tipo: ${chalk.blue.bold("variables.js")}\n
+  - Ruta: ${chalk.blue.bold(pathVariables)}\n
+  ----------------------------------\n`);
   }
 };
 
@@ -142,19 +139,18 @@ const init = async () => {
     case "Set variables":
       await loadVariables();
       break;
-    case "Salir":
-      end = true;
+    case back:
+      const configStyles = require("./index.js");
+      configStyles.configStyles();
       break;
     default:
       break;
   }
+  task.type !== back && setVariables();
 };
 
-const setVariables = (async () => {
-  end = false;
-  while (!end) {
-    await init();
-  }
-})();
+const setVariables = async () => {
+  init();
+};
 
-module.exports.setVariables = setVariables;
+module.exports = { setVariables };

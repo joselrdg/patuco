@@ -1,20 +1,42 @@
 const inquirer = require("inquirer");
 const chalk = require("chalk");
 const fs = require("fs");
-const pathBase = `${process.cwd()}/patuco`;
-const pathSchema = `${pathBase}/patucoSchema.css`;
+const pathBase = process.cwd();
 const baseCss = require("../../templates/styles/baseCss.js");
+const pathSchemaUser = `${pathBase}/patuco/style/patucoSchema.css`;
+const patucoConfig = require("../constants/patucoConfig.js").path.patucoModule;
+const pathStyleCfg = `${patucoConfig}/style/patucoSchema.css`;
 
-const queryParams = () => {
+const back = chalk.bold.italic.magentaBright("Volver\n");
+
+
+const queryParams = (item) => {
   const message = {
-    item: {
+    option: {
       name: "type",
       type: "list",
       message: "Quiere actualizar .css schema?: ",
-      choices: ["Actualizar", "Cancelar"],
+      choices: ["Actualizar", back],
+    },
+    pathConfig: {
+      name: "type",
+      type: "list",
+      message:
+        "¿Quieres guardar el archivo 'patucoSchema.css' en tu proyecto?: ",
+      choices: ["Guardar", "Ir a configuraciones"],
+    },
+    dat: {
+      name: "type",
+      type: "list",
+      message:
+        "Quieres actualizar el archivo patucoSchema.css en tu proyecto o el modulo patucostrap: ",
+      choices: [
+        `Actualizar en ${pathBase}`,
+        "Actualizar el modulo patucostrap",
+      ],
     },
   };
-  const qs = [message.item];
+  const qs = [message[item]];
   return inquirer.prompt(qs);
 };
 
@@ -62,37 +84,84 @@ const prepareStr = async () => {
   return str;
 };
 
-const updateSchema = async () => {
+const updateSchema = async (path) => {
   const fileStr = await prepareStr();
-  if (!fs.existsSync(pathBase)) {
-    fs.mkdirSync(pathBase, 0777);
-  }
   try {
-    fs.writeFileSync(pathSchema, fileStr, { mode: 0o777 });
+    fs.writeFileSync(path, fileStr, { mode: 0o777 });
   } catch (err) {
     console.error(err);
+    updateCssSchema();
   } finally {
     console.log(`
------- CREADO CORRECTAMENTE ------\n
-Se ha creado el siguiente elemento\n
-- Archivo: ${chalk.blue.bold("patucoSchema.css")}\n
-- Ruta: ${chalk.blue.bold(pathSchema)}\n
-----------------------------------\n
-`);
+ ------ CREADO CORRECTAMENTE ------\n
+ Se ha creado el siguiente elemento\n
+ - Archivo: ${chalk.blue.bold("patucoSchema.css")}\n
+ - Ruta: ${chalk.blue.bold(path)}\n
+ ----------------------------------\n`);
   }
+  updateCssSchema();
 };
 
-const updateCssSchema = (async (savedClasses, pathUser) => {
-  const option = await queryParams("typeClass");
-  switch (option.type) {
+const filterSelect = async () => {
+  console.log(
+    chalk.red.italic(
+      "Existe el archivo /patuco/style/patucoSchema.css en tu proyecto..."
+    )
+  );
+  const dat = await queryParams("dat");
+  dat.type !== "Actualizar el modulo patucostrap"
+    ? updateSchema(pathSchemaUser)
+    : updateSchema(pathStyleCfg);
+};
+
+const createDirUser = async () => {
+  if (!fs.existsSync(`${pathBase}/patuco`)) {
+    fs.mkdirSync(`${pathBase}/patuco`, 0777);
+    fs.mkdirSync(`${pathBase}/patuco/style`, 0777);
+  }
+  updateSchema(pathSchemaUser);
+};
+
+const init = async (option, newSavePr = false) => {
+  switch (option) {
     case "Actualizar":
-      await updateSchema();
+      await updateSchema(newSavePr);
+      updateCssSchema();
       break;
-    case "Cancelar":
+    case back:
+      const configStyles = require("./index.js");
+      configStyles.configStyles();
       break;
     default:
       break;
   }
-})();
+};
 
-module.exports.updateCssSchema = updateCssSchema;
+const updateCssSchema = async () => {
+  const option = await queryParams("option");
+  if (option.type === "Actualizar") {
+    if (!patucoConfig) {
+      console.log(
+        chalk.bold.italic.red(
+          "No está configurada la ruta al directorio patucostrap."
+        )
+      );
+      const pathConfig = await queryParams("pathConfig");
+      if (pathConfig.type === "Guardar") {
+        const newSavePr = fs.existsSync(pathSchemaUser) ? false : true;
+        newSavePr ? createDirUser() : await updateSchema(pathSchemaUser);
+      } else {
+        const config = require("../config.js");
+        config.config();
+      }
+    } else {
+      const savePr = fs.existsSync(pathSchemaUser) ? true : false;
+      savePr ? filterSelect(savePr) : updateSchema(pathStyleCfg);
+    }
+  } else {
+    const configStyles = require("./index.js");
+    configStyles.configStyles();
+  }
+};
+
+module.exports = { updateCssSchema };

@@ -127,12 +127,11 @@ const updateSchema = async (savedClasses, path) => {
     console.error(err);
   } finally {
     console.log(`
------- CREADO CORRECTAMENTE ------\n
-Se ha creado el siguiente elemento\n
-- Archivo: ${chalk.blue.bold("patuco.css")}\n
-- Ruta: ${chalk.blue.bold(pathSchema)}\n
-----------------------------------\n
-`);
+ ------ CREADO CORRECTAMENTE ------\n
+ Se ha creado el siguiente elemento\n
+ - Archivo: ${chalk.blue.bold("patuco.css")}\n
+ - Ruta: ${chalk.blue.bold(pathSchema)}\n
+ ----------------------------------\n`);
   }
 };
 
@@ -227,17 +226,28 @@ const deleteCssSchema = async () => {
       console.log(chalk.green.bold("Archivo borrado"));
     }
   }
-  console.log(chalk.green.bold("No olvides importar el nuevo archivo 'patucoStyles/patuco.css'"));
+  console.log(
+    chalk.green.bold(
+      "No olvides importar el nuevo archivo 'patucoStyles/patuco.css'\n"
+    )
+  );
 };
 
-const createCSS = (async () => {
-  const direcctories = await filewalker(".", "directories");
-  const direcPath = await queryParams("direcctories", direcctories);
-  const filePath = await analyzeRoute(direcPath);
-  const savedClasses = await openFiles(direcPath.type, filePath);
-  const direcSavePath = await queryParams("direcctories", direcctories, true);
-  await createFile(savedClasses, direcSavePath.type);
-  await deleteCssSchema();
-})();
+const createCSS = async () => {
+  const upgrade = await queryParams("upgrade");
+  if (upgrade.type === "Actualizar") {
+    const direcctories = await filewalker(".", "directories");
+    const direcPath = await queryParams("direcctories", direcctories);
+    const filePath = await analyzeRoute(direcPath);
+    const savedClasses = await openFiles(direcPath.type, filePath);
+    const direcSavePath = await queryParams("direcctories", direcctories, true);
+    await createFile(savedClasses, direcSavePath.type);
+    await deleteCssSchema();
+    createCSS();
+  } else {
+    const configStyles = require("./index.js");
+    configStyles.configStyles();
+  }
+};
 
-module.exports.createCSS = createCSS;
+module.exports = { createCSS };

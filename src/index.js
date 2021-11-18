@@ -28,6 +28,7 @@ const queryParams = () => {
         "Models",
         "Javascript",
         "Config",
+        chalk.italic.redBright("Salir\n"),
       ],
     },
   ];
@@ -37,10 +38,12 @@ const queryParams = () => {
 const createFile = (data) => {
   switch (data.type) {
     case "Style":
-      require("./scripts/ConfigStyles/index.js");
+      const configStyles = require("./scripts/ConfigStyles/index.js");
+      configStyles.configStyles()
       break;
     case "Config":
-      require("./scripts/config.js");
+      const config = require("./scripts/config.js");
+      config.config();
       break;
 
     default:
@@ -49,18 +52,19 @@ const createFile = (data) => {
 };
 
 const start = async () => {
-  const a = `                                +
-    *                  ___ _  
-                      |x  | |            *
-             +        /x  | |
-                     /x  __)_)    +
-    *            __./x /| / /
-                (_____/ |/|/                    *
-  
+  const a = `\n                               +
+   *                 ___ _  
+                    |x  | |            *
+           +        /x  | |
+                   /x  __)_)    +
+  *            __./x /| / /
+              (_____/ |/|/                    *
+
   `;
-  const b = `
+  const b = `                     +
   +                                         *
-              *              +\n`;
+              *              
+                                +\n`;
 
   console.log(chalk.bold.cyan(a));
 
