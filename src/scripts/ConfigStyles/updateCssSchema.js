@@ -122,21 +122,6 @@ const createDirUser = async () => {
   updateSchema(pathSchemaUser);
 };
 
-const init = async (option, newSavePr = false) => {
-  switch (option) {
-    case "Actualizar":
-      await updateSchema(newSavePr);
-      updateCssSchema();
-      break;
-    case back:
-      const configStyles = require("./index.js");
-      configStyles.configStyles();
-      break;
-    default:
-      break;
-  }
-};
-
 const updateCssSchema = async () => {
   const option = await queryParams("option");
   if (option.type === "Actualizar") {

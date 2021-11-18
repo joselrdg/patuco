@@ -251,7 +251,7 @@ const configTemplates = async () => {
         chalk.green.bold("\nSe ha creado el directorio '/patucoTemplates'")
       );
     }
-    await updateFile("templatesPath", templatesPath.type);
+    await updateFile("templatesPath", path);
   } else {
     console.log(
       chalk.red.bold(

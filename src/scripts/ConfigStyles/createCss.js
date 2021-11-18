@@ -115,6 +115,7 @@ const prepareStr = async (savedClasses) => {
   return str;
 };
 
+
 const updateSchema = async (savedClasses, path) => {
   const pathSchema = `${path}/patuco.css`;
   const fileStr = await prepareStr(savedClasses);

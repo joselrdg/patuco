@@ -52,13 +52,13 @@ const createFile = (data) => {
 };
 
 const start = async () => {
-  const a = `\n                               +
-   *                 ___ _  
-                    |x  | |            *
-           +        /x  | |
-                   /x  __)_)    +
-  *            __./x /| / /
-              (_____/ |/|/                    *
+  const a = `\n                 +               *
+   *                    ___ _               +
+                       |x  | |          
+           +           /x  | |     
+                      /x  __)_)       +
+  *               __./x /| / /
+                 (_____/ |/|/                  *
 
   `;
   const b = `                     +
