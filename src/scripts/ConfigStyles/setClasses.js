@@ -33,13 +33,6 @@ const queryParams = (type, msm, choices) => {
   return inquirer.prompt(qs);
 };
 
-const baseJs = `const stylesUser = {
-  _Styles_User: [{ name: "Ejemplo", items: ["display: flex"] }],
-  Styles_User: [{ name: "Ejemplo2", items: ["display: flex"] }],
-};
-  
-module.exports = stylesUser;`;
-
 const checkPath = async (path) => {
   const exists = fs.existsSync(path);
   if (exists) {
@@ -47,21 +40,7 @@ const checkPath = async (path) => {
     if (!fs.existsSync(classesPath)) {
       fs.mkdirSync(classesPath, 0777);
     }
-    return `${classesPath}/base.js`;
-    // const baseJsPath = `${classesPath}/base.js`;
-    // if (!fs.existsSync(baseJsPath)) {
-    //   try {
-    //     fs.writeFileSync(baseJsPath, baseJs, { mode: 0o777 });
-    //     console.log(`
-    //      Se ha creado el siguiente elemento\n
-    //      - Archivo: ${chalk.blue.bold("patuco.css")}\n
-    //      - Ruta: ${chalk.blue.bold(baseJsPath)}\n`);
-    //   } catch (err) {
-    //     console.error(err);
-    //   } finally {
-    //     baseJsPath;
-    //   }
-    // }
+    return classesPath;
   } else {
     return undefined;
   }
@@ -69,6 +48,7 @@ const checkPath = async (path) => {
 
 const groupName = async () => {
   let condition = true;
+  let newProject = false;
   let nameProject = "_Styles_User_Example";
   const projectsKeys = Object.keys(userSavedClasses);
   projectsKeys.unshift(msmCreateProject);
@@ -92,18 +72,87 @@ const groupName = async () => {
           console.log(
             chalk.red.italic("\nYa existe un proyecto con ese nombre\n")
           );
-        } else condition = false;
+        } else {
+          newProject = true;
+          condition = false;
+        }
       }
     } else condition = false;
   }
-  return nameProject;
+  return { nameProject, newProject };
 };
 
-const writeFiles = async (nameProject) => {};
+const prepareNewFile = async (nameProject, data) => {
+  const fileStr = `const ${nameProject} = ${JSON.stringify(data, null, 2)};
+  
+module.exports = ${nameProject};`;
+  return fileStr;
+};
+
+const prepareDataClass = async (optProject, data) => {
+  const { nameProject, newProject } = optProject;
+  if (newProject) {
+    const newFileOk = await prepareNewFile(nameProject, [data]);
+    return newFileOk;
+  } else {
+    const oldData = userSavedClasses[nameProject];
+    oldData.push(data);
+    const oldFileOk = await prepareNewFile(nameProject, oldData);
+    return oldFileOk;
+  }
+};
+
+const importName = async (names) => {
+  let str = "";
+  for (let i = 0; i < names.length; i++) {
+    str += `const ${names[i]} = require("./${names[i]}.js");\n`;
+  }
+  return str;
+};
+
+const importProperties = async (names) => {
+  let str = "";
+  for (let i = 0; i < names.length; i++) {
+    str += `${names[i]},\n`;
+  }
+  return str;
+};
+
+const baseJsStr = async (nameProject) =>
+  `${await importName(nameProject)}
+
+const stylesUser = {
+  ${await importProperties(nameProject)}
+};
+  
+module.exports = stylesUser;`;
+
+const writeDataBase = async (optProject, path, file) => {
+  const { nameProject, newProject } = optProject;
+  const baseJsPath = `${path}/base.js`;
+  if (fs.existsSync(baseJsPath)) {
+    newProject ? "" : "";
+  } else {
+    const baseJs = await baseJsStr([nameProject]);
+    try {
+      fs.writeFileSync(baseJsPath, baseJs, { mode: 0o777 });
+      fs.writeFileSync(`${path}/${nameProject}.js`, file, { mode: 0o777 });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      console.log(`
+Se han creado los siguientes elementos\n
+- Archivo: ${chalk.blue.bold("base.js")}\n
+- Ruta: ${chalk.blue.cyan(baseJsPath)}\n
+- Archivo: ${chalk.blue.bold(`${nameProject}.js`)}\n
+- Ruta: ${chalk.blue.cyan(`${path}/${nameProject}.js`)}\n`);
+    }
+  }
+};
 
 const setClasses = async (data) => {
-  const baseJsPath = await checkPath(userTemplatesPath);
-  if (!baseJsPath) {
+  const path = await checkPath(userTemplatesPath);
+  if (!path) {
     console.log(
       chalk.bold.italic.red(
         "\nNo se encotro ruta almacenada.\nConfigura correctamente la ruta a tus plantillas\n"
@@ -111,10 +160,9 @@ const setClasses = async (data) => {
     );
     config.config();
   } else {
-    console.log(chalk.bold.green(baseJsPath));
-    const nameProject = await groupName();
-    console.log(data);
-    console.log(nameProject);
+    const optProject = await groupName();
+    const file = await prepareDataClass(optProject, data);
+    await writeDataBase(optProject, path, file);
   }
 };
 
