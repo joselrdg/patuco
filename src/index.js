@@ -2,6 +2,8 @@ const chalk = require("chalk");
 const figlet = require("figlet");
 const inquirer = require("inquirer");
 
+const msmEnd = chalk.italic.redBright("Salir");
+
 const msn = (msn) => {
   console.log(
     chalk.bold.cyan(
@@ -28,7 +30,7 @@ const queryParams = () => {
         "Models",
         "Javascript",
         "Config",
-        chalk.italic.redBright("Salir\n"),
+        msmEnd,
       ],
     },
   ];
@@ -39,7 +41,7 @@ const createFile = (data) => {
   switch (data.type) {
     case "Style":
       const configStyles = require("./scripts/ConfigStyles/index.js");
-      configStyles.configStyles()
+      configStyles.configStyles();
       break;
     case "Config":
       const config = require("./scripts/config.js");

@@ -5,7 +5,11 @@ const config = require("../config.js");
 const pathUser = require("../constants/patucoConfig.js").path.userTemplate;
 const setClasses = require("./setClasses");
 
-const back = chalk.bold.italic.magentaBright("Volver\n");
+const back = chalk.bold.italic.magentaBright("Volver");
+const msmEnd = chalk.bold.italic.green("Salir");
+const continueCreate = chalk.bold.italic.magentaBright(
+  "Continuar creando classes"
+);
 
 const queryParams = (type, msm) => {
   const message = {
@@ -31,8 +35,22 @@ const queryParams = (type, msm) => {
   return inquirer.prompt(qs);
 };
 
-const writeData = (data) => {
-  setClasses.setClasses(data);
+const writeData = async (data) => {
+  await setClasses.setClasses(data);
+  const addProp = await queryParams("addProp", [continueCreate, back, msmEnd]);
+  switch (addProp.type) {
+    case continueCreate:
+      createClasses();
+      break;
+    case back:
+      const configStyles = require("./index.js");
+      configStyles.configStyles();
+      break;
+    // case msmEnd:
+    //   break;
+    default:
+      break;
+  }
 };
 
 const initData = async (queryInit) => {
@@ -47,16 +65,15 @@ const initData = async (queryInit) => {
   if (queryInit === back) {
     createClasses();
   } else if (queryInit === "Añadir CSS puro") {
-    data.other = {};
-    const otherName = await queryParams(
+    const templateName = await queryParams(
       "input",
       "Introduce un nombre para identificarlo:"
     );
-    if (otherName.type !== "") {
-      data.other.name = otherName.type;
-      const other = await queryParams("input", "Introduce CSS: ");
-      if (other.type !== "") {
-        data.other.item = other.type;
+    if (templateName.type !== "") {
+      data.name = templateName.type;
+      const template = await queryParams("input", "Introduce CSS: ");
+      if (template.type !== "") {
+        data.template = template.type;
         writeData(data);
       } else {
         console.log(chalk.red.italic("\nTienes que introducir un valor\n"));
@@ -162,9 +179,9 @@ const initData = async (queryInit) => {
 
       data.name = name.type;
       if (children.type !== "") {
-        data.children = children.type;
+        data.target = children.type;
       }
-      if (children.type !== "") {
+      if (pseudoClass.type !== "") {
         data.pseudoClass = pseudoClass.type;
       }
 

@@ -2,14 +2,20 @@ const inquirer = require("inquirer");
 const chalk = require("chalk");
 const fs = require("fs");
 const config = require("../config.js");
+const ind = require("../../index.js");
 const userTemplatesPath = require("../constants/patucoConfig.js").path
   .userTemplate;
-const exitsPathN = fs.existsSync(`${userTemplatesPath}/classes/base.js`);
-const userSavedClasses = require(exitsPathN
-  ? `${userTemplatesPath}/classes/base.js`
-  : "../../templates/styles/stylesUser.js");
+const existsBaseJsPath = fs.existsSync(`${userTemplatesPath}/classes/base.js`);
+// const userSavedClasses = require(existsBaseJsPath
+//   ? `${userTemplatesPath}/classes/base.js`
+//   : "../../templates/styles/stylesUser.js");
 
-const back = chalk.bold.italic.magentaBright("Volver\n");
+function requireUncached(module) {
+  delete require.cache[require.resolve(module)];
+  return require(module);
+}
+
+const back = chalk.bold.italic.magentaBright("Volver");
 
 const msmCreateProject = chalk.bold.italic.bgBlackBright(
   "Crear un nuevo proyecto"
@@ -50,6 +56,12 @@ const groupName = async () => {
   let condition = true;
   let newProject = false;
   let nameProject = "_Styles_User_Example";
+  const userSavedClasses = requireUncached(
+    existsBaseJsPath
+      ? `${userTemplatesPath}/classes/base.js`
+      : "../../templates/styles/stylesUser.js"
+  );
+
   const projectsKeys = Object.keys(userSavedClasses);
   projectsKeys.unshift(msmCreateProject);
   while (condition) {
@@ -67,6 +79,12 @@ const groupName = async () => {
       nameProject = nameQuery.type;
       if (nameProject === "") {
         console.log(chalk.red.italic("\nEs necesario introducir un nombre\n"));
+      } else if (/[ 0-9$&+,:;=?@#|'<>.^*()%!-]/.test(nameProject)) {
+        console.log(
+          chalk.red.italic(
+            "\nNo se pueden utilizar números ni caracteres especiales. Javascript no lo permite en las importaciones.\n"
+          )
+        );
       } else {
         if (projectsKeys.some((e) => e === nameProject)) {
           console.log(
@@ -95,6 +113,11 @@ const prepareDataClass = async (optProject, data) => {
     const newFileOk = await prepareNewFile(nameProject, [data]);
     return newFileOk;
   } else {
+    const userSavedClasses = requireUncached(
+      existsBaseJsPath
+        ? `${userTemplatesPath}/classes/base.js`
+        : "../../templates/styles/stylesUser.js"
+    );
     const oldData = userSavedClasses[nameProject];
     oldData.push(data);
     const oldFileOk = await prepareNewFile(nameProject, oldData);
@@ -113,7 +136,7 @@ const importName = async (names) => {
 const importProperties = async (names) => {
   let str = "";
   for (let i = 0; i < names.length; i++) {
-    str += `${names[i]},\n`;
+    str += `  ${names[i]},\n`;
   }
   return str;
 };
@@ -122,31 +145,45 @@ const baseJsStr = async (nameProject) =>
   `${await importName(nameProject)}
 
 const stylesUser = {
-  ${await importProperties(nameProject)}
-};
+${await importProperties(nameProject)}};
   
 module.exports = stylesUser;`;
 
 const writeDataBase = async (optProject, path, file) => {
   const { nameProject, newProject } = optProject;
   const baseJsPath = `${path}/base.js`;
-  if (fs.existsSync(baseJsPath)) {
-    newProject ? "" : "";
-  } else {
-    const baseJs = await baseJsStr([nameProject]);
-    try {
-      fs.writeFileSync(baseJsPath, baseJs, { mode: 0o777 });
-      fs.writeFileSync(`${path}/${nameProject}.js`, file, { mode: 0o777 });
-    } catch (err) {
-      console.error(err);
-    } finally {
-      console.log(`
-Se han creado los siguientes elementos\n
-- Archivo: ${chalk.blue.bold("base.js")}\n
-- Ruta: ${chalk.blue.cyan(baseJsPath)}\n
-- Archivo: ${chalk.blue.bold(`${nameProject}.js`)}\n
-- Ruta: ${chalk.blue.cyan(`${path}/${nameProject}.js`)}\n`);
+  let names = nameProject;
+  if (existsBaseJsPath) {
+    if (newProject) {
+      const userSavedClasses = requireUncached(
+        existsBaseJsPath
+          ? `${userTemplatesPath}/classes/base.js`
+          : "../../templates/styles/stylesUser.js"
+      );
+      names = Object.keys(userSavedClasses);
+      names.push(nameProject);
     }
+  } else {
+    names = [nameProject];
+  }
+  try {
+    if (newProject || !existsBaseJsPath) {
+      const baseJs = await baseJsStr(names);
+      fs.writeFileSync(baseJsPath, baseJs, { mode: 0o777 });
+    }
+    fs.writeFileSync(`${path}/${nameProject}.js`, file, { mode: 0o777 });
+  } catch (err) {
+    console.error(err);
+  } finally {
+    console.log(`
+Se han creado/actualizado los siguientes elementos\n
+- Archivo: ${chalk.blue.bold("base.js")}\n
+- Ruta: ${chalk.blue.green(baseJsPath)}\n
+- Archivo: ${chalk.blue.bold(`${nameProject}.js`)}\n
+- Ruta: ${chalk.blue.green(`${path}/${nameProject}.js`)}\n
+${chalk.blue.red(
+  "Es necesario volver a lanzar 'patuco', para poder observar los cambios en la terminal."
+)}\n`);
   }
 };
 

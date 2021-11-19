@@ -7,7 +7,7 @@ const updateCssSchema = require("./updateCssSchema.js");
 const createCSS = require("./createCss.js");
 const createClasses = require("./createClasses.js");
 
-const back = chalk.bold.italic.magentaBright("Volver\n");
+const back = chalk.bold.italic.magentaBright("Volver");
 
 const queryParams = () => {
   const qs = [

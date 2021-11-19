@@ -7,7 +7,7 @@ const pathSchemaUser = `${pathBase}/patuco/style/patucoSchema.css`;
 const patucoConfig = require("../constants/patucoConfig.js").path.patucoModule;
 const pathStyleCfg = `${patucoConfig}/style/patucoSchema.css`;
 
-const back = chalk.bold.italic.magentaBright("Volver\n");
+const back = chalk.bold.italic.magentaBright("Volver");
 
 
 const queryParams = (item) => {

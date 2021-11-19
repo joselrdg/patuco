@@ -4,7 +4,7 @@ const baseCss = require("../../templates/styles/baseCss.js");
 
 const group = Object.keys(baseCss);
 
-const back = chalk.bold.italic.magentaBright("Volver\n");
+const back = chalk.bold.italic.magentaBright("Volver");
 
 const queryParams = (type, choices = []) => {
   const message = {

@@ -9,7 +9,7 @@ const variables = require(fs.existsSync(pathVariables)
   ? pathVariables
   : "../../templates/styles/variables.js");
 
-const back = chalk.bold.italic.bgBlackBright("Volver\n");
+const back = chalk.bold.italic.bgBlackBright("Volver");
 
 const upgrade = {
   ...variables,
