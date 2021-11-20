@@ -1,12 +1,11 @@
-
 const inquirer = require("inquirer");
 const chalk = require("chalk");
 const fs = require("fs");
 const config = require("../config.js");
 const requireUncached = require("../requireUncached.js");
-const purgeCache = require("../requireUncached.js");
 
-const patucoModulePath = require("../constants/patucoConfig.js").path.patucoModule
+const patucoModulePath = require("../constants/patucoConfig.js").path
+  .patucoModule;
 const userTemplatesPath = require("../constants/patucoConfig.js").path
   .userTemplate;
 
@@ -96,7 +95,7 @@ const groupName = async () => {
 
 const prepareNewFile = async (nameProject, data) => {
   const fileStr = `const ${nameProject} = ${JSON.stringify(data, null, 2)};
-  
+ 
 module.exports = ${nameProject};`;
   return fileStr;
 };
@@ -116,7 +115,7 @@ const prepareDataClass = async (optProject, data) => {
 };
 
 const importName = async (names) => {
-  let str = "";
+  let str = '';
   for (let i = 0; i < names.length; i++) {
     str += `const ${names[i]} = require("./${names[i]}.js");\n`;
   }
@@ -170,19 +169,26 @@ Se han creado/actualizado los siguientes elementos\n
 ${chalk.blue.cyan(
   `Puedes seguir añadiendo stilos al proyecto ${nameProject}`
 )}\n`);
-  // const d =  requireUncached("baseCss");
-  // const d = require('../../templates/styles/baseCss')
-  
-  // console.log(d)
-  // purgeCache(`${patucoModulePath}/src/templates/styles/baseCss.js`)
-  // requireUncached(`${patucoModulePath}/src/scripts/ConfigStyles/readClasses.js`)
+    // const d =  requireUncached("baseCss");
+    // const d = require('../../templates/styles/baseCss')
 
-  return { nameProject, newProject: false };
+    // const requireUncached = require("../requireUncached.js");
+    // const patucoModulePath = require("../constants/patucoConfig.js").path
+    //   .patucoModule;
+    // requireUncached(`${patucoModulePath}/src/scripts/ConfigStyles/readClasses.js`);
+    // requireUncached(`${patucoModulePath}/src/templates/styles/baseCss.js`);
+    // requireUncached(`${patucoModulePath}/patucoTemplates/classes/base.js`);
+  
+
+    requireUncached(templatesBaseJsPath);
+    // const keys = Object.keys(userSavedClasses)
+    // console.log(keys);
+
+    return { nameProject, newProject: false };
   }
 };
 
 const setClasses = async (data, oldDataProyect) => {
-
   const path = await checkPath(userTemplatesPath);
   if (!path) {
     console.log(

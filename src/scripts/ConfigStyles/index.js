@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
 const chalk = require("chalk");
 const start = require("../../index.js");
-const readClasses = require("./readClasses.js");
+// const readClasses = require("./readClasses.js");
 const setVariables = require("./setVariables");
 const updateCssSchema = require("./updateCssSchema.js");
 const createCSS = require("./createCss.js");
@@ -10,7 +10,6 @@ const createClasses = require("./createClasses.js");
 const patucoModulePath = require("../constants/patucoConfig.js").path
   .patucoModule;
 const readClassesPath = `${patucoModulePath}/src/scripts/ConfigStyles/readClasses.js`;
-// const baseCssPath = `${patucoModulePath}/src/templates/styles/baseCss.js`;
 
 const requireUncached = require("../requireUncached.js");
 
@@ -46,7 +45,7 @@ const setOptions = (data) => {
       break;
     case "Ver clases":
       // console.log(data)
-      // const readClasses = requireUncached(readClassesPath);
+      const readClasses = requireUncached(readClassesPath);
       readClasses.readClasses();
       break;
     case "Actualizar .css schema":

@@ -3,7 +3,6 @@ const chalk = require("chalk");
 const fs = require("fs");
 
 // const baseCss = require("../../templates/styles/baseCss.js");
-// const baseCss = require("../../templates/styles/baseCss.js");
 
 const patucoModulePath = require("../constants/patucoConfig.js").path
   .patucoModule;
@@ -11,9 +10,18 @@ const patucoModulePath = require("../constants/patucoConfig.js").path
 const baseCssPath = `${patucoModulePath}/src/templates/styles/baseCss.js`;
 const requireUncached = require("../requireUncached.js");
 
+const baseCss = requireUncached(baseCssPath);
+
+
+console.log('read_classes')
+  
+const groupKeys = Object.keys(baseCss);
+
+
 const back = chalk.bold.italic.magentaBright("Volver");
 
-const queryParams = (type, choices = [], groupKeys) => {
+const queryParams = (type, choices = []) => {
+
   const message = {
     typeClass: {
       name: "type",
@@ -75,7 +83,7 @@ ${readStyles(items)}\n`);
   }
 };
 
-const searchClass = async (word, baseCss) => {
+const searchClass = async (word) => {
   const regex = new RegExp(word, "g");
   const classArr = [];
   for (const key in baseCss) {
@@ -128,7 +136,7 @@ const readFilter = async (arr, type, filter) => {
   }
 };
 
-const options = async (typeClass, option, baseCss) => {
+const options = async (typeClass, option) => {
   switch (option) {
     case "Ver todas las clases":
       await readGroup(baseCss[typeClass]);
@@ -162,11 +170,9 @@ const options = async (typeClass, option, baseCss) => {
 };
 
 const readClasses = async () => {
-  const baseCss = requireUncached(baseCssPath);
+ 
 
-  const groupKeys = Object.keys(baseCss);
-
-  const typeClass = await queryParams("typeClass", [], groupKeys);
+  const typeClass = await queryParams("typeClass");
   if (
     typeClass.type ===
     chalk.bold.italic.bgBlackBright("Buscar por nombre de clase o propiedad")
