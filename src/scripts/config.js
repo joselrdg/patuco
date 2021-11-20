@@ -128,8 +128,9 @@ const writeArr = async (data) => {
   } else {
     const fileStr = `const patucoConfig = {
   path: {
-    patucoConfig: "${data.patucoConfigOk}",
     patucoModule: "${data.patucoModuleOk}",
+    patucoConfig: "${data.patucoConfigOk}",
+    baseCss: "${data.patucoModuleOk}/src/templates/styles/baseCss.js",
     userTemplate: ${
       data.userTemplateOk === undefined ? undefined : `"${data.userTemplateOk}"`
     }

@@ -1,6 +1,11 @@
 const chalk = require("chalk");
 const figlet = require("figlet");
 const inquirer = require("inquirer");
+const fs = require("fs");
+
+const path = require("./scripts/constants/patucoConfig.js").path;
+
+console.log(path);
 
 const msmEnd = chalk.italic.redBright("Salir");
 
@@ -74,7 +79,17 @@ const start = async () => {
 'PATUCO'`);
   console.log(chalk.bold.cyan(b));
 
-  createFile(await queryParams());
+  if (
+    !fs.existsSync(path.patucoConfig) ||
+    !fs.existsSync(path.patucoModule) ||
+    !fs.existsSync(path.baseCss)
+  ) {
+  console.log(chalk.bold.italic.red(' Configura la ruta al modulo patucostrap'));
+    const config = require("./scripts/config.js");
+    config.config();
+  } else {
+    createFile(await queryParams());
+  }
 };
 
 module.exports = { start };

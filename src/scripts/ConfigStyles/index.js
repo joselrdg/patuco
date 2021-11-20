@@ -3,13 +3,14 @@ const chalk = require("chalk");
 const start = require("../../index.js");
 // const readClasses = require("./readClasses.js");
 const setVariables = require("./setVariables");
-const updateCssSchema = require("./updateCssSchema.js");
+// const updateCssSchema = require("./updateCssSchema.js");
 const createCSS = require("./createCss.js");
 const createClasses = require("./createClasses.js");
 
 const patucoModulePath = require("../constants/patucoConfig.js").path
   .patucoModule;
 const readClassesPath = `${patucoModulePath}/src/scripts/ConfigStyles/readClasses.js`;
+const updateCssSchemaPath = `${patucoModulePath}/src/scripts/ConfigStyles/updateCssSchema.js`;
 
 const requireUncached = require("../requireUncached.js");
 
@@ -49,6 +50,7 @@ const setOptions = (data) => {
       readClasses.readClasses();
       break;
     case "Actualizar .css schema":
+      const updateCssSchema = requireUncached(updateCssSchemaPath);
       updateCssSchema.updateCssSchema();
       break;
     case "Crear archivo .css en tu proyecto":

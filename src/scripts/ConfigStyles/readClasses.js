@@ -4,14 +4,12 @@ const fs = require("fs");
 
 // const baseCss = require("../../templates/styles/baseCss.js");
 
-const patucoModulePath = require("../constants/patucoConfig.js").path
-  .patucoModule;
+const baseCssPath = require("../constants/patucoConfig.js").path.baseCss
 
-const baseCssPath = `${patucoModulePath}/src/templates/styles/baseCss.js`;
+// const baseCssPath = `${patucoModulePath}/src/templates/styles/baseCss.js`;
 const requireUncached = require("../requireUncached.js");
 
 const baseCss = requireUncached(baseCssPath);
-
 
 console.log('read_classes')
   

@@ -8,6 +8,7 @@ const pathSchemaUser = `${pathBase}/patuco/style/patucoSchema.css`;
 const patucoConfig = require("../constants/patucoConfig.js").path.patucoModule;
 const pathStyleCfg = `${patucoConfig}/style/patucoSchema.css`;
 
+
 const baseCssPath = require("../constants/patucoConfig.js").path.baseCss;
 
 // const baseCssPath = `${patucoModulePath}/src/templates/styles/baseCss.js`;
@@ -16,6 +17,7 @@ const requireUncached = require("../requireUncached.js");
 const baseCss = requireUncached(baseCssPath);
 
 const back = chalk.bold.italic.magentaBright("Volver");
+
 
 const queryParams = (item) => {
   const message = {
@@ -132,14 +134,24 @@ const createDirUser = async () => {
 const updateCssSchema = async () => {
   const option = await queryParams("option");
   if (option.type === "Actualizar") {
-    const pathConfig = await queryParams("pathConfig");
-    if (pathConfig.type !== "Actualizar el modulo patucostrap") {
-      const newSavePr = fs.existsSync(pathSchemaUser) ? false : true;
-      newSavePr ? createDirUser() : await updateSchema(pathSchemaUser);
-    } else {
-      const savePr = fs.existsSync(pathSchemaUser) ? true : false;
-      savePr ? filterSelect(savePr) : updateSchema(pathStyleCfg);
-    }
+    // if (!patucoConfig) {
+      // console.log(
+      //   chalk.bold.italic.red(
+      //     "No está configurada la ruta al directorio patucostrap."
+      //   )
+      // );
+      const pathConfig = await queryParams("pathConfig");
+      if (pathConfig.type === "Guardar") {
+        const newSavePr = fs.existsSync(pathSchemaUser) ? false : true;
+        newSavePr ? createDirUser() : await updateSchema(pathSchemaUser);
+      } else {
+        const config = require("../config.js");
+        config.config();
+      }
+    // } else {
+    //   const savePr = fs.existsSync(pathSchemaUser) ? true : false;
+    //   savePr ? filterSelect(savePr) : updateSchema(pathStyleCfg);
+    // }
   } else {
     const configStyles = require("./index.js");
     configStyles.configStyles();
