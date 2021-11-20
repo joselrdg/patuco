@@ -7,6 +7,13 @@ const updateCssSchema = require("./updateCssSchema.js");
 const createCSS = require("./createCss.js");
 const createClasses = require("./createClasses.js");
 
+const patucoModulePath = require("../constants/patucoConfig.js").path
+  .patucoModule;
+const readClassesPath = `${patucoModulePath}/src/scripts/ConfigStyles/readClasses.js`;
+// const baseCssPath = `${patucoModulePath}/src/templates/styles/baseCss.js`;
+
+const requireUncached = require("../requireUncached.js");
+
 const back = chalk.bold.italic.magentaBright("Volver");
 
 const queryParams = () => {
@@ -38,6 +45,8 @@ const setOptions = (data) => {
       createClasses.createClasses();
       break;
     case "Ver clases":
+      // console.log(data)
+      // const readClasses = requireUncached(readClassesPath);
       readClasses.readClasses();
       break;
     case "Actualizar .css schema":

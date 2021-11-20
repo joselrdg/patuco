@@ -1,12 +1,19 @@
 const inquirer = require("inquirer");
 const chalk = require("chalk");
-const baseCss = require("../../templates/styles/baseCss.js");
+const fs = require("fs");
 
-const group = Object.keys(baseCss);
+// const baseCss = require("../../templates/styles/baseCss.js");
+// const baseCss = require("../../templates/styles/baseCss.js");
+
+const patucoModulePath = require("../constants/patucoConfig.js").path
+  .patucoModule;
+
+const baseCssPath = `${patucoModulePath}/src/templates/styles/baseCss.js`;
+const requireUncached = require("../requireUncached.js");
 
 const back = chalk.bold.italic.magentaBright("Volver");
 
-const queryParams = (type, choices = []) => {
+const queryParams = (type, choices = [], groupKeys) => {
   const message = {
     typeClass: {
       name: "type",
@@ -17,7 +24,7 @@ const queryParams = (type, choices = []) => {
         chalk.bold.italic.bgBlackBright(
           "Buscar por nombre de clase o propiedad"
         ),
-        ...group.filter((i) => i !== "root"),
+        ...groupKeys.filter((i) => i !== "root"),
         back,
       ],
     },
@@ -68,7 +75,7 @@ ${readStyles(items)}\n`);
   }
 };
 
-const searchClass = async (word) => {
+const searchClass = async (word, baseCss) => {
   const regex = new RegExp(word, "g");
   const classArr = [];
   for (const key in baseCss) {
@@ -121,7 +128,7 @@ const readFilter = async (arr, type, filter) => {
   }
 };
 
-const options = async (typeClass, option) => {
+const options = async (typeClass, option, baseCss) => {
   switch (option) {
     case "Ver todas las clases":
       await readGroup(baseCss[typeClass]);
@@ -155,20 +162,24 @@ const options = async (typeClass, option) => {
 };
 
 const readClasses = async () => {
-  const typeClass = await queryParams("typeClass");
+  const baseCss = requireUncached(baseCssPath);
+
+  const groupKeys = Object.keys(baseCss);
+
+  const typeClass = await queryParams("typeClass", [], groupKeys);
   if (
     typeClass.type ===
     chalk.bold.italic.bgBlackBright("Buscar por nombre de clase o propiedad")
   ) {
     const search = await queryParams("search");
-    await searchClass(search.type);
+    await searchClass(search.type, baseCss);
     readClasses();
   } else if (typeClass.type === back) {
     const configStyles = require("./index.js");
     configStyles.configStyles();
   } else {
     const option = await queryParams("options");
-    await options(typeClass.type, option.type);
+    await options(typeClass.type, option.type, baseCss);
   }
 };
 

@@ -7,8 +7,10 @@ const setClasses = require("./setClasses");
 
 const back = chalk.bold.italic.magentaBright("Volver");
 const msmEnd = chalk.bold.italic.green("Salir");
-const continueCreate = chalk.bold.italic.magentaBright(
-  "Continuar creando classes"
+const continueCreate = (name) =>
+  chalk.bold.italic.magentaBright(`Añadir más estilos al proyecto ${name}`);
+const endCreate = chalk.bold.italic.magentaBright(
+  "Terminar el proyecto por ahora"
 );
 
 const queryParams = (type, msm) => {
@@ -35,25 +37,23 @@ const queryParams = (type, msm) => {
   return inquirer.prompt(qs);
 };
 
-const writeData = async (data) => {
-  await setClasses.setClasses(data);
-  const addProp = await queryParams("addProp", [continueCreate, back, msmEnd]);
+const writeData = async (data, oldDataProyect) => {
+  const infoProyect = await setClasses.setClasses(data, oldDataProyect);
+  const continueC = continueCreate(infoProyect.nameProject);
+  const addProp = await queryParams("addProp", [continueC, endCreate]);
   switch (addProp.type) {
-    case continueCreate:
+    case continueC:
+      createClasses(infoProyect);
+      break;
+    case endCreate:
       createClasses();
       break;
-    case back:
-      const configStyles = require("./index.js");
-      configStyles.configStyles();
-      break;
-    // case msmEnd:
-    //   break;
     default:
       break;
   }
 };
 
-const initData = async (queryInit) => {
+const initData = async (queryInit, oldDataProyect) => {
   let endProp = false;
   let cont = -1;
   const data = {};
@@ -74,7 +74,7 @@ const initData = async (queryInit) => {
       const template = await queryParams("input", "Introduce CSS: ");
       if (template.type !== "") {
         data.template = template.type;
-        writeData(data);
+        writeData(data, oldDataProyect);
       } else {
         console.log(chalk.red.italic("\nTienes que introducir un valor\n"));
         createClasses();
@@ -124,7 +124,13 @@ const initData = async (queryInit) => {
             "input",
             "Introduce una propiedad css y su valor. Por ejemplo: 'display: none'."
           );
-          data.items.push(items.type);
+          if (items.type === "") {
+            console.log(
+              chalk.red.italic("\nTienes que introducir un valor.\n")
+            );
+          } else {
+            data.items.push(items.type);
+          }
         }
       }
 
@@ -164,14 +170,21 @@ const initData = async (queryInit) => {
                   end = false;
                 }
               } else {
-                const pseudoElement = await queryParams(
+                const pseudoElementProp = await queryParams(
                   "input",
                   "Introduce una propiedad css y su valor. Por ejemplo: 'display: none'."
                 );
-                data.pseudoElement[cont].items.push(pseudoElement.type);
+                if (pseudoElementProp.type === "") {
+                  console.log(
+                    chalk.red.italic("\nTienes que introducir un valor\n")
+                  );
+                } else {
+                  data.pseudoElement[cont].items.push(pseudoElementProp.type);
+                }
               }
             }
           } else {
+            cont--;
             console.log(chalk.red.italic("\nTienes que introducir un valor\n"));
           }
         }
@@ -185,12 +198,12 @@ const initData = async (queryInit) => {
         data.pseudoClass = pseudoClass.type;
       }
 
-      writeData(data);
+      writeData(data, oldDataProyect);
     }
   }
 };
 
-const createClasses = async () => {
+const createClasses = async (oldDataProyect = false) => {
   const exists = fs.existsSync(pathUser);
   if (pathUser && exists) {
     // const queryInit = await queryParams("init");
@@ -200,7 +213,7 @@ const createClasses = async () => {
       back,
     ]);
     if (queryInit.type !== back) {
-      initData(queryInit.type);
+      initData(queryInit.type, oldDataProyect);
     } else {
       const configStyles = require("./index.js");
       configStyles.configStyles();

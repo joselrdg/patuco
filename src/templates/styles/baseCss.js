@@ -5,6 +5,8 @@ const pathUser = require("../../scripts/constants/patucoConfig.js").path
 
 const isPath = fs.existsSync(`${pathUser}/classes/base.js`);
 
+const requireUncached = require("../../scripts/requireUncached.js");
+
 const root = require("./root.js");
 const grid = require("./grid.js");
 const background = require("./background.js");
@@ -35,6 +37,9 @@ if (!isPath) {
 const baseCss = {
   root,
   grid,
+  // ...requireUncached(
+  //   pathUser && isPath ? `${pathUser}/classes/base.js` : "./stylesUser.js"
+  // ),
   ...stylesUser,
   background,
   border,

@@ -1,21 +1,16 @@
+
 const inquirer = require("inquirer");
 const chalk = require("chalk");
 const fs = require("fs");
 const config = require("../config.js");
-const ind = require("../../index.js");
+const requireUncached = require("../requireUncached.js");
+const purgeCache = require("../requireUncached.js");
+
+const patucoModulePath = require("../constants/patucoConfig.js").path.patucoModule
 const userTemplatesPath = require("../constants/patucoConfig.js").path
   .userTemplate;
-const existsBaseJsPath = fs.existsSync(`${userTemplatesPath}/classes/base.js`);
-// const userSavedClasses = require(existsBaseJsPath
-//   ? `${userTemplatesPath}/classes/base.js`
-//   : "../../templates/styles/stylesUser.js");
 
-function requireUncached(module) {
-  delete require.cache[require.resolve(module)];
-  return require(module);
-}
-
-const back = chalk.bold.italic.magentaBright("Volver");
+const templatesBaseJsPath = `${userTemplatesPath}/classes/base.js`;
 
 const msmCreateProject = chalk.bold.italic.bgBlackBright(
   "Crear un nuevo proyecto"
@@ -56,13 +51,12 @@ const groupName = async () => {
   let condition = true;
   let newProject = false;
   let nameProject = "_Styles_User_Example";
-  const userSavedClasses = requireUncached(
-    existsBaseJsPath
-      ? `${userTemplatesPath}/classes/base.js`
-      : "../../templates/styles/stylesUser.js"
-  );
+  let projectsKeys = [];
+  if (fs.existsSync(templatesBaseJsPath)) {
+    const userSavedClasses = requireUncached(templatesBaseJsPath);
+    projectsKeys = Object.keys(userSavedClasses);
+  }
 
-  const projectsKeys = Object.keys(userSavedClasses);
   projectsKeys.unshift(msmCreateProject);
   while (condition) {
     const projectKeyQuery = await queryParams(
@@ -113,11 +107,7 @@ const prepareDataClass = async (optProject, data) => {
     const newFileOk = await prepareNewFile(nameProject, [data]);
     return newFileOk;
   } else {
-    const userSavedClasses = requireUncached(
-      existsBaseJsPath
-        ? `${userTemplatesPath}/classes/base.js`
-        : "../../templates/styles/stylesUser.js"
-    );
+    const userSavedClasses = requireUncached(templatesBaseJsPath);
     const oldData = userSavedClasses[nameProject];
     oldData.push(data);
     const oldFileOk = await prepareNewFile(nameProject, oldData);
@@ -153,13 +143,9 @@ const writeDataBase = async (optProject, path, file) => {
   const { nameProject, newProject } = optProject;
   const baseJsPath = `${path}/base.js`;
   let names = nameProject;
-  if (existsBaseJsPath) {
+  if (fs.existsSync(templatesBaseJsPath)) {
     if (newProject) {
-      const userSavedClasses = requireUncached(
-        existsBaseJsPath
-          ? `${userTemplatesPath}/classes/base.js`
-          : "../../templates/styles/stylesUser.js"
-      );
+      const userSavedClasses = requireUncached(templatesBaseJsPath);
       names = Object.keys(userSavedClasses);
       names.push(nameProject);
     }
@@ -167,7 +153,7 @@ const writeDataBase = async (optProject, path, file) => {
     names = [nameProject];
   }
   try {
-    if (newProject || !existsBaseJsPath) {
+    if (newProject || !fs.existsSync(templatesBaseJsPath)) {
       const baseJs = await baseJsStr(names);
       fs.writeFileSync(baseJsPath, baseJs, { mode: 0o777 });
     }
@@ -181,13 +167,22 @@ Se han creado/actualizado los siguientes elementos\n
 - Ruta: ${chalk.blue.green(baseJsPath)}\n
 - Archivo: ${chalk.blue.bold(`${nameProject}.js`)}\n
 - Ruta: ${chalk.blue.green(`${path}/${nameProject}.js`)}\n
-${chalk.blue.red(
-  "Es necesario volver a lanzar 'patuco', para poder observar los cambios en la terminal."
+${chalk.blue.cyan(
+  `Puedes seguir añadiendo stilos al proyecto ${nameProject}`
 )}\n`);
+  // const d =  requireUncached("baseCss");
+  // const d = require('../../templates/styles/baseCss')
+  
+  // console.log(d)
+  // purgeCache(`${patucoModulePath}/src/templates/styles/baseCss.js`)
+  // requireUncached(`${patucoModulePath}/src/scripts/ConfigStyles/readClasses.js`)
+
+  return { nameProject, newProject: false };
   }
 };
 
-const setClasses = async (data) => {
+const setClasses = async (data, oldDataProyect) => {
+
   const path = await checkPath(userTemplatesPath);
   if (!path) {
     console.log(
@@ -197,9 +192,10 @@ const setClasses = async (data) => {
     );
     config.config();
   } else {
-    const optProject = await groupName();
+    const optProject = oldDataProyect ? oldDataProyect : await groupName();
     const file = await prepareDataClass(optProject, data);
-    await writeDataBase(optProject, path, file);
+    const infoProyect = await writeDataBase(optProject, path, file);
+    return infoProyect;
   }
 };
 

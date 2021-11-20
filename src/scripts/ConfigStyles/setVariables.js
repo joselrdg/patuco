@@ -1,5 +1,4 @@
 const inquirer = require("inquirer");
-const readdirp = require("readdirp");
 const chalk = require("chalk");
 const fs = require("fs");
 

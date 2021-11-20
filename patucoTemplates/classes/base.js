@@ -1,28 +1,40 @@
-const primera = require("./primera.js");
-const segundo = require("./segundo.js");
-const tercero = require("./tercero.js");
-const primer = require("./primer.js");
-const unoOk = require("./unoOk.js");
-const otroOk = require("./otroOk.js");
-const a = require("./a.js");
-const nuevoahora = require("./nuevoahora.js");
-const ahorasi = require("./ahorasi.js");
-const aa = require("./aa.js");
-const aaa = require("./aaa.js");
+const uno = require("./uno.js");
+const dos = require("./dos.js");
+const tres = require("./tres.js");
+const ahorasiii = require("./ahorasiii.js");
+const hhhhhhhh = require("./hhhhhhhh.js");
+const jjjjjjj = require("./jjjjjjj.js");
+const lamadre = require("./lamadre.js");
+const lala = require("./lala.js");
+const lele = require("./lele.js");
+const asdfa = require("./asdfa.js");
+const lelelellelellel = require("./lelelellelellel.js");
+const lalallalallaouewifjlaksdikalesjfdoplksfd = require("./lalallalallaouewifjlaksdikalesjfdoplksfd.js");
+const ttttttttttttttttttttttttttttttttt = require("./ttttttttttttttttttttttttttttttttt.js");
+const yyyyyyyyyyyyyyyyy = require("./yyyyyyyyyyyyyyyyy.js");
+const bbbbbbbbb = require("./bbbbbbbbb.js");
+const ñññññññññññ = require("./ñññññññññññ.js");
+const vvvvvvvvvvv = require("./vvvvvvvvvvv.js");
 
 
 const stylesUser = {
-  primera,
-  segundo,
-  tercero,
-  primer,
-  unoOk,
-  otroOk,
-  a,
-  nuevoahora,
-  ahorasi,
-  aa,
-  aaa,
+  uno,
+  dos,
+  tres,
+  ahorasiii,
+  hhhhhhhh,
+  jjjjjjj,
+  lamadre,
+  lala,
+  lele,
+  asdfa,
+  lelelellelellel,
+  lalallalallaouewifjlaksdikalesjfdoplksfd,
+  ttttttttttttttttttttttttttttttttt,
+  yyyyyyyyyyyyyyyyy,
+  bbbbbbbbb,
+  ñññññññññññ,
+  vvvvvvvvvvv,
 };
   
 module.exports = stylesUser;
