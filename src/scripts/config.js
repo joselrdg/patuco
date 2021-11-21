@@ -182,7 +182,8 @@ const updateFile = async (key, path) => {
       break;
   }
 
-  await writeArr(data);
+  // await
+  writeArr(data);
   // init();
 };
 
@@ -198,15 +199,21 @@ const createDirFilter = async (dirFilter) => {
 
 const findPath = async () => {
   const path = await queryParams("patucoPath");
+  console.log(path.type);
+  if (!fs.existsSync(path.type) && path.type !== "") {
+    console.error(chalk.red.bold("La ruta introducida no existe."));
+    return configPaths();
+  }
   const dirFilter = await createDirFilter(await queryParams("dirFilter"));
   console.log(chalk.bgCyan.bold("\nBuscando..."));
   const pathsArr = await filewalker(path.type, dirFilter);
   if (pathsArr.length > 0) {
     const pathOk = await queryParams("pathOk", pathsArr);
-    return pathOk.type;
+    // return pathOk.type;
+    return updateFile("patucoConfig", pathOk.type);
   } else {
     console.log(chalk.red.bold("No se encontro el directorio patucostrap"));
-    findPath();
+    return configPaths();
   }
 };
 
@@ -217,8 +224,8 @@ const configPaths = async () => {
       init();
       break;
     case "Buscar directorio 'patucostrap' automaticamente":
-      const pathOk = await findPath();
-      await updateFile("patucoConfig", pathOk);
+      findPath();
+      // await updateFile("patucoConfig", pathOk);
       break;
     case "Introducir el path manualmente":
       const pathQuery = await queryParams("path");
@@ -264,6 +271,16 @@ const configTemplates = async () => {
 };
 
 const init = async () => {
+  console.log(`
+  ${chalk.cyan.bold("- Modulo:")} ${chalk.italic[
+    patucoConfig.path.patucoModule ? "green" : "red"
+  ](patucoConfig.path.patucoModule)}\n
+  ${chalk.cyan.bold("- Plantillas:")} ${chalk.italic[
+    patucoConfig.path.userTemplate ? "green" : "red"
+  ](patucoConfig.path.userTemplate)}\n
+  ${chalk.cyan.bold("- Idioma:")} ${chalk.green(
+    patucoConfig.language === "es" ? "Español" : "Ingles"
+  )}\n`);
   const mm = () => {
     if (!patucoConfig.path.patucoModule) {
       console.log(

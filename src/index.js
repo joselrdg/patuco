@@ -30,9 +30,9 @@ const queryParams = () => {
       choices: [
         "Style",
         "Components",
-        "Views",
-        "Layouts",
-        "Models",
+        // "Views",
+        // "Layouts",
+        // "Models",
         "Javascript",
         "Config",
         msmEnd,
@@ -72,6 +72,7 @@ const start = async () => {
   +                                         *
               *              
                                 +\n`;
+                                
 
   console.log(chalk.bold.cyan(a));
 

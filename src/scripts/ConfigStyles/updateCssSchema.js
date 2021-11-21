@@ -122,10 +122,10 @@ const filterSelect = async () => {
 };
 
 const createDirUser = async () => {
-  if (!fs.existsSync(`${pathBase}/patuco`)) {
-    fs.mkdirSync(`${pathBase}/patuco`, 0777);
-    fs.mkdirSync(`${pathBase}/patuco/style`, 0777);
-  }
+  !fs.existsSync(`${pathBase}/patuco`) &&
+    (await fs.mkdirSync(`${pathBase}/patuco`, 0777));
+  !fs.existsSync(`${pathBase}/patuco/style`) &&
+    (await fs.mkdirSync(`${pathBase}/patuco/style`, 0777));
   updateSchema(pathSchemaUser);
 };
 
@@ -134,8 +134,13 @@ const updateCssSchema = async () => {
   if (option.type === "Actualizar") {
     const pathConfig = await queryParams("pathConfig");
     if (pathConfig.type !== "Actualizar el modulo patucostrap") {
-      const newSavePr = fs.existsSync(pathSchemaUser) ? false : true;
-      newSavePr ? createDirUser() : await updateSchema(pathSchemaUser);
+      // const newSavePr = fs.existsSync(pathSchemaUser) ? false : true;
+      // newSavePr ? createDirUser() : await updateSchema(pathSchemaUser);
+      !fs.existsSync(`${pathBase}/patuco`) &&
+        (await fs.mkdirSync(`${pathBase}/patuco`, 0777));
+      !fs.existsSync(`${pathBase}/patuco/style`) &&
+        (await fs.mkdirSync(`${pathBase}/patuco/style`, 0777));
+      updateSchema(pathSchemaUser);
     } else {
       const savePr = fs.existsSync(pathSchemaUser) ? true : false;
       savePr ? filterSelect(savePr) : updateSchema(pathStyleCfg);

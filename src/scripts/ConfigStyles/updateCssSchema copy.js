@@ -2,19 +2,10 @@ const inquirer = require("inquirer");
 const chalk = require("chalk");
 const fs = require("fs");
 const pathBase = process.cwd();
-// const baseCss = require("../../templates/styles/baseCss.js");
-
+const baseCss = require("../../templates/styles/baseCss.js");
 const pathSchemaUser = `${pathBase}/patuco/style/patucoSchema.css`;
 const patucoConfig = require("../constants/patucoConfig.js").path.patucoModule;
 const pathStyleCfg = `${patucoConfig}/style/patucoSchema.css`;
-
-
-const baseCssPath = require("../constants/patucoConfig.js").path.baseCss;
-
-// const baseCssPath = `${patucoModulePath}/src/templates/styles/baseCss.js`;
-const requireUncached = require("../requireUncached.js");
-
-const baseCss = requireUncached(baseCssPath);
 
 const back = chalk.bold.italic.magentaBright("Volver");
 
@@ -27,14 +18,14 @@ const queryParams = (item) => {
       message: "Quiere actualizar .css schema?: ",
       choices: ["Actualizar", back],
     },
-    // pathConfig: {
-    //   name: "type",
-    //   type: "list",
-    //   message:
-    //     "¿Quieres guardar el archivo 'patucoSchema.css' en tu proyecto?: ",
-    //   choices: ["Guardar", "Ir a configuraciones"],
-    // },
     pathConfig: {
+      name: "type",
+      type: "list",
+      message:
+        "¿Quieres guardar el archivo 'patucoSchema.css' en tu proyecto?: ",
+      choices: ["Guardar", "Ir a configuraciones"],
+    },
+    dat: {
       name: "type",
       type: "list",
       message:
@@ -117,7 +108,7 @@ const filterSelect = async () => {
       "Existe el archivo /patuco/style/patucoSchema.css en tu proyecto..."
     )
   );
-  const dat = await queryParams("pathConfig");
+  const dat = await queryParams("dat");
   dat.type !== "Actualizar el modulo patucostrap"
     ? updateSchema(pathSchemaUser)
     : updateSchema(pathStyleCfg);
@@ -134,12 +125,12 @@ const createDirUser = async () => {
 const updateCssSchema = async () => {
   const option = await queryParams("option");
   if (option.type === "Actualizar") {
-    // if (!patucoConfig) {
-      // console.log(
-      //   chalk.bold.italic.red(
-      //     "No está configurada la ruta al directorio patucostrap."
-      //   )
-      // );
+    if (!patucoConfig) {
+      console.log(
+        chalk.bold.italic.red(
+          "No está configurada la ruta al directorio patucostrap."
+        )
+      );
       const pathConfig = await queryParams("pathConfig");
       if (pathConfig.type === "Guardar") {
         const newSavePr = fs.existsSync(pathSchemaUser) ? false : true;
@@ -148,10 +139,10 @@ const updateCssSchema = async () => {
         const config = require("../config.js");
         config.config();
       }
-    // } else {
-    //   const savePr = fs.existsSync(pathSchemaUser) ? true : false;
-    //   savePr ? filterSelect(savePr) : updateSchema(pathStyleCfg);
-    // }
+    } else {
+      const savePr = fs.existsSync(pathSchemaUser) ? true : false;
+      savePr ? filterSelect(savePr) : updateSchema(pathStyleCfg);
+    }
   } else {
     const configStyles = require("./index.js");
     configStyles.configStyles();
