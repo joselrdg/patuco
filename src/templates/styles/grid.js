@@ -17,7 +17,8 @@ const grid = [
   //   after: ["content: ''", "clear: both", "display: table"],
   // },
   {
-    other: `
+    name: 'grind',
+    template: `
 ._row {
   display: flex;
   flex-wrap: wrap;

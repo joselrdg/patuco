@@ -2,8 +2,18 @@ const inquirer = require("inquirer");
 const readdirp = require("readdirp");
 const chalk = require("chalk");
 const fs = require("fs");
+
 const baseCss = require("../../templates/styles/baseCss.js");
 const pathBase = process.cwd();
+
+const variablesUser = `${pathBase}/patuco/variables.js`;
+
+const variables = require(fs.existsSync(`${pathBase}/patuco/variables.js`)
+  ? variablesUser
+  : "../../templates/styles/baseCss.js");
+
+const variablesUsed = [];
+let rootStr = "\n\n:root {\n";
 
 function filewalker(dir, type, myFilter) {
   return new Promise((resolve) => {
@@ -63,20 +73,35 @@ const queryParams = (type, choices = [], messageSave = false) => {
         "patucoSchema.css"
       )} de tu proyecto?\nEl archivo ${chalk.green.bold(
         "variables.js"
-      )} se mantendra para futuras modificaciones de tu proyecto: `,
-      choices: ["Eliminar", "Cancelar"],
+      )} se mantendra para futuras modificaciones: `,
+      choices: ["Eliminar", "Continuar sin borrar"],
     },
   };
   const qs = [message[type]];
   return inquirer.prompt(qs);
 };
 
-const prepareStylesStr = async (arr) => {
-  let str = "";
-  for (let index = 0; index < arr.length; index++) {
-    str = str + `${arr[index]};\n`;
+// comprueba si hay variables en los estilos
+const searchVariables = async (styleElement) => {
+  for (const nameVariable in variables) {
+    const regex = new RegExp(nameVariable, "g");
+    if (regex.test(styleElement)) {
+      console.log(`\nEncontrada la variable ${chalk.yellow(nameVariable)}`);
+      variablesUsed.push(nameVariable);
+      rootStr =
+        rootStr + `  --${nameVariable}: "${variables[nameVariable]}";\n`;
+    }
   }
-  return str;
+};
+
+const prepareStylesStr = async (classStyles) => {
+  let stylesStr = "";
+  for (let index = 0; index < classStyles.length; index++) {
+    const styleElement = classStyles[index];
+    await searchVariables(styleElement);
+    stylesStr = stylesStr + `${styleElement};\n`;
+  }
+  return stylesStr;
 };
 
 const createQueryCss = (query) => {
@@ -92,29 +117,45 @@ const createQueryCss = (query) => {
   return str;
 };
 
+const fonts = async () => {
+  let fontsStr = "";
+  variables.fonts.forEach((element) => {
+    fontsStr = fontsStr + `${element};\n`;
+  });
+  return fontsStr;
+};
+
+// Crea el string completo para crear el archivo css
 const prepareStr = async (savedClasses) => {
-  let str = "";
+  let fileStr = "";
   for (const key in savedClasses) {
-    str = str + `\n\n/* ${key} */\n\n`;
-    const arr = savedClasses[key];
-    for (let index = 0; index < arr.length; index++) {
-      const target = arr[index].target ? ` ${arr[index].target}` : "";
-      const queryCss = createQueryCss(arr[index]);
-      let stylesStr = "";
-      if (arr[index].other) {
-        str = str + arr[index].other;
-      } else if (arr[index].items) {
-        stylesStr = await prepareStylesStr(arr[index].items);
-        str =
-          str +
-          `.${arr[index].name}${target}${queryCss} {
+    if (key !== "root" && savedClasses[key].length > 0) {
+      fileStr = fileStr + `\n\n/* ${key} */\n\n`;
+      const classGroup = savedClasses[key];
+      for (let index = 0; index < classGroup.length; index++) {
+        const uniqueClass = classGroup[index];
+        const target = uniqueClass.target ? ` ${uniqueClass.target}` : "";
+        const queryCss = createQueryCss(uniqueClass);
+        let stylesStr = "";
+        if (uniqueClass.template) {
+          // escribre los templates de css puro
+          fileStr = fileStr + uniqueClass.template;
+          // Prepara el string con las clases y comprueba si hay variables
+        } else if (uniqueClass.items) {
+          stylesStr = await prepareStylesStr(uniqueClass.items);
+          fileStr =
+            fileStr +
+            `.${uniqueClass.name}${target}${queryCss} {
   ${stylesStr}}\n\n`;
+        }
       }
     }
   }
-  return str;
+  // Añade las fuentes al comienzo del string root
+  rootStr = `${await fonts()}` + rootStr + "}\n";
+  fileStr = rootStr + fileStr;
+  return fileStr;
 };
-
 
 const updateSchema = async (savedClasses, path) => {
   const pathSchema = `${path}/patuco.css`;
@@ -128,7 +169,7 @@ const updateSchema = async (savedClasses, path) => {
     console.error(err);
   } finally {
     console.log(`
- ------ CREADO CORRECTAMENTE ------\n
+    ${chalk.green.bold("------ CREADO CORRECTAMENTE ------")}\n
  Se ha creado el siguiente elemento\n
  - Archivo: ${chalk.blue.bold("patuco.css")}\n
  - Ruta: ${chalk.blue.bold(pathSchema)}\n
@@ -203,7 +244,7 @@ const openFiles = async (direcPath, filePath) => {
       "utf-8"
     );
     if (/class=/g.test(file) || /className=/g.test(file)) {
-      await readStyles(file, savedClasses, counterTotal, counterEnd);
+      await readStyles(file, savedClasses, counterTotal, counterEnd, baseCss);
     }
   }
   console.log(`- Total clases encontradas: ${chalk.red.bold(
@@ -214,23 +255,23 @@ const openFiles = async (direcPath, filePath) => {
 };
 
 const deleteCssSchema = async () => {
-  const path = `${pathBase}/patuco/patucoSchema.css`;
+  const path = `${pathBase}/patuco/style/patucoSchema.css`;
   if (fs.existsSync(path)) {
     console.log(
-      `Existe el archivo ${pathBase}/patuco/${chalk.red.bold(
+      `Existe el archivo ${pathBase}/patuco/style/${chalk.red.bold(
         "patucoSchema.css."
       )}`
     );
     const options = await queryParams("deleteSchema");
     if (options.type === "Eliminar") {
       fs.unlinkSync(path);
-      console.log(chalk.green.bold("Archivo borrado"));
+      console.log(chalk.green.bold("\nArchivo borrado"));
     }
   }
   console.log(
-    chalk.green.bold(
-      "No olvides importar el nuevo archivo 'patucoStyles/patuco.css'\n"
-    )
+    `No olvides importar el nuevo archivo ${chalk.green.bold(
+      "patucoStyles/patuco.css"
+    )}\n`
   );
 };
 
@@ -240,7 +281,7 @@ const createCSS = async () => {
     const direcctories = await filewalker(".", "directories");
     const direcPath = await queryParams("direcctories", direcctories);
     const filePath = await analyzeRoute(direcPath);
-    const savedClasses = await openFiles(direcPath.type, filePath);
+    const savedClasses = await openFiles(direcPath.type, filePath, baseCss);
     const direcSavePath = await queryParams("direcctories", direcctories, true);
     await createFile(savedClasses, direcSavePath.type);
     await deleteCssSchema();

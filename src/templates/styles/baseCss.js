@@ -1,11 +1,15 @@
 const fs = require("fs");
+const chalk = require("chalk");
 
-const pathUser = require("../../scripts/constants/patucoConfig.js").path
-  .userTemplate;
-
-const isPath = fs.existsSync(`${pathUser}/classes/base.js`);
+const modulePatucoPath =
+  require("../../scripts/constants/patucoConfig.js").path;
+const pathUser = modulePatucoPath.userTemplate;
+const isPath = fs.existsSync(
+  `${modulePatucoPath.userTemplate}/classes/base.js`
+);
 
 const root = require("./root.js");
+const variables = require("./variables.js");
 const grid = require("./grid.js");
 const background = require("./background.js");
 const border = require("./border.js");
@@ -31,6 +35,8 @@ if (!isPath) {
     "\nNo existe el directorio 'patucoTemplates/classes'. Se creara al añadir una nueva clase\n"
   );
 }
+
+console.log(chalk.bold.green("baseCss actualizado"));
 
 const baseCss = {
   root,

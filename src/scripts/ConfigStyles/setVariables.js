@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 const chalk = require("chalk");
 const fs = require("fs");
+const requireUncached = require("../requireUncached.js");
 
 const pathBase = process.cwd();
 const pathVariables = `${pathBase}/patuco/variables.js`;
@@ -10,6 +11,10 @@ const variables = require(fs.existsSync(pathVariables)
 
 const back = chalk.bold.italic.bgBlackBright("Volver");
 
+const savedPaths = require("../constants/patucoConfig.js").path;
+
+// preguntar si quires guardar en templates para futuros proyectos. split patbase y preguntar su quiere guardar con el nombre del
+// del ultimo array o introducir nombre
 const upgrade = {
   ...variables,
 };
@@ -87,25 +92,24 @@ const edit = async (key) => {
   }
 };
 
-const prepareStr = () => {
-  let str = "";
+const prepareFontVariablesStr = () => {
+  let fontVariablesStr = "";
   for (const key in upgrade) {
-    str =
-      str +
-      `   ${key}: ${
+    fontVariablesStr =
+    fontVariablesStr +
+      `   "${key}": ${
         key === "fonts"
           ? `[\n"${upgrade[key].join('",\n"')}"\n]`
           : `"${upgrade[key]}"`
       },\n`;
   }
-  return str;
+  return fontVariablesStr;
 };
 
 const loadVariables = async (key) => {
   const path = `${pathBase}/patuco`;
-  // const file = `${path}/variables.js`;
   const str = `const variables = {
-      ${prepareStr()}};
+      ${prepareFontVariablesStr()}};
   
 module.exports = variables;
   `;
@@ -119,6 +123,9 @@ module.exports = variables;
   } catch (err) {
     console.error(err);
   } finally {
+    //mirar sii es naecaria esta actualizacion
+    // requireUncached(`${savedPaths.patucoModule}/src/templates/styles/root.js`);
+    requireUncached(savedPaths.baseCss);
     console.log(`
   ------ CREADO CORRECTAMENTE ------\n
   Se ha creado el siguiente elemento\n

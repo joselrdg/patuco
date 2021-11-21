@@ -1,8 +1,17 @@
 // const variables = require("./variables.js");
 const fs = require("fs");
+const chalk = require("chalk");
+const requireUncached = require("../../scripts/requireUncached.js");
+
+const modulePatucoPath = require("../../scripts/constants/patucoConfig.js").path
+  .patucoModule;
 const pathBase = process.cwd();
 const path = `${pathBase}/patuco/variables.js`;
-const variables = require(fs.existsSync(path) ?  path : "./variables.js");
+const patucoPathVariables = `${modulePatucoPath}/src/templates/styles/variables.js`;
+const variables = requireUncached(
+  fs.existsSync(path) ? path : patucoPathVariables
+);
+// const variables = require(fs.existsSync(path) ?  path : './variables.js');
 
 const fonts = () => {
   let str = "";
@@ -12,9 +21,34 @@ const fonts = () => {
   return str;
 };
 
+console.log(chalk.bold.green("baseCss actualizado"));
+
 const root = [
   {
-    other: `
+    name: "root",
+    variables: [
+      "primaryfontFamily1",
+      "primaryfontFamily2",
+      "primaryfontFamily3",
+      "primaryfontFamily4",
+      "primaryfontFamily5",
+      "secundaryfontFamily1",
+      "secundaryfontFamily2",
+      "secundaryfontFamily3",
+      "secundaryfontFamily4",
+      "secundaryfontFamily5",
+      "primary-color1",
+      "color-icon",
+      "dark-grey",
+      "ligth-grey",
+      "color-white",
+      "color-red",
+      "background-colorBody",
+      "background-color1",
+      "background-color2",
+      "container",
+    ],
+    template: `
 ${fonts()}
     
 :root {

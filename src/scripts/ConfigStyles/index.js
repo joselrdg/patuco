@@ -4,14 +4,14 @@ const start = require("../../index.js");
 // const readClasses = require("./readClasses.js");
 const setVariables = require("./setVariables");
 // const updateCssSchema = require("./updateCssSchema.js");
-const createCSS = require("./createCss.js");
+// const createCSS = require("./createCss.js");
 const createClasses = require("./createClasses.js");
 
 const patucoModulePath = require("../constants/patucoConfig.js").path
   .patucoModule;
 const readClassesPath = `${patucoModulePath}/src/scripts/ConfigStyles/readClasses.js`;
 const updateCssSchemaPath = `${patucoModulePath}/src/scripts/ConfigStyles/updateCssSchema.js`;
-
+const createCSSPath = `${patucoModulePath}/src/scripts/ConfigStyles/createCss.js`;
 const requireUncached = require("../requireUncached.js");
 
 const back = chalk.bold.italic.magentaBright("Volver");
@@ -54,6 +54,7 @@ const setOptions = (data) => {
       updateCssSchema.updateCssSchema();
       break;
     case "Crear archivo .css en tu proyecto":
+      const createCSS = requireUncached(createCSSPath);
       createCSS.createCSS();
       break;
     case "Configurar animaciones":

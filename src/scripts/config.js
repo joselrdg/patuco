@@ -37,7 +37,6 @@ function filewalker(
       .on("end", () => resolve(data));
   });
 }
-patucoConfig;
 
 const queryParams = (type, choices = []) => {
   const message = {

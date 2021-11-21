@@ -4,8 +4,6 @@ const fs = require("fs");
 const config = require("../config.js");
 const requireUncached = require("../requireUncached.js");
 
-const patucoModulePath = require("../constants/patucoConfig.js").path
-  .patucoModule;
 const userTemplatesPath = require("../constants/patucoConfig.js").path
   .userTemplate;
 
@@ -46,13 +44,13 @@ const checkPath = async (path) => {
   }
 };
 
-const groupName = async () => {
+const groupName = async (userSavedClasses) => {
   let condition = true;
   let newProject = false;
   let nameProject = "_Styles_User_Example";
   let projectsKeys = [];
   if (fs.existsSync(templatesBaseJsPath)) {
-    const userSavedClasses = requireUncached(templatesBaseJsPath);
+    // const userSavedClasses = requireUncached(templatesBaseJsPath);
     projectsKeys = Object.keys(userSavedClasses);
   }
 
@@ -100,13 +98,13 @@ module.exports = ${nameProject};`;
   return fileStr;
 };
 
-const prepareDataClass = async (optProject, data) => {
+const prepareDataClass = async (userSavedClasses, optProject, data) => {
   const { nameProject, newProject } = optProject;
   if (newProject) {
     const newFileOk = await prepareNewFile(nameProject, [data]);
     return newFileOk;
   } else {
-    const userSavedClasses = requireUncached(templatesBaseJsPath);
+    // const userSavedClasses = requireUncached(templatesBaseJsPath);
     const oldData = userSavedClasses[nameProject];
     oldData.push(data);
     const oldFileOk = await prepareNewFile(nameProject, oldData);
@@ -115,7 +113,7 @@ const prepareDataClass = async (optProject, data) => {
 };
 
 const importName = async (names) => {
-  let str = '';
+  let str = "";
   for (let i = 0; i < names.length; i++) {
     str += `const ${names[i]} = require("./${names[i]}.js");\n`;
   }
@@ -138,13 +136,13 @@ ${await importProperties(nameProject)}};
   
 module.exports = stylesUser;`;
 
-const writeDataBase = async (optProject, path, file) => {
+const writeDataBase = async (userSavedClasses, optProject, path, file) => {
   const { nameProject, newProject } = optProject;
   const baseJsPath = `${path}/base.js`;
   let names = nameProject;
   if (fs.existsSync(templatesBaseJsPath)) {
     if (newProject) {
-      const userSavedClasses = requireUncached(templatesBaseJsPath);
+      // const userSavedClasses = requireUncached(templatesBaseJsPath);
       names = Object.keys(userSavedClasses);
       names.push(nameProject);
     }
@@ -169,20 +167,8 @@ Se han creado/actualizado los siguientes elementos\n
 ${chalk.blue.cyan(
   `Puedes seguir añadiendo stilos al proyecto ${nameProject}`
 )}\n`);
-    // const d =  requireUncached("baseCss");
-    // const d = require('../../templates/styles/baseCss')
-
-    // const requireUncached = require("../requireUncached.js");
-    // const patucoModulePath = require("../constants/patucoConfig.js").path
-    //   .patucoModule;
-    // requireUncached(`${patucoModulePath}/src/scripts/ConfigStyles/readClasses.js`);
-    // requireUncached(`${patucoModulePath}/src/templates/styles/baseCss.js`);
-    // requireUncached(`${patucoModulePath}/patucoTemplates/classes/base.js`);
-  
 
     requireUncached(templatesBaseJsPath);
-    // const keys = Object.keys(userSavedClasses)
-    // console.log(keys);
 
     return { nameProject, newProject: false };
   }
@@ -198,9 +184,10 @@ const setClasses = async (data, oldDataProyect) => {
     );
     config.config();
   } else {
-    const optProject = oldDataProyect ? oldDataProyect : await groupName();
-    const file = await prepareDataClass(optProject, data);
-    const infoProyect = await writeDataBase(optProject, path, file);
+    const userSavedClasses = requireUncached(templatesBaseJsPath);
+    const optProject = oldDataProyect ? oldDataProyect : await groupName(userSavedClasses);
+    const file = await prepareDataClass(userSavedClasses, optProject, data);
+    const infoProyect = await writeDataBase(userSavedClasses, optProject, path, file);
     return infoProyect;
   }
 };

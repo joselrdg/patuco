@@ -2,20 +2,21 @@ const inquirer = require("inquirer");
 const chalk = require("chalk");
 const fs = require("fs");
 const pathBase = process.cwd();
-// const baseCss = require("../../templates/styles/baseCss.js");
+const baseCss = require("../../templates/styles/baseCss.js");
 
 const pathSchemaUser = `${pathBase}/patuco/style/patucoSchema.css`;
 const patucoConfig = require("../constants/patucoConfig.js").path.patucoModule;
 const pathStyleCfg = `${patucoConfig}/style/patucoSchema.css`;
 
-const baseCssPath = require("../constants/patucoConfig.js").path.baseCss;
+// const baseCssPath = require("../constants/patucoConfig.js").path.baseCss;
 
-// const baseCssPath = `${patucoModulePath}/src/templates/styles/baseCss.js`;
-const requireUncached = require("../requireUncached.js");
+// // const baseCssPath = `${patucoModulePath}/src/templates/styles/baseCss.js`;
+// const requireUncached = require("../requireUncached.js");
 
-const baseCss = requireUncached(baseCssPath);
+// const baseCss = requireUncached(baseCssPath);
 
 const back = chalk.bold.italic.magentaBright("Volver");
+
 
 const queryParams = (item) => {
   const message = {
