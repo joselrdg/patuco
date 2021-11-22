@@ -4,6 +4,7 @@ const chalk = require("chalk");
 const fs = require("fs");
 
 const baseCss = require("../../templates/styles/baseCss.js");
+const allMediaQueries = require("../../templates/styles/mediaQueries.js");
 const pathBase = process.cwd();
 
 const variablesUser = `${pathBase}/patuco/variables.js`;
@@ -125,9 +126,41 @@ const fonts = async () => {
   return fontsStr;
 };
 
+const mediaQueriesArr = allMediaQueries();
+const querysUsed = [];
+const groupQureryStr = [];
+
+const prepareClassesQueryStr = async (query, classStr) => {
+  mediaQueriesArr.forEach((element) => {
+    if (element.name === query) {
+      const isQuerySaved = querysUsed.findIndex((e) => e === query);
+      if (isQuerySaved > -1) {
+        groupQureryStr[isQuerySaved].str =
+        groupQureryStr[isQuerySaved].str + classStr;
+      } else {
+        console.log(chalk.bold.yellow(`\nMedia query usada: ${query}\n`));
+        querysUsed.push(element.name);
+        groupQureryStr.push({
+          name: element.name,
+          str: `${element.str} {\n${classStr}`,
+        });
+      }
+    }
+  });
+};
+
+const createMediaQueriesStr = async () => {
+  let mediaQueriesStr = "";
+  groupQureryStr.forEach((element) => {
+    mediaQueriesStr = mediaQueriesStr + `${element.str}\n}\n`;
+  });
+  return mediaQueriesStr;
+};
+
 // Crea el string completo para crear el archivo css
 const prepareStr = async (savedClasses) => {
   let fileStr = "";
+  let classesQueryStr = "";
   for (const key in savedClasses) {
     if (key !== "root" && savedClasses[key].length > 0) {
       fileStr = fileStr + `\n\n/* ${key} */\n\n`;
@@ -143,17 +176,26 @@ const prepareStr = async (savedClasses) => {
           // Prepara el string con las clases y comprueba si hay variables
         } else if (uniqueClass.items) {
           stylesStr = await prepareStylesStr(uniqueClass.items);
-          fileStr =
-            fileStr +
-            `.${uniqueClass.name}${target}${queryCss} {
+          //$$ crear funcion para poner un . o # o nada segun el type que hay que añadir a las plantillas
+          if (uniqueClass.query) {
+            const classStr = `.${uniqueClass.name}${target}${queryCss} {
   ${stylesStr}}\n\n`;
+            await prepareClassesQueryStr(uniqueClass.query, classStr);
+          } else {
+            fileStr =
+              fileStr +
+              `.${uniqueClass.name}${target}${queryCss} {
+  ${stylesStr}}\n\n`;
+          }
         }
       }
     }
   }
   // Añade las fuentes al comienzo del string root
-  rootStr = `${await fonts()}` + rootStr + "}\n";
-  fileStr = rootStr + fileStr;
+  rootStr = `${await fonts()}` + rootStr + "}\n" + classesQueryStr;
+  const mediaQueryStr = await createMediaQueriesStr();
+  // Añade root, mediaqueries y el restor de clases usadas
+  fileStr = rootStr + [baseCss.grid[0].template] + mediaQueryStr + fileStr;
   return fileStr;
 };
 
@@ -230,8 +272,8 @@ const openFiles = async (direcPath, filePath) => {
   for (const key in baseCss) {
     if (key === "root") {
       savedClasses[key] = baseCss[key];
-    } else if (key === "grid") {
-      savedClasses[key] = baseCss[key];
+      // } else if (key === "grid") {
+      //   savedClasses.grid = [baseCss.grid[0].template];
     } else {
       savedClasses[key] = [];
     }

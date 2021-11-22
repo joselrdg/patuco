@@ -1,5 +1,19 @@
 const margin = [
   {
+    name: "scale_s8",
+    items: ["transform: scale(0.8)"],
+  },
+  {
+    name: "_f_l",
+    items: ["float: left"],
+  },
+  {
+    name: "_f_r",
+    items: ["float: right"],
+  },
+
+  
+  {
     name: "_m_0",
     items: ["margin: 0"],
   },

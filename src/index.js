@@ -77,7 +77,11 @@ const start = async () => {
   console.log(chalk.bold.cyan(a));
 
   msn(`\n\n
-'PATUCO'`);
+'mama'
+'papa'
+'olivia'
+'chiara'
+'alejandro'`);
   console.log(chalk.bold.cyan(b));
 
   if (
