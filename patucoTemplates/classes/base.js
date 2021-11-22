@@ -4,6 +4,7 @@ const tres = require("./tres.js");
 const wertwert = require("./wertwert.js");
 const sadfasdf = require("./sadfasdf.js");
 const pruebaafter = require("./pruebaafter.js");
+const pruebahovertotal = require("./pruebahovertotal.js");
 
 
 const stylesUser = {
@@ -13,6 +14,7 @@ const stylesUser = {
   wertwert,
   sadfasdf,
   pruebaafter,
+  pruebahovertotal,
 };
   
 module.exports = stylesUser;

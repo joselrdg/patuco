@@ -53,35 +53,35 @@ const flex = [
   },
   {
     name: "_ai_c",
-    items: ["align-itemss: center"],
+    items: ["align-items: center"],
   },
   {
     name: "_ai_fs",
-    items: ["align-itemss: flex-start"],
+    items: ["align-items: flex-start"],
   },
   {
     name: "_ai_fe",
-    items: ["align-itemss: flex-end"],
+    items: ["align-items: flex-end"],
   },
   {
     name: "_ai_b",
-    items: ["align-itemss: baseline"],
+    items: ["align-items: baseline"],
   },
   {
     name: "_ai_i",
-    items: ["align-itemss: initial"],
+    items: ["align-items: initial"],
   },
   {
     name: "_ai_s",
-    items: ["align-itemss: stretch"],
+    items: ["align-items: stretch"],
   },
   {
     name: "_ai_ih",
-    items: ["align-itemss: inherit"],
+    items: ["align-items: inherit"],
   },
   {
     name: "_ai_u",
-    items: ["align-itemss: unset"],
+    items: ["align-items: unset"],
   },
 ];
 

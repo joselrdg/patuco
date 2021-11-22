@@ -4,3 +4,23 @@
 
 :root {
 }
+      
+[class*="col_"] {
+  float: left;
+  /* padding: 15px; */
+}
+
+[class*="floatCl_"] {
+  float: left;
+  /* padding: 15px; */
+}
+      
+/* For mobile phones: */
+[class*="col_"] {
+  width: 100%;
+}
+      
+[class*="floatCl_"] {
+  width: 90%;
+  left: calc(50% - (90% / 2));
+} 

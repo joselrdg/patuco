@@ -100,23 +100,11 @@ const prepareStylesStr = async (classStyles) => {
   for (let index = 0; index < classStyles.length; index++) {
     const styleElement = classStyles[index];
     await searchVariables(styleElement);
-    stylesStr = stylesStr + `${styleElement};\n`;
+    stylesStr = stylesStr + `  ${styleElement};\n`;
   }
   return stylesStr;
 };
 
-const createQueryCss = (query) => {
-  let str = "";
-  if (query.hover) {
-    str = ":hover";
-  }
-  //  else if (query.after) {
-  //   str = "::after";
-  // } else if (query.before) {
-  //   str = "::before";
-  // }
-  return str;
-};
 
 const fonts = async () => {
   let fontsStr = "";
@@ -136,7 +124,7 @@ const prepareClassesQueryStr = async (query, classStr) => {
       const isQuerySaved = querysUsed.findIndex((e) => e === query);
       if (isQuerySaved > -1) {
         groupQureryStr[isQuerySaved].str =
-        groupQureryStr[isQuerySaved].str + classStr;
+          groupQureryStr[isQuerySaved].str + classStr;
       } else {
         console.log(chalk.bold.yellow(`\nMedia query usada: ${query}\n`));
         querysUsed.push(element.name);
@@ -157,6 +145,23 @@ const createMediaQueriesStr = async () => {
   return mediaQueriesStr;
 };
 
+const createPseudoElements = async (uniqueClass) => {
+  const pseudoElements = uniqueClass.pseudoElement;
+  let pseudoElementsStr = "";
+  for (let index = 0; index < pseudoElements.length; index++) {
+    const element = pseudoElements[index];
+    let stylesStr = `.${uniqueClass.name}::${element.type} {\n`;
+    for (let index = 0; index < element.items.length; index++) {
+      const styleElement = element.items[index];
+      stylesStr = stylesStr + `  ${styleElement};\n`;
+    }
+    stylesStr = stylesStr + "}\n\n";
+    pseudoElementsStr = pseudoElementsStr + stylesStr;
+  }
+
+  return pseudoElementsStr;
+};
+
 // Crea el string completo para crear el archivo css
 const prepareStr = async (savedClasses) => {
   let fileStr = "";
@@ -168,7 +173,10 @@ const prepareStr = async (savedClasses) => {
       for (let index = 0; index < classGroup.length; index++) {
         const uniqueClass = classGroup[index];
         const target = uniqueClass.target ? ` ${uniqueClass.target}` : "";
-        const queryCss = createQueryCss(uniqueClass);
+        const pseudoClass = uniqueClass.pseudoClass ? `:${uniqueClass.pseudoClass}` : "";
+        const pseudoElementsStr = uniqueClass.pseudoElement
+          ? await createPseudoElements(uniqueClass)
+          : '';
         let stylesStr = "";
         if (uniqueClass.template) {
           // escribre los templates de css puro
@@ -178,14 +186,17 @@ const prepareStr = async (savedClasses) => {
           stylesStr = await prepareStylesStr(uniqueClass.items);
           //$$ crear funcion para poner un . o # o nada segun el type que hay que añadir a las plantillas
           if (uniqueClass.query) {
-            const classStr = `.${uniqueClass.name}${target}${queryCss} {
-  ${stylesStr}}\n\n`;
+            const classStr =
+              `.${uniqueClass.name}${target}${pseudoClass} {
+${stylesStr}}\n\n${pseudoElementsStr}`;
             await prepareClassesQueryStr(uniqueClass.query, classStr);
           } else {
             fileStr =
               fileStr +
-              `.${uniqueClass.name}${target}${queryCss} {
-  ${stylesStr}}\n\n`;
+              `.${uniqueClass.name}${target}${pseudoClass} {
+${stylesStr}}\n\n`;
+            // Añade los pseudoelementos con sus clases al arr del archivo ### mirar si tienen que elegir ir con mediaqueries
+            fileStr = fileStr + pseudoElementsStr;
           }
         }
       }
