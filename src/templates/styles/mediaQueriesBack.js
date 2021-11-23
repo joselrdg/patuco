@@ -1,3 +1,6 @@
+// higher above --> mayor por encima
+// higher below --> mayor por debajo
+
 const mediaQueries = [
   {
     name: "min-width 600px",
@@ -25,5 +28,16 @@ const mediaQueries = [
     template: true,
   },
 ];
+
+//Para separar y ordenar por posicion
+
+// const allMediaQueries = () => {
+//   const queriesStr = [];
+//   for (let index = 0; index < mediaQueries.length; index++) {
+//     const element = mediaQueries[index];
+//     queriesStr.push({ name: element.query, str: element.item });
+//   }
+//   return queriesStr
+// };
 
 module.exports = mediaQueries;

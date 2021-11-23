@@ -5,8 +5,6 @@ const fs = require("fs");
 
 const path = require("./scripts/constants/patucoConfig.js").path;
 
-console.log(path);
-
 const msmEnd = chalk.italic.redBright("Salir");
 
 const msn = (msn) => {
@@ -52,7 +50,6 @@ const createFile = (data) => {
       const config = require("./scripts/config.js");
       config.config();
       break;
-
     default:
       break;
   }
@@ -67,21 +64,20 @@ const start = async () => {
   *               __./x /| / /
                  (_____/ |/|/                  *
 
+        +                         *
   `;
   const b = `                     +
   +                                         *
               *              
                                 +\n`;
-                                
 
+  console.log(chalk.bold.cyan(b));
+  msn(`\n\n
+'patuco'`);
   console.log(chalk.bold.cyan(a));
 
   msn(`\n\n
-'mama'
-'papa'
-'olivia'
-'chiara'
-'alejandro'`);
+' style'`);
   console.log(chalk.bold.cyan(b));
 
   if (
@@ -89,7 +85,9 @@ const start = async () => {
     !fs.existsSync(path.patucoModule) ||
     !fs.existsSync(path.baseCss)
   ) {
-  console.log(chalk.bold.italic.red(' Configura la ruta al modulo patucostrap'));
+    console.log(
+      chalk.bold.italic.red(" Configura la ruta al modulo patucostrap")
+    );
     const config = require("./scripts/config.js");
     config.config();
   } else {

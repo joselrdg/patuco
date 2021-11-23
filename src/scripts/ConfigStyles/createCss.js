@@ -4,7 +4,13 @@ const chalk = require("chalk");
 const fs = require("fs");
 
 const baseCss = require("../../templates/styles/baseCss.js");
-const allMediaQueries = require("../../templates/styles/mediaQueries.js");
+const userTemplatePath = require("../constants/patucoConfig.js").path
+  .userTemplate;
+const mediaQueriesArr = require(fs.existsSync(
+  `${userTemplatePath}/mediaQueries/mediaQueries.js`
+)
+  ? `${userTemplatePath}/mediaQueries/mediaQueries.js`
+  : "../../templates/styles/mediaQueries.js");
 const pathBase = process.cwd();
 
 const variablesUser = `${pathBase}/patuco/variables.js`;
@@ -15,6 +21,10 @@ const variables = require(fs.existsSync(`${pathBase}/patuco/variables.js`)
 
 const variablesUsed = [];
 let rootStr = "\n\n:root {\n";
+
+// const mediaQueriesArr = allMediaQueries();
+const querysUsed = [];
+const groupQureryStr = [];
 
 function filewalker(dir, type, myFilter) {
   return new Promise((resolve) => {
@@ -105,7 +115,6 @@ const prepareStylesStr = async (classStyles) => {
   return stylesStr;
 };
 
-
 const fonts = async () => {
   let fontsStr = "";
   variables.fonts.forEach((element) => {
@@ -113,10 +122,6 @@ const fonts = async () => {
   });
   return fontsStr;
 };
-
-const mediaQueriesArr = allMediaQueries();
-const querysUsed = [];
-const groupQureryStr = [];
 
 const prepareClassesQueryStr = async (query, classStr) => {
   mediaQueriesArr.forEach((element) => {
@@ -173,10 +178,12 @@ const prepareStr = async (savedClasses) => {
       for (let index = 0; index < classGroup.length; index++) {
         const uniqueClass = classGroup[index];
         const target = uniqueClass.target ? ` ${uniqueClass.target}` : "";
-        const pseudoClass = uniqueClass.pseudoClass ? `:${uniqueClass.pseudoClass}` : "";
+        const pseudoClass = uniqueClass.pseudoClass
+          ? `:${uniqueClass.pseudoClass}`
+          : "";
         const pseudoElementsStr = uniqueClass.pseudoElement
           ? await createPseudoElements(uniqueClass)
-          : '';
+          : "";
         let stylesStr = "";
         if (uniqueClass.template) {
           // escribre los templates de css puro
@@ -186,8 +193,7 @@ const prepareStr = async (savedClasses) => {
           stylesStr = await prepareStylesStr(uniqueClass.items);
           //$$ crear funcion para poner un . o # o nada segun el type que hay que añadir a las plantillas
           if (uniqueClass.query) {
-            const classStr =
-              `.${uniqueClass.name}${target}${pseudoClass} {
+            const classStr = `.${uniqueClass.name}${target}${pseudoClass} {
 ${stylesStr}}\n\n${pseudoElementsStr}`;
             await prepareClassesQueryStr(uniqueClass.query, classStr);
           } else {

@@ -6,6 +6,8 @@ const setVariables = require("./setVariables");
 // const updateCssSchema = require("./updateCssSchema.js");
 // const createCSS = require("./createCss.js");
 const createClasses = require("./createClasses.js");
+const createMediaQ = require("./createMediaQ.js");
+
 
 const patucoModulePath = require("../constants/patucoConfig.js").path
   .patucoModule;
@@ -23,10 +25,11 @@ const queryParams = () => {
       type: "list",
       message: "Selecciona una opción: ",
       choices: [
-        "Ver clases",
+        "Ver/Editar clases",
         "Crear clases",
         "Configurar variables",
         "Configurar animaciones",
+        "Configurar media queries",
         "Actualizar .css schema",
         "Crear archivo .css en tu proyecto",
         back,
@@ -44,8 +47,7 @@ const setOptions = (data) => {
     case "Crear clases":
       createClasses.createClasses();
       break;
-    case "Ver clases":
-      // console.log(data)
+    case "Ver/Editar clases":
       const readClasses = requireUncached(readClassesPath);
       readClasses.readClasses();
       break;
@@ -56,6 +58,9 @@ const setOptions = (data) => {
     case "Crear archivo .css en tu proyecto":
       const createCSS = requireUncached(createCSSPath);
       createCSS.createCSS();
+      break;
+    case "Configurar media queries":
+      createMediaQ.createMediaQ();
       break;
     case "Configurar animaciones":
       require("./animations.js");
