@@ -8,17 +8,6 @@ const pathSchemaUser = `${pathBase}/patuco/style/patucoSchema.css`;
 const patucoConfig = require("../constants/patucoConfig.js").path.patucoModule;
 const pathStyleCfg = `${patucoConfig}/style/patucoSchema.css`;
 
-const userTemplatePath = require("../constants/patucoConfig.js").path
-  .userTemplate;
-const mediaQueriesArr = require(fs.existsSync(
-  `${userTemplatePath}/mediaQueries/mediaQueries.js`
-)
-  ? `${userTemplatePath}/mediaQueries/mediaQueries.js`
-  : "../../templates/styles/mediaQueries.js");
-
-const querysUsed = [];
-const groupQureryStr = [];
-
 // const baseCssPath = require("../constants/patucoConfig.js").path.baseCss;
 
 // // const baseCssPath = `${patucoModulePath}/src/templates/styles/baseCss.js`;
@@ -27,6 +16,7 @@ const groupQureryStr = [];
 // const baseCss = requireUncached(baseCssPath);
 
 const back = chalk.bold.italic.magentaBright("Volver");
+
 
 const queryParams = (item) => {
   const message = {
@@ -79,49 +69,6 @@ const createQueryCss = (query) => {
   return str;
 };
 
-const createPseudoElements = async (uniqueClass) => {
-  const pseudoElements = uniqueClass.pseudoElement;
-  let pseudoElementsStr = "";
-  for (let index = 0; index < pseudoElements.length; index++) {
-    const element = pseudoElements[index];
-    let stylesStr = `.${uniqueClass.name}::${element.type} {\n`;
-    for (let index = 0; index < element.items.length; index++) {
-      const styleElement = element.items[index];
-      stylesStr = stylesStr + `  ${styleElement};\n`;
-    }
-    stylesStr = stylesStr + "}\n\n";
-    pseudoElementsStr = pseudoElementsStr + stylesStr;
-  }
-
-  return pseudoElementsStr;
-};
-
-const prepareClassesQueryStr = async (query, classStr) => {
-  mediaQueriesArr.forEach((element) => {
-    if (element.name === query) {
-      const isQuerySaved = querysUsed.findIndex((e) => e === query);
-      if (isQuerySaved > -1) {
-        groupQureryStr[isQuerySaved].str =
-          groupQureryStr[isQuerySaved].str + classStr;
-      } else {
-        console.log(chalk.bold.yellow(`\nMedia query usada: ${query}\n`));
-        querysUsed.push(element.name);
-        groupQureryStr.push({
-          name: element.name,
-          str: `${element.str} {\n${classStr}`,
-        });
-      }
-    }
-  });
-};
-
-const createMediaQueriesStr = async () => {
-  let mediaQueriesStr = "";
-  groupQureryStr.forEach((element) => {
-    mediaQueriesStr = mediaQueriesStr + `${element.str}\n}\n`;
-  });
-  return mediaQueriesStr;
-};
 
 const prepareStr = async () => {
   let str = "";
@@ -129,37 +76,21 @@ const prepareStr = async () => {
     str = str + `\n\n/* ${key} */\n\n`;
     const arr = baseCss[key];
     for (let index = 0; index < arr.length; index++) {
-      const uniqueClass = arr[index];
-      const target = uniqueClass.target ? ` ${uniqueClass.target}` : "";
-      const pseudoClass = uniqueClass.pseudoClass
-        ? `:${uniqueClass.pseudoClass}`
-        : "";
-      const pseudoElementsStr = (await uniqueClass.pseudoElement)
-        ? await createPseudoElements(uniqueClass)
-        : "";
+      const target = arr[index].target ? ` ${arr[index].target}` : "";
+      const queryCss = createQueryCss(arr[index]);
       let stylesStr = "";
-      if (uniqueClass.template) {
-        str = str + uniqueClass.template;
-      } else if (uniqueClass.items) {
-        stylesStr = await prepareStylesStr(uniqueClass.items);
-
-        if (uniqueClass.query) {
-          const classStr = `.${uniqueClass.name}${target}${pseudoClass} {
-${stylesStr}}\n\n${pseudoElementsStr}`;
-          await prepareClassesQueryStr(uniqueClass.query, classStr);
-        } else {
-          str =
-            str +
-            `.${uniqueClass.name}${target}${pseudoClass} {
-    ${stylesStr}}\n\n ${pseudoElementsStr}`;
-        }
+      if (arr[index].template) {
+        str = str + arr[index].template;
+      } else if (arr[index].items) {
+        stylesStr = await prepareStylesStr(arr[index].items);
+        str =
+          str +
+          `.${arr[index].name}${target}${queryCss} {
+  ${stylesStr}}\n\n`;
       }
     }
   }
-
-  const mediaQueryStr = await createMediaQueriesStr();
-
-  return str + mediaQueryStr;
+  return str;
 };
 
 const updateSchema = async (path) => {

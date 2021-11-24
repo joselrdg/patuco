@@ -30,7 +30,7 @@ const grid = [
 
   {
     name: "_cont",
-    items: ["margin: var(--container)"],
+    items: ["margin: 0 var(--container)"],
   },
   {
     name: "_row",
@@ -234,7 +234,7 @@ const grid = [
 
   {
     name: "media_mr_0",
-    items: ["wmargin-right: 0rem"],
+    items: ["margin-right: 0rem"],
     query: "min-width 768px",
   },
   {
@@ -387,7 +387,7 @@ const grid = [
 
   {
     name: "media_l_mr_0",
-    items: ["wmargin-right: 0rem"],
+    items: ["margin-right: 0rem"],
     query: "min-width 1200px",
   },
   {

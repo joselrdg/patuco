@@ -15,9 +15,9 @@ const pathBase = process.cwd();
 
 const variablesUser = `${pathBase}/patuco/variables.js`;
 
-const variables = require(fs.existsSync(`${pathBase}/patuco/variables.js`)
+const variables = require(fs.existsSync(variablesUser)
   ? variablesUser
-  : "../../templates/styles/baseCss.js");
+  : "../../templates/styles/variables.js");
 
 const variablesUsed = [];
 let rootStr = "\n\n:root {\n";
@@ -26,7 +26,9 @@ let rootStr = "\n\n:root {\n";
 const querysUsed = [];
 const groupQureryStr = [];
 
+
 function filewalker(dir, type, myFilter) {
+  console.log(dir)
   return new Promise((resolve) => {
     const data = [];
     readdirp(dir, {
@@ -57,7 +59,7 @@ const queryParams = (type, choices = [], messageSave = false) => {
       name: "type",
       type: "list",
       message: messageStr,
-      choices: [...choices.map((d) => d.path)],
+      choices: ['/',...choices.map((d) => d.path)],
     },
     typeFile: {
       name: "file",
@@ -115,6 +117,7 @@ const prepareStylesStr = async (classStyles) => {
   return stylesStr;
 };
 
+console.log(variables)
 const fonts = async () => {
   let fontsStr = "";
   variables.fonts.forEach((element) => {
@@ -236,7 +239,8 @@ const updateSchema = async (savedClasses, path) => {
   }
 };
 
-const analyzeRoute = async (path) => {
+const analyzeRoute = async (route) => {
+  const path = route.type === '/' ? pathBase : route.type
   const typeFile = await queryParams("typeFile");
   let filter = undefined;
   if (typeFile.file !== "") {
@@ -245,7 +249,7 @@ const analyzeRoute = async (path) => {
       .split(",")
       .map((item) => `*.${item}`);
   }
-  const files = await filewalker(path.type, "files", filter);
+  const files = await filewalker(path, "files", filter);
   return files;
 };
 
