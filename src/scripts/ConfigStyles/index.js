@@ -8,6 +8,7 @@ const setVariables = require("./setVariables");
 const createClasses = require("./createClasses.js");
 const createMediaQ = require("./createMediaQ.js");
 
+const txt = require("./translations/index.js");
 
 const patucoModulePath = require("../constants/patucoConfig.js").path
   .patucoModule;
@@ -16,22 +17,22 @@ const updateCssSchemaPath = `${patucoModulePath}/src/scripts/ConfigStyles/update
 const createCSSPath = `${patucoModulePath}/src/scripts/ConfigStyles/createCss.js`;
 const requireUncached = require("../requireUncached.js");
 
-const back = chalk.bold.italic.magentaBright("Volver");
+const back = txt.c.back;
 
 const queryParams = () => {
   const qs = [
     {
       name: "type",
       type: "list",
-      message: "Selecciona una opción: ",
+      message: txt.c.select,
       choices: [
-        "Ver/Editar clases",
-        "Crear clases",
-        "Configurar variables",
-        "Configurar animaciones",
-        "Configurar media queries",
-        "Actualizar .css schema",
-        "Crear archivo .css en tu proyecto",
+        txt.query.choices.view,
+        txt.query.choices.classes,
+        txt.query.choices.setvar,
+        txt.query.choices.setanim,
+        txt.query.choices.setmq,
+        txt.query.choices.setTp,
+        txt.query.choices.createCss,       
         back,
       ],
     },
@@ -41,28 +42,28 @@ const queryParams = () => {
 
 const setOptions = (data) => {
   switch (data.type) {
-    case "Configurar variables":
+    case txt.query.choices.setvar:
       setVariables.setVariables();
       break;
-    case "Crear clases":
+    case txt.query.choices.classes:
       createClasses.createClasses();
       break;
-    case "Ver/Editar clases":
+    case txt.query.choices.view:
       const readClasses = requireUncached(readClassesPath);
       readClasses.readClasses();
       break;
-    case "Actualizar .css schema":
+    case txt.query.choices.setTp:
       const updateCssSchema = requireUncached(updateCssSchemaPath);
       updateCssSchema.updateCssSchema();
       break;
-    case "Crear archivo .css en tu proyecto":
+    case txt.query.choices.createCss:
       const createCSS = requireUncached(createCSSPath);
       createCSS.createCSS();
       break;
-    case "Configurar media queries":
+    case txt.query.choices.setmq:
       createMediaQ.createMediaQ();
       break;
-    case "Configurar animaciones":
+    case txt.query.choices.setanim:
       require("./animations.js");
       break;
     case back:
@@ -76,7 +77,5 @@ const setOptions = (data) => {
 const configStyles = async () => {
   setOptions(await queryParams());
 };
-
-// module.exports.configStyles = configStyles;
 
 module.exports = { configStyles };

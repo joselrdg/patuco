@@ -4,23 +4,16 @@ const fs = require("fs");
 const config = require("../config.js");
 const pathUser = require("../constants/patucoConfig.js").path.userTemplate;
 const setClasses = require("./setClasses");
+const txt = require("./translations/createClasses.js");
 
-const back = chalk.bold.italic.magentaBright("Volver");
-const msmEnd = chalk.bold.italic.green("Salir");
 const continueCreate = (name) =>
-  chalk.bold.italic.magentaBright(`Añadir más estilos al proyecto ${name}`);
-const endCreate = chalk.bold.italic.magentaBright(
-  "Terminar el proyecto por ahora"
-);
+  chalk.bold.italic.magentaBright(`${txt.query.addmstyles} ${name}`);
+const endCreate = chalk.bold.italic.magentaBright(txt.query.finisproj);
+
+const back = txt.c.back;
 
 const queryParams = (type, msm) => {
   const message = {
-    init: {
-      name: "type",
-      type: "list",
-      message: "Selecciona: ",
-      choices: ["Añadir clase", back],
-    },
     input: {
       name: "type",
       type: "input",
@@ -29,7 +22,7 @@ const queryParams = (type, msm) => {
     addProp: {
       name: "type",
       type: "list",
-      message: "Selecciona: ",
+      message: txt.c.select,
       choices: msm,
     },
   };
@@ -52,82 +45,62 @@ const writeData = async (data, oldDataProyect) => {
       break;
   }
 };
-
 const initData = async (queryInit, oldDataProyect) => {
   let endProp = false;
   let cont = -1;
   const data = {};
-  // const add = await queryParams("addProp", [
-  //   "Añadir clases patuco",
-  //   "Añadir CSS puro",
-  //   back,
-  // ]);
   if (queryInit === back) {
     createClasses();
-  } else if (queryInit === "Añadir CSS puro") {
-    const templateName = await queryParams(
-      "input",
-      "Introduce un nombre para identificarlo:"
-    );
+  } else if (queryInit === txt.query.addCSS) {
+    const templateName = await queryParams("input", txt.query.inname);
     if (templateName.type !== "") {
       data.name = templateName.type;
-      const template = await queryParams("input", "Introduce CSS: ");
+      const template = await queryParams("input", txt.query.incss);
       if (template.type !== "") {
         data.template = template.type;
         writeData(data, oldDataProyect);
       } else {
-        console.log(chalk.red.italic("\nTienes que introducir un valor\n"));
+        console.log(txt.c.haveadd);
         createClasses();
       }
     } else {
-      console.log(chalk.red.italic("\nTienes que introducir un valor\n"));
+      console.log(txt.c.haveadd);
       createClasses();
     }
-  } else if (queryInit === "Añadir clases patuco") {
+  } else if (queryInit === txt.query.addclass) {
     data.items = [];
-    const name = await queryParams(
-      "input",
-      "Introduce el nombre de la clase.\nEl nombre tiene que comenzar por '_'.\nSi el primer caracter no es '_' se añadira automaticamente."
-    );
+    const name = await queryParams("input", txt.query.incssms);
     if (name.type === "") {
-      console.log(chalk.red.italic("\nTienes que introducir un valor\n"));
+      console.log(txt.c.haveadd);
       createClasses();
     } else {
       if (name.type[0] !== "_") {
         name.type = "_" + name.type;
       }
-      const children = await queryParams(
-        "input",
-        "Introduce los hijos sobre los que tendra efecto la clase.Por ejemplo: 'h1' 'div > span'.\n Si no lo necesitas dejalo en blanco"
-      );
+      const children = await queryParams("input", txt.query.inchild);
       const pseudoClass = await queryParams(
         "input",
-        "Introduce pseudo-clase. Por ejemplo: 'hover'.\n Si no lo necesitas dejalo en blanco"
+        txt.query.inpsudo
       );
       while (!endProp) {
         const addProp = await queryParams("addProp", [
-          "Añadir propiedad CSS a la clase",
-          "Continuar",
+          txt.query.entercss,
+          txt.c.continue,
         ]);
-        if (addProp.type === "Continuar") {
+        if (addProp.type === txt.c.continue) {
           if (data.items.length === 0) {
             console.log(
               chalk.red.italic(
-                "\nTienes que introducir al menos una propiedad.\n"
+                txt.query.iaddprop
               )
             );
           } else {
             endProp = true;
           }
         } else {
-          const items = await queryParams(
-            "input",
-            "Introduce una propiedad css y su valor. Por ejemplo: 'display: none'."
-          );
+          const items = await queryParams("input", txt.query.entercss);
           if (items.type === "") {
-            console.log(
-              chalk.red.italic("\nTienes que introducir un valor.\n")
-            );
+            console.log(txt.c.haveadd);
           } else {
             data.items.push(items.type);
           }
@@ -137,10 +110,10 @@ const initData = async (queryInit, oldDataProyect) => {
       endProp = false;
       while (!endProp) {
         const addPsudoClass = await queryParams("addProp", [
-          "Añadir psudo-elemento",
-          "Continuar",
+          txt.query.addpsudo,
+          txt.c.continue,
         ]);
-        if (addPsudoClass.type === "Continuar") {
+        if (addPsudoClass.type === txt.c.continue) {
           endProp = true;
         } else {
           if (!data.pseudoElement) {
@@ -150,21 +123,19 @@ const initData = async (queryInit, oldDataProyect) => {
           let end = true;
           const pseudoElement = await queryParams(
             "input",
-            "Introduce pseudo-elemento. Por ejemplo: 'after' 'first-line'."
+            txt.query.addpsudoms
           );
           if (pseudoElement.type !== "") {
             data.pseudoElement[cont] = { type: pseudoElement.type, items: [] };
             while (end) {
               const endQuery = await queryParams("addProp", [
-                "Añadir propiedad",
-                "Continuar",
+                txt.query.addprop,
+                txt.c.continue,
               ]);
-              if (endQuery.type === "Continuar") {
+              if (endQuery.type === txt.c.continue) {
                 if (data.pseudoElement[cont].items.length === 0) {
                   console.log(
-                    chalk.red.italic(
-                      "\nTienes que introducir al menos una propiedad.\n"
-                    )
+                    chalk.red.italic(txt.query.iaddprop)
                   );
                 } else {
                   end = false;
@@ -172,12 +143,10 @@ const initData = async (queryInit, oldDataProyect) => {
               } else {
                 const pseudoElementProp = await queryParams(
                   "input",
-                  "Introduce una propiedad css y su valor. Por ejemplo: 'display: none'."
+                  txt.query.entercss
                 );
                 if (pseudoElementProp.type === "") {
-                  console.log(
-                    chalk.red.italic("\nTienes que introducir un valor\n")
-                  );
+                  console.log(txt.c.haveadd);
                 } else {
                   data.pseudoElement[cont].items.push(pseudoElementProp.type);
                 }
@@ -185,7 +154,7 @@ const initData = async (queryInit, oldDataProyect) => {
             }
           } else {
             cont--;
-            console.log(chalk.red.italic("\nTienes que introducir un valor\n"));
+            console.log(txt.c.haveadd);
           }
         }
       }
@@ -206,10 +175,9 @@ const initData = async (queryInit, oldDataProyect) => {
 const createClasses = async (oldDataProyect = false) => {
   const exists = fs.existsSync(pathUser);
   if (pathUser && exists) {
-    // const queryInit = await queryParams("init");
     const queryInit = await queryParams("addProp", [
-      "Añadir clases patuco",
-      "Añadir CSS puro",
+      txt.query.addclass,
+      txt.query.addCSS,
       back,
     ]);
     if (queryInit.type !== back) {
@@ -219,18 +187,10 @@ const createClasses = async (oldDataProyect = false) => {
       configStyles.configStyles();
     }
   } else if (pathUser && !exists) {
-    console.log(
-      chalk.bold.italic.red(
-        "\nNo se encotro el direcctorio el el path guardado.\nConfigura el path de tus plantillas\n"
-      )
-    );
+    console.log(chalk.bold.italic.red(txt.query.pathdir));
     config.config();
   } else {
-    console.log(
-      chalk.bold.italic.red(
-        "\nNo se encotro ruta almacenada.\nConfigura la ruta a tus plantillas\n"
-      )
-    );
+    console.log(chalk.bold.italic.red(txt.c.ipath));
     config.config();
   }
   // const direcPath = await queryParams("typeClass");

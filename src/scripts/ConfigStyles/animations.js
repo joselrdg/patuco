@@ -20,7 +20,6 @@ const queryParams = (type, choices = []) => {
 };
 
 const animations = (async () => {
-  console.log("animations");
   const direcPath = await queryParams("typeClass");
 })();
 

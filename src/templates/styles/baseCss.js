@@ -9,7 +9,6 @@ const isPath = fs.existsSync(
 );
 
 const root = require("./root.js");
-const variables = require("./variables.js");
 const grid = require("./grid.js");
 const background = require("./background.js");
 const border = require("./border.js");
@@ -25,6 +24,8 @@ const padding = require("./padding.js");
 const position = require("./position.js");
 const size = require("./size.js");
 const transform = require("./transform.js");
+const transitions = require("./transitions");
+const animations = require("./animations");
 
 const stylesUser = require(pathUser && isPath
   ? `${pathUser}/classes/base.js`
@@ -59,6 +60,8 @@ const baseCss = {
   position,
   size,
   transform,
+  transitions,
+  animations,
 };
 
 module.exports = baseCss;

@@ -3,32 +3,21 @@ const chalk = require("chalk");
 
 const baseCss = require("../../templates/styles/baseCss.js");
 
-// const baseCssPath = require("../constants/patucoConfig.js").path.baseCss
+const txt = require("./translations/readClasses.js");
+console.log(txt);
 
-// // const baseCssPath = `${patucoModulePath}/src/templates/styles/baseCss.js`;
-// const requireUncached = require("../requireUncached.js");
-
-// // const baseCss = requireUncached(baseCssPath);
-
-console.log('read_classes')
-  
 const groupKeys = Object.keys(baseCss);
 
-
-const back = chalk.bold.italic.magentaBright("Volver");
+const back = txt.c.back;
 
 const queryParams = (type, choices = []) => {
-
   const message = {
     typeClass: {
       name: "type",
       type: "list",
-      message:
-        "Selecciona un conjunto de clases o busca por nombre de clase o propiedad: ",
+      message: txt.query.select,
       choices: [
-        chalk.bold.italic.bgBlackBright(
-          "Buscar por nombre de clase o propiedad"
-        ),
+        chalk.bold.italic.bgBlackBright(txt.query.search),
         ...groupKeys.filter((i) => i !== "root"),
         back,
       ],
@@ -36,23 +25,18 @@ const queryParams = (type, choices = []) => {
     search: {
       name: "type",
       type: "input",
-      message:
-        "Escribe caracteres que puedan estar contenidos en el nombre de una clase, una propiedad o el valor de una propiedad. Si no intruduces un valor se imprimiran todas las clase: ",
+      message: txt.query.isearch,
     },
     options: {
       name: "type",
       type: "list",
-      message: "Selecciona: ",
-      choices: [
-        "Ver todas las clases",
-        "Buscar por nombre",
-        "Buscar por propiedad",
-      ],
+      message: txt.c.select,
+      choices: [txt.query.see, txt.query.seaname, txt.query.seaprop],
     },
     select: {
       name: "type",
       type: "list",
-      message: "Selecciona: ",
+      message: txt.c.select,
       choices: choices.filter((e) => e !== undefined),
     },
   };
@@ -75,7 +59,7 @@ const readGroup = async (typeClass) => {
     const items = typeClass[i].items;
     const name = typeClass[i].name;
     name &&
-      console.log(`\n- Nombre: ${chalk.blue.bold(name)}
+      console.log(`\n- ${txt.c.name}: ${chalk.blue.bold(name)}
 ${readStyles(items)}\n`);
   }
 };
@@ -135,10 +119,10 @@ const readFilter = async (arr, type, filter) => {
 
 const options = async (typeClass, option) => {
   switch (option) {
-    case "Ver todas las clases":
+    case txt.query.see:
       await readGroup(baseCss[typeClass]);
       break;
-    case "Buscar por nombre":
+    case txt.query.seaname:
       const name = await queryParams(
         "select",
         selectQuery(baseCss[typeClass], "name")
@@ -146,7 +130,7 @@ const options = async (typeClass, option) => {
       const dataN = await readFilter(baseCss[typeClass], "name", name.type);
       await readGroup(dataN);
       break;
-    case "Buscar por propiedad":
+    case txt.query.seaprop:
       const classItems = await queryParams(
         "select",
         selectQuery(baseCss[typeClass], "items")
@@ -157,23 +141,16 @@ const options = async (typeClass, option) => {
         classItems.type
       );
       await readGroup(dataP);
-      // await selectQuery(baseCss[typeClass], "items");
       break;
     default:
       break;
   }
-  // await readGroup(typeClass);
   readClasses();
 };
 
 const readClasses = async () => {
- 
-
   const typeClass = await queryParams("typeClass");
-  if (
-    typeClass.type ===
-    chalk.bold.italic.bgBlackBright("Buscar por nombre de clase o propiedad")
-  ) {
+  if (typeClass.type === chalk.bold.italic.bgBlackBright(txt.query.search)) {
     const search = await queryParams("search");
     await searchClass(search.type, baseCss);
     readClasses();

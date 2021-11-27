@@ -19,22 +19,16 @@ const mediaQueriesArr = require(fs.existsSync(
 const querysUsed = [];
 const groupQureryStr = [];
 
-// const baseCssPath = require("../constants/patucoConfig.js").path.baseCss;
-
-// // const baseCssPath = `${patucoModulePath}/src/templates/styles/baseCss.js`;
-// const requireUncached = require("../requireUncached.js");
-
-// const baseCss = requireUncached(baseCssPath);
-
-const back = chalk.bold.italic.magentaBright("Volver");
+const txt = require("./translations/updateCssSchema.js");
+const back = txt.c.back;
 
 const queryParams = (item) => {
   const message = {
     option: {
       name: "type",
       type: "list",
-      message: "Quiere actualizar .css schema?: ",
-      choices: ["Actualizar", back],
+      message: txt.query.upgrade,
+      choices: [txt.c.update, back],
     },
     // pathConfig: {
     //   name: "type",
@@ -46,11 +40,10 @@ const queryParams = (item) => {
     pathConfig: {
       name: "type",
       type: "list",
-      message:
-        "Quieres actualizar el archivo patucoSchema.css en tu proyecto o el modulo patucostrap: ",
+      message: txt.query.updateon,
       choices: [
-        `Actualizar en ${pathBase}`,
-        "Actualizar el modulo patucostrap",
+        `${txt.query.updateonpath} ${pathBase}`,
+        txt.query.updateonmodule,
       ],
     },
   };
@@ -104,7 +97,7 @@ const prepareClassesQueryStr = async (query, classStr) => {
         groupQureryStr[isQuerySaved].str =
           groupQureryStr[isQuerySaved].str + classStr;
       } else {
-        console.log(chalk.bold.yellow(`\nMedia query usada: ${query}\n`));
+        console.log(chalk.bold.yellow(`\nMedia query: ${query}\n`));
         querysUsed.push(element.name);
         groupQureryStr.push({
           name: element.name,
@@ -171,23 +164,19 @@ const updateSchema = async (path) => {
     updateCssSchema();
   } finally {
     console.log(`
- ------ CREADO CORRECTAMENTE ------\n
- Se ha creado el siguiente elemento\n
- - Archivo: ${chalk.blue.bold("patucoSchema.css")}\n
- - Ruta: ${chalk.blue.bold(path)}\n
+ ${txt.c.createdOk}\n
+ ${txt.c.created}\n
+ - ${txt.c.file}: ${chalk.blue.bold("patucoSchema.css")}\n
+ - ${txt.c.path}: ${chalk.blue.bold(path)}\n
  ----------------------------------\n`);
   }
   updateCssSchema();
 };
 
 const filterSelect = async () => {
-  console.log(
-    chalk.red.italic(
-      "Existe el archivo /patuco/style/patucoSchema.css en tu proyecto..."
-    )
-  );
+  console.log(chalk.red.italic(txt.query.exists));
   const dat = await queryParams("pathConfig");
-  dat.type !== "Actualizar el modulo patucostrap"
+  dat.type !== txt.query.updateonmodule
     ? updateSchema(pathSchemaUser)
     : updateSchema(pathStyleCfg);
 };
@@ -202,9 +191,9 @@ const createDirUser = async () => {
 
 const updateCssSchema = async () => {
   const option = await queryParams("option");
-  if (option.type === "Actualizar") {
+  if (option.type === txt.c.update) {
     const pathConfig = await queryParams("pathConfig");
-    if (pathConfig.type !== "Actualizar el modulo patucostrap") {
+    if (pathConfig.type !== txt.query.updateonmodule) {
       // const newSavePr = fs.existsSync(pathSchemaUser) ? false : true;
       // newSavePr ? createDirUser() : await updateSchema(pathSchemaUser);
       !fs.existsSync(`${pathBase}/patuco`) &&

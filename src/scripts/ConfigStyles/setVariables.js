@@ -9,9 +9,10 @@ const variables = require(fs.existsSync(pathVariables)
   ? pathVariables
   : "../../templates/styles/variables.js");
 
-const back = chalk.bold.italic.bgBlackBright("Volver");
-
 const savedPaths = require("../constants/patucoConfig.js").path;
+
+const txt = require("./translations/setVariables.js");
+const back = txt.c.back;
 
 // preguntar si quires guardar en templates para futuros proyectos. split patbase y preguntar su quiere guardar con el nombre del
 // del ultimo array o introducir nombre
@@ -24,48 +25,48 @@ const queryParams = (type, value = []) => {
     variables: {
       name: "type",
       type: "list",
-      message: "Selecciona variable: ",
+      message: txt.query.selectv,
       choices: Object.keys(variables),
     },
     task: {
       name: "type",
       type: "list",
-      message: "Selecciona opción: ",
-      choices: ["Editar variables", "Set variables", back],
+      message: txt.c.select,
+      choices: [txt.query.edit, txt.query.set, back],
     },
     optionsFonts: {
       name: "type",
       type: "list",
-      message: "Selecciona: ",
-      choices: ["Añadir fuente", "Borrar fuente"],
+      message: txt.c.select,
+      choices: [txt.query.addfont, txt.query.deletefont],
     },
     add: {
       name: "type",
       type: "input",
-      message: `Inserta un valor para ${value}: `,
+      message: `${txt.query.ivalue} ${value}: `,
     },
     addFont: {
       name: "type",
       type: "input",
-      message: "Inserta url: ",
+      message: txt.query.ipath,
     },
     deleteFont: {
       name: "type",
       type: "list",
-      message: "Selecciona la fuente que sera eliminada: ",
+      message: txt.query.sdeletefont,
       choices: upgrade.fonts,
     },
-    dir: {
-      name: "type",
-      type: "list",
-      message: "Donde buscar el directorio patucostrap: ",
-      choices: [
-        "node_modules",
-        "/home/.nvm/versions/node",
-        "/home",
-        "Añadir ruta",
-      ],
-    },
+    // dir: {
+    //   name: "type",
+    //   type: "list",
+    //   message: "Donde buscar el directorio patucostrap: ",
+    //   choices: [
+    //     "node_modules",
+    //     "/home/.nvm/versions/node",
+    //     "/home",
+    //     "Añadir ruta",
+    //   ],
+    // },
   };
   const qs = [message[type]];
   return inquirer.prompt(qs);
@@ -75,11 +76,11 @@ const edit = async (key) => {
   if (key === "fonts") {
     const options = await queryParams("optionsFonts");
     switch (options.type) {
-      case "Añadir fuente":
+      case txt.query.addfont:
         const url = await queryParams("addFont");
         upgrade.fonts.push(`@import url('${url.type}')`);
         break;
-      case "Borrar fuente":
+      case txt.query.deletefont:
         const font = await queryParams("deleteFont");
         upgrade.fonts = upgrade.fonts.filter((item) => item !== font.type);
         break;
@@ -96,7 +97,7 @@ const prepareFontVariablesStr = () => {
   let fontVariablesStr = "";
   for (const key in upgrade) {
     fontVariablesStr =
-    fontVariablesStr +
+      fontVariablesStr +
       `   "${key}": ${
         key === "fonts"
           ? `[\n"${upgrade[key].join('",\n"')}"\n]`
@@ -123,14 +124,12 @@ module.exports = variables;
   } catch (err) {
     console.error(err);
   } finally {
-    //mirar sii es naecaria esta actualizacion
-    // requireUncached(`${savedPaths.patucoModule}/src/templates/styles/root.js`);
     requireUncached(savedPaths.baseCss);
     console.log(`
-  ------ CREADO CORRECTAMENTE ------\n
-  Se ha creado el siguiente elemento\n
-  - Tipo: ${chalk.blue.bold("variables.js")}\n
-  - Ruta: ${chalk.blue.bold(pathVariables)}\n
+  ${txt.c.createdOk}\n
+  ${txt.c.created}\n
+  - ${txt.c.file}: ${chalk.blue.bold("variables.js")}\n
+  - ${txt.c.path}: ${chalk.blue.bold(pathVariables)}\n
   ----------------------------------\n`);
   }
 };
@@ -138,11 +137,11 @@ module.exports = variables;
 const init = async () => {
   const task = await queryParams("task");
   switch (task.type) {
-    case "Editar variables":
+    case txt.query.edit:
       const key = await queryParams("variables");
       await edit(key.type);
       break;
-    case "Set variables":
+    case txt.query.set:
       await loadVariables();
       break;
     case back:

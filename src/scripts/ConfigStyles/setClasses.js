@@ -9,9 +9,8 @@ const userTemplatesPath = require("../constants/patucoConfig.js").path
 
 const templatesBaseJsPath = `${userTemplatesPath}/classes/base.js`;
 
-const msmCreateProject = chalk.bold.italic.bgBlackBright(
-  "Crear un nuevo proyecto"
-);
+const txt = require("./translations/setClasses.js");
+const msmCreateProject = chalk.bold.italic.bgBlackBright(txt.query.create);
 
 const queryParams = (type, msm, choices) => {
   const message = {
@@ -32,7 +31,10 @@ const queryParams = (type, msm, choices) => {
 };
 
 const checkPath = async (path) => {
+  console.log(chalk.bold.yellow(path));
   const exists = fs.existsSync(path);
+  console.log(chalk.bold.yellow(exists));
+
   if (exists) {
     const classesPath = `${path}/classes`;
     if (!fs.existsSync(classesPath)) {
@@ -58,29 +60,20 @@ const groupName = async (userSavedClasses) => {
   while (condition) {
     const projectKeyQuery = await queryParams(
       "addProp",
-      "Selecciona o crea un proyecto: ",
+      txt.query.select,
       projectsKeys
     );
     nameProject = projectKeyQuery.type;
     if (nameProject === msmCreateProject) {
-      const nameQuery = await queryParams(
-        "input",
-        "Introduce el nombre del projecto/grupo de clases: "
-      );
+      const nameQuery = await queryParams("input", txt.query.collection);
       nameProject = nameQuery.type;
       if (nameProject === "") {
-        console.log(chalk.red.italic("\nEs necesario introducir un nombre\n"));
+        console.log(chalk.red.italic(txt.query.inname));
       } else if (/[ 0-9$&+,:;=?@#|'<>.^*()%!-]/.test(nameProject)) {
-        console.log(
-          chalk.red.italic(
-            "\nNo se pueden utilizar números ni caracteres especiales. Javascript no lo permite en las importaciones.\n"
-          )
-        );
+        console.log(chalk.red.italic(txt.query.inum));
       } else {
         if (projectsKeys.some((e) => e === nameProject)) {
-          console.log(
-            chalk.red.italic("\nYa existe un proyecto con ese nombre\n")
-          );
+          console.log(chalk.red.italic(txt.query.iexists));
         } else {
           newProject = true;
           condition = false;
@@ -159,14 +152,12 @@ const writeDataBase = async (userSavedClasses, optProject, path, file) => {
     console.error(err);
   } finally {
     console.log(`
-Se han creado/actualizado los siguientes elementos\n
-- Archivo: ${chalk.blue.bold("base.js")}\n
-- Ruta: ${chalk.blue.green(baseJsPath)}\n
-- Archivo: ${chalk.blue.bold(`${nameProject}.js`)}\n
-- Ruta: ${chalk.blue.green(`${path}/${nameProject}.js`)}\n
-${chalk.blue.cyan(
-  `Puedes seguir añadiendo stilos al proyecto ${nameProject}`
-)}\n`);
+${txt.c.updated}\n
+- ${txt.c.file}: ${chalk.blue.bold("base.js")}\n
+- ${txt.c.path}: ${chalk.blue.green(baseJsPath)}\n
+- ${txt.c.file}: ${chalk.blue.bold(`${nameProject}.js`)}\n
+- ${txt.c.path}: ${chalk.blue.green(`${path}/${nameProject}.js`)}\n
+${chalk.blue.cyan(`${txt.query.iadd} ${nameProject}`)}\n`);
 
     requireUncached(templatesBaseJsPath);
 
@@ -176,18 +167,27 @@ ${chalk.blue.cyan(
 
 const setClasses = async (data, oldDataProyect) => {
   const path = await checkPath(userTemplatesPath);
+
   if (!path) {
-    console.log(
-      chalk.bold.italic.red(
-        "\nNo se encotro ruta almacenada.\nConfigura correctamente la ruta a tus plantillas\n"
-      )
-    );
+    console.log(chalk.bold.italic.red(txt.c.ipath));
     config.config();
   } else {
-    const userSavedClasses = requireUncached(templatesBaseJsPath);
-    const optProject = oldDataProyect ? oldDataProyect : await groupName(userSavedClasses);
+    console.log(fs.existsSync(templatesBaseJsPath));
+    const userSavedClasses = fs.existsSync(templatesBaseJsPath)
+      ? requireUncached(templatesBaseJsPath)
+      : [];
+    console.log(chalk.bold.yellow(userSavedClasses));
+
+    const optProject = oldDataProyect
+      ? oldDataProyect
+      : await groupName(userSavedClasses);
     const file = await prepareDataClass(userSavedClasses, optProject, data);
-    const infoProyect = await writeDataBase(userSavedClasses, optProject, path, file);
+    const infoProyect = await writeDataBase(
+      userSavedClasses,
+      optProject,
+      path,
+      file
+    );
     return infoProyect;
   }
 };

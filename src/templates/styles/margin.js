@@ -11,8 +11,6 @@ const margin = [
     name: "_f_r",
     items: ["float: right"],
   },
-
-  
   {
     name: "_m_0",
     items: ["margin: 0"],
@@ -258,6 +256,10 @@ const margin = [
     items: ["margin-top: 5rem", "margin-bottom: 5rem"],
   },
   {
+    name: "_mx_a",
+    items: ["margin: 0 auto"],
+  },
+  {
     name: "_mx_1s",
     items: ["margin-left: 0.2rem", "margin-right: 0.2rem"],
   },
@@ -301,10 +303,10 @@ const margin = [
     name: "_mx_5",
     items: ["margin-left: 5rem", "margin-right: 5rem"],
   },
-  {
-    name: "_mx_a",
-    items: ["margin-right: auto", "margin-left: auto"],
-  },
+  // {
+  //   name: "_mx_a",
+  //   items: ["margin-right: auto", "margin-left: auto"],
+  // },
 ];
 
 module.exports = margin;

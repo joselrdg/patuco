@@ -198,7 +198,6 @@ const createDirFilter = async (dirFilter) => {
 
 const findPath = async () => {
   const path = await queryParams("patucoPath");
-  console.log(path.type);
   if (!fs.existsSync(path.type) && path.type !== "") {
     console.error(chalk.red.bold("La ruta introducida no existe."));
     return configPaths();

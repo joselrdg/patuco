@@ -56,28 +56,28 @@ const createFile = (data) => {
 };
 
 const start = async () => {
-  const a = `\n                 +               *
-   *                    ___ _               +
-                       |x  | |          
-           +           /x  | |     
-                      /x  __)_)       +
-  *               __./x /| / /
-                 (_____/ |/|/                  *
-
-        +                         *
-  `;
-  const b = `                     +
-  +                                         *
-              *              
-                                +\n`;
+  const a = `\n                         +               *
+           *                    ___ _               +
+                               |x  | |          
+                   +           /x  | |     
+                              /x  __)_)       +
+          *               __./x /| / /
+                         (_____/ |/|/                  *
+        
+                +                         *
+          `;
+  const b = `                     +                 *
+            +                                         *
+                        *              
+                                          +\n`;
 
   console.log(chalk.bold.cyan(b));
   msn(`\n\n
-'patuco'`);
+'shoehorn'`);
   console.log(chalk.bold.cyan(a));
 
   msn(`\n\n
-' style'`);
+'  patuco'`);
   console.log(chalk.bold.cyan(b));
 
   if (

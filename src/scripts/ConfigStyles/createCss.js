@@ -19,6 +19,8 @@ const variables = require(fs.existsSync(variablesUser)
   ? variablesUser
   : "../../templates/styles/variables.js");
 
+const txt = require("./translations/createCss.js");
+
 const variablesUsed = [];
 let rootStr = "\n\n:root {\n";
 
@@ -26,9 +28,7 @@ let rootStr = "\n\n:root {\n";
 const querysUsed = [];
 const groupQureryStr = [];
 
-
 function filewalker(dir, type, myFilter) {
-  console.log(dir)
   return new Promise((resolve) => {
     const data = [];
     readdirp(dir, {
@@ -51,43 +51,38 @@ function filewalker(dir, type, myFilter) {
 }
 
 const queryParams = (type, choices = [], messageSave = false) => {
-  const messageStr = messageSave
-    ? "Selecciona el directorio donde se guardara el archivo css optimizado para tu proyecto: "
-    : "Selecciona un directorio para analizarlo: ";
+  const messageStr = messageSave ? txt.query.selectdir : txt.query.selctdirr;
   const message = {
     direcctories: {
       name: "type",
       type: "list",
       message: messageStr,
-      choices: ['/',...choices.map((d) => d.path)],
+      choices: ["/", ...choices.map((d) => d.path)],
     },
     typeFile: {
       name: "file",
       type: "input",
-      message:
-        "Escribe las extensiones de los archivos separadas por ','.\nSi no escribes nada se analizaran todos los archivos: ",
+      message: txt.query.iext,
     },
-    typeClass: {
-      name: "type",
-      type: "list",
-      message: "Selecciona el directorio a analizar: ",
-      choices: ["class", "className"],
-    },
+    // typeClass: {
+    //   name: "type",
+    //   type: "list",
+    //   message: "Selecciona el directorio a analizar: ",
+    //   choices: ["class", "className"],
+    // },
     upgrade: {
       name: "type",
       type: "list",
-      message: "Actualizar el archivo .css en tu proyecto?: ",
-      choices: ["Actualizar", "Cancelar"],
+      message: txt.query.iupdate,
+      choices: [txt.c.update, txt.c.back],
     },
     deleteSchema: {
       name: "type",
       type: "list",
-      message: `Eliminar el archivo ${chalk.red.bold(
-        "patucoSchema.css"
-      )} de tu proyecto?\nEl archivo ${chalk.green.bold(
-        "variables.js"
-      )} se mantendra para futuras modificaciones: `,
-      choices: ["Eliminar", "Continuar sin borrar"],
+      message: `${txt.query.ideleteone} ${chalk.red.bold("patucoSchema.css")} ${
+        txt.query.ideletetwo
+      } ${chalk.green.bold("variables.js")} ${txt.query.ideletethree}`,
+      choices: [txt.query.sdelete, txt.query.scontinue],
     },
   };
   const qs = [message[type]];
@@ -99,7 +94,7 @@ const searchVariables = async (styleElement) => {
   for (const nameVariable in variables) {
     const regex = new RegExp(nameVariable, "g");
     if (regex.test(styleElement)) {
-      console.log(`\nEncontrada la variable ${chalk.yellow(nameVariable)}`);
+      console.log(`\n${txt.query.ivariable} ${chalk.yellow(nameVariable)}`);
       variablesUsed.push(nameVariable);
       rootStr =
         rootStr + `  --${nameVariable}: "${variables[nameVariable]}";\n`;
@@ -117,7 +112,6 @@ const prepareStylesStr = async (classStyles) => {
   return stylesStr;
 };
 
-console.log(variables)
 const fonts = async () => {
   let fontsStr = "";
   variables.fonts.forEach((element) => {
@@ -134,7 +128,7 @@ const prepareClassesQueryStr = async (query, classStr) => {
         groupQureryStr[isQuerySaved].str =
           groupQureryStr[isQuerySaved].str + classStr;
       } else {
-        console.log(chalk.bold.yellow(`\nMedia query usada: ${query}\n`));
+        console.log(chalk.bold.yellow(`\n${txt.query.imq} ${query}\n`));
         querysUsed.push(element.name);
         groupQureryStr.push({
           name: element.name,
@@ -231,16 +225,16 @@ const updateSchema = async (savedClasses, path) => {
     console.error(err);
   } finally {
     console.log(`
-    ${chalk.green.bold("------ CREADO CORRECTAMENTE ------")}\n
- Se ha creado el siguiente elemento\n
- - Archivo: ${chalk.blue.bold("patuco.css")}\n
- - Ruta: ${chalk.blue.bold(pathSchema)}\n
+    ${txt.c.createdOk}\n
+${txt.c.created}\n
+ - ${txt.c.file}: ${chalk.blue.bold("patuco.css")}\n
+ - ${txt.c.path}: ${chalk.blue.bold(pathSchema)}\n
  ----------------------------------\n`);
   }
 };
 
 const analyzeRoute = async (route) => {
-  const path = route.type === '/' ? pathBase : route.type
+  const path = route.type === "/" ? pathBase : route.type;
   const typeFile = await queryParams("typeFile");
   let filter = undefined;
   if (typeFile.file !== "") {
@@ -278,10 +272,10 @@ const createFile = async (savedClasses, direcSavePath) => {
   const path = `${pathBase}/${direcSavePath}/patucoStyles`;
   const option = await queryParams("upgrade");
   switch (option.type) {
-    case "Actualizar":
+    case txt.c.update:
       await updateSchema(savedClasses, path);
       break;
-    case "Cancelar":
+    case txt.c.back:
       break;
     default:
       break;
@@ -310,10 +304,8 @@ const openFiles = async (direcPath, filePath) => {
       await readStyles(file, savedClasses, counterTotal, counterEnd, baseCss);
     }
   }
-  console.log(`- Total clases encontradas: ${chalk.red.bold(
-    counterTotal.length
-  )}
-- Total sin repetir: ${chalk.green.bold(counterEnd.length)}`);
+  console.log(`- ${txt.query.total} ${chalk.red.bold(counterTotal.length)}
+- ${txt.query.rest} ${chalk.green.bold(counterEnd.length)}`);
   return savedClasses;
 };
 
@@ -321,26 +313,24 @@ const deleteCssSchema = async () => {
   const path = `${pathBase}/patuco/style/patucoSchema.css`;
   if (fs.existsSync(path)) {
     console.log(
-      `Existe el archivo ${pathBase}/patuco/style/${chalk.red.bold(
+      `${txt.query.exists} ${pathBase}/patuco/style/${chalk.red.bold(
         "patucoSchema.css."
       )}`
     );
     const options = await queryParams("deleteSchema");
-    if (options.type === "Eliminar") {
+    if (options.type === txt.query.sdelete) {
       fs.unlinkSync(path);
-      console.log(chalk.green.bold("\nArchivo borrado"));
+      console.log(chalk.green.bold(txt.query.deletedfile));
     }
   }
   console.log(
-    `No olvides importar el nuevo archivo ${chalk.green.bold(
-      "patucoStyles/patuco.css"
-    )}\n`
+    `${txt.query.forget} ${chalk.green.bold("patucoStyles/patuco.css")}\n`
   );
 };
 
 const createCSS = async () => {
   const upgrade = await queryParams("upgrade");
-  if (upgrade.type === "Actualizar") {
+  if (upgrade.type === txt.c.update) {
     const direcctories = await filewalker(".", "directories");
     const direcPath = await queryParams("direcctories", direcctories);
     const filePath = await analyzeRoute(direcPath);
