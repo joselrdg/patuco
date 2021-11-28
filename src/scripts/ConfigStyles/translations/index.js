@@ -1,4 +1,4 @@
-const language = require("../../constants/patucoConfig.js");
+const language = require("../../constants/patucoConfig.js").language;
 const common = require("./common.js");
 const index = {
   en: {
@@ -12,7 +12,6 @@ const index = {
         setmq: "Set media queries",
         setTp: "Configure .css template",
         createCss: "Create .css file in your project",
-
       },
     },
   },
@@ -32,4 +31,4 @@ const index = {
   },
 };
 
-module.exports = index[language.language];
+module.exports = index[language];

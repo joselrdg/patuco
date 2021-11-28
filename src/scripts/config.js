@@ -6,6 +6,7 @@ const pathBase = `${process.cwd()}/patuco/patucoSchema.css`;
 const start = require("../index");
 const patucoConfig = require("./constants/patucoConfig.js");
 
+const txt = require("./translations/config.js");
 const back = chalk.bold.italic.magentaBright("Volver");
 
 function filewalker(
@@ -40,72 +41,64 @@ function filewalker(
 
 const queryParams = (type, choices = []) => {
   const message = {
-    dat: {
-      name: "type",
-      type: "list",
-      message:
-        "Quieres actualizar el archivo patucoSchema.css en tu proyecto o el modulo patucostrap: ",
-      choices: [
-        `Actualizar en ${pathBase}`,
-        "Actualizar el modulo patucostrap",
-      ],
-    },
+    // dat: {
+    //   name: "type",
+    //   type: "list",
+    //   message:
+    //     "Quieres actualizar el archivo patucoSchema.css en tu proyecto o el modulo patucostrap: ",
+    //   choices: [
+    //     `Actualizar en ${pathBase}`,
+    //     "Actualizar el modulo patucostrap",
+    //   ],
+    // },
     pathOk: {
       name: "type",
       type: "list",
-      message: "Selecciona ruta: ",
+      message: txt.query.pathOk,
       choices: choices,
     },
     typeClass: {
       name: "type",
       type: "list",
-      message: "Selecciona para configurar: ",
+      message: txt.query.typeClass,
       choices: [
-        "Configurar path modulo patucostrap",
-        "Configurar path de las plantillas del usuario",
-        "Configurar idioma",
+        txt.query.sconfigmodule,
+        txt.query.sconfigtm,
+        txt.query.sconfiglan,
         back,
       ],
     },
     language: {
       name: "type",
       type: "list",
-      message: "Selecciona idioma: ",
-      choices: ["Ingles", "Español", back],
+      message: txt.query.language,
+      choices: [txt.query.lanen, txt.query.lanes, back],
     },
     configPaths: {
       name: "type",
       type: "list",
-      message: "Selecciona una opción: ",
-      choices: [
-        "Buscar directorio 'patucostrap' automaticamente",
-        "Introducir el path manualmente",
-        back,
-      ],
+      message: txt.c.select,
+      choices: [txt.query.searchdir, txt.query.searchdirhand, back],
     },
     path: {
       name: "type",
       type: "input",
-      message:
-        "Escribe el path a la carpeta node_modules global donde se encuentra el directorio 'patucostrap': ",
+      message: txt.query.path,
     },
     patucoPath: {
       name: "type",
       type: "input",
-      message:
-        "Escribe el path que creas más cercano a la carpeta node_modules global donde se encuentra el directorio 'patucostrap'.\nPuedes probar con '/home/tuNombre/.nvm/versions/node'.\nSi no introduces ningun valor se buscara desde '/home': ",
+      message: txt.query.patucoPath,
     },
     dirFilter: {
       name: "type",
       type: "input",
-      message:
-        "Introduce directorios con un '!' o '!*' delante, ejemplo '!.git', !*modules' en los que NO quieres buscar.\nO el de los direcctorios en los que SI buscar ejemplo '/tuNombre'.\nSeparados por comas!: ",
+      message: txt.query.dirFilter,
     },
     templatesPath: {
       name: "type",
       type: "input",
-      message:
-        "Escribe el path al directorio donde quieres guardar tus plantillas: ",
+      message: txt.query.templatesPath,
     },
   };
   const qs = [message[type]];
@@ -118,8 +111,7 @@ const writeArr = async (data) => {
     !fs.existsSync(data.patucoModuleOk)
   ) {
     console.log(
-      chalk.green
-        .bold(`Algo salio mal... Comprueba que sean conrrectas las siguientes rutas:
+      chalk.green.bold(`${txt.query.iwriteArr}
  - ${data.patucoModuleOk}
  - ${data.patucoConfigOk}
  `)
@@ -144,9 +136,7 @@ module.exports = patucoConfig;`;
       console.error(err);
       init();
     } finally {
-      console.log(
-        chalk.green.bold("\n------ ACTUALIZADO CORRECTAMENTE ------\n")
-      );
+      console.log(`\n${txt.c.updatedOk}\n`);
     }
   }
 };
@@ -199,18 +189,18 @@ const createDirFilter = async (dirFilter) => {
 const findPath = async () => {
   const path = await queryParams("patucoPath");
   if (!fs.existsSync(path.type) && path.type !== "") {
-    console.error(chalk.red.bold("La ruta introducida no existe."));
+    console.error(txt.c.pathnoexist);
     return configPaths();
   }
   const dirFilter = await createDirFilter(await queryParams("dirFilter"));
-  console.log(chalk.bgCyan.bold("\nBuscando..."));
+  console.log(txt.c.searching);
   const pathsArr = await filewalker(path.type, dirFilter);
   if (pathsArr.length > 0) {
     const pathOk = await queryParams("pathOk", pathsArr);
     // return pathOk.type;
     return updateFile("patucoConfig", pathOk.type);
   } else {
-    console.log(chalk.red.bold("No se encontro el directorio patucostrap"));
+    console.log(txt.c.patupathnoexist);
     return configPaths();
   }
 };
@@ -221,19 +211,15 @@ const configPaths = async () => {
     case back:
       init();
       break;
-    case "Buscar directorio 'patucostrap' automaticamente":
+    case txt.query.searchdir:
       findPath();
       // await updateFile("patucoConfig", pathOk);
       break;
-    case "Introducir el path manualmente":
+    case txt.query.searchdirhand:
       const pathQuery = await queryParams("path");
       const path = `${pathQuery}/patucostrap`;
       if (!fs.existsSync(path)) {
-        console.error(
-          chalk.red.bold(
-            "No se encuetra el directorio 'patucostrap' en la ruta introducida."
-          )
-        );
+        console.error(txt.c.patupathnoexist);
         configPaths();
       }
       break;
@@ -253,51 +239,41 @@ const configTemplates = async () => {
     const path = `${templatesPath.type}/patucoTemplates`;
     if (!fs.existsSync(path)) {
       fs.mkdirSync(path, 0777);
-      console.log(
-        chalk.green.bold("\nSe ha creado el directorio '/patucoTemplates'")
-      );
+      console.log(chalk.green.bold(txt.query.templcreate));
     }
     await updateFile("templatesPath", path);
   } else {
-    console.log(
-      chalk.red.bold(
-        `No se ha encontrado el directorio: '${templatesPath.type}'`
-      )
-    );
+    console.log(chalk.red.bold(`\n${txt.c.nodir} '${templatesPath.type}'`));
     init();
   }
 };
 
 const init = async () => {
   console.log(`
-  ${chalk.cyan.bold("- Modulo:")} ${chalk.italic[
+  ${chalk.cyan.bold(`- ${txt.c.module}:`)} ${chalk.italic[
     patucoConfig.path.patucoModule ? "green" : "red"
   ](patucoConfig.path.patucoModule)}\n
-  ${chalk.cyan.bold("- Plantillas:")} ${chalk.italic[
+  ${chalk.cyan.bold(`- ${txt.c.templates}:`)} ${chalk.italic[
     patucoConfig.path.userTemplate ? "green" : "red"
   ](patucoConfig.path.userTemplate)}\n
-  ${chalk.cyan.bold("- Idioma:")} ${chalk.green(
-    patucoConfig.language === "es" ? "Español" : "Ingles"
+  ${chalk.cyan.bold(`- ${txt.c.language}:`)} ${chalk.green(
+    patucoConfig.language === "es" ? txt.query.lanes : txt.query.lanen
   )}\n`);
   const mm = () => {
     if (!patucoConfig.path.patucoModule) {
-      console.log(
-        `${chalk.red.bold(
-          "No se encontro el directorio del modulo patucostrap."
-        )}\nConfigura el path del modulo patucostrap.`
-      );
+      console.log(`${txt.c.patupathnoexist}\n${txt.c.nopatupath}`);
       return false;
     } else return true;
   };
   const options = await queryParams("typeClass");
   switch (options.type) {
-    case "Configurar path modulo patucostrap":
+    case txt.query.sconfigmodule:
       await configPaths();
       break;
-    case "Configurar path de las plantillas del usuario":
+    case txt.query.sconfigtm:
       mm() ? await configTemplates() : init();
       break;
-    case "Configurar idioma":
+    case txt.query.sconfiglan:
       mm() ? await configLanguage() : init();
       break;
     case back:
