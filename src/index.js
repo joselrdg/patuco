@@ -79,6 +79,14 @@ const start = async () => {
   msn(`\n\n
 '  patuco'`);
   console.log(chalk.bold.cyan(b));
+  console.log(
+    chalk.bold.green(
+      chalk.bold.yellow("                 *  ") + txt.query.welcome
+    ) +
+      " " +
+      chalk.bold.magenta("PATUCOSTRAP") +
+      chalk.bold.yellow("  *\n")
+  );
 
   if (
     !fs.existsSync(path.patucoConfig) ||

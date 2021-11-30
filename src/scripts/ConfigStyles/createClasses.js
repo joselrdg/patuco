@@ -2,6 +2,7 @@ const inquirer = require("inquirer");
 const chalk = require("chalk");
 const fs = require("fs");
 const config = require("../config.js");
+const animations = require("./animationsdata.js");
 const pathUser = require("../constants/patucoConfig.js").path.userTemplate;
 const setClasses = require("./setClasses");
 const txt = require("./translations/createClasses.js");
@@ -78,25 +79,18 @@ const initData = async (queryInit, oldDataProyect) => {
         name.type = "_" + name.type;
       }
       const children = await queryParams("input", txt.query.inchild);
-      const pseudoClass = await queryParams(
-        "input",
-        txt.query.inpsudo
-      );
+      const pseudoClass = await queryParams("input", txt.query.inpsudo);
       while (!endProp) {
         const addProp = await queryParams("addProp", [
-          txt.query.entercss,
+          txt.query.addprop,
           txt.c.continue,
         ]);
         if (addProp.type === txt.c.continue) {
-          if (data.items.length === 0) {
-            console.log(
-              chalk.red.italic(
-                txt.query.iaddprop
-              )
-            );
-          } else {
+          // if (data.items.length === 0) {
+          //   console.log(chalk.red.italic(txt.query.iaddprop));
+          // } else {
             endProp = true;
-          }
+          // }
         } else {
           const items = await queryParams("input", txt.query.entercss);
           if (items.type === "") {
@@ -134,9 +128,7 @@ const initData = async (queryInit, oldDataProyect) => {
               ]);
               if (endQuery.type === txt.c.continue) {
                 if (data.pseudoElement[cont].items.length === 0) {
-                  console.log(
-                    chalk.red.italic(txt.query.iaddprop)
-                  );
+                  console.log(chalk.red.italic(txt.query.iaddprop));
                 } else {
                   end = false;
                 }
@@ -157,6 +149,16 @@ const initData = async (queryInit, oldDataProyect) => {
             console.log(txt.c.haveadd);
           }
         }
+      }
+
+      const animation = await queryParams("addProp", [
+        txt.query.createanima,
+        txt.c.continue,
+      ]);
+      if (animation.type !== txt.c.continue) {
+        const anima = await animations.animations();
+        data.animation = anima.animation;
+        data.items.push(...anima.items);
       }
 
       data.name = name.type;

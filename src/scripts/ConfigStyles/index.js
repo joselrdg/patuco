@@ -64,7 +64,8 @@ const setOptions = (data) => {
       createMediaQ.createMediaQ();
       break;
     case txt.query.choices.setanim:
-      require("./animations.js");
+     const animations = require("./animations.js");
+     animations.animations();
       break;
     case back:
       start.start();

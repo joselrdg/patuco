@@ -19,6 +19,15 @@ const variables = require(fs.existsSync(variablesUser)
   ? variablesUser
   : "../../templates/styles/variables.js");
 
+const animations = require("../../templates/styles/animations.js");
+const animationsUser = require(fs.existsSync(
+  `${userTemplatePath}/animations/animations.js`
+)
+  ? `${userTemplatePath}/animations/animations.js`
+  : []);
+
+const animationsUsed = [];
+
 const txt = require("./translations/createCss.js");
 
 const variablesUsed = [];
@@ -94,7 +103,7 @@ const searchVariables = async (styleElement) => {
   for (const nameVariable in variables) {
     const regex = new RegExp(nameVariable, "g");
     if (regex.test(styleElement)) {
-      console.log(`\n${txt.query.ivariable} ${chalk.yellow(nameVariable)}`);
+      console.log(`\n${txt.query.ivariable} ${chalk.green(nameVariable)}`);
       variablesUsed.push(nameVariable);
       rootStr =
         rootStr + `  --${nameVariable}: "${variables[nameVariable]}";\n`;
@@ -128,7 +137,7 @@ const prepareClassesQueryStr = async (query, classStr) => {
         groupQureryStr[isQuerySaved].str =
           groupQureryStr[isQuerySaved].str + classStr;
       } else {
-        console.log(chalk.bold.yellow(`\n${txt.query.imq} ${query}\n`));
+        console.log(`\n${txt.query.imq} ${chalk.green(query)}`);
         querysUsed.push(element.name);
         groupQureryStr.push({
           name: element.name,
@@ -142,7 +151,7 @@ const prepareClassesQueryStr = async (query, classStr) => {
 const createMediaQueriesStr = async () => {
   let mediaQueriesStr = "";
   groupQureryStr.forEach((element) => {
-    mediaQueriesStr = mediaQueriesStr + `${element.str}\n}\n`;
+    mediaQueriesStr = mediaQueriesStr + `${element.str}}\n\n`;
   });
   return mediaQueriesStr;
 };
@@ -164,6 +173,19 @@ const createPseudoElements = async (uniqueClass) => {
   return pseudoElementsStr;
 };
 
+const createAnimationsStr = async () => {
+  let animationsStr = "";
+  const animationsData = [...animations, ...animationsUser];
+  for (let i = 0; i < animationsUsed.length; i++) {
+    const animation = animationsUsed[i];
+    const someAnima = animationsData.find((a) => animation === a.name);
+    if (someAnima) {
+      animationsStr += `${someAnima.template}\n\n`;
+    }
+  }
+  return animationsStr;
+};
+
 // Crea el string completo para crear el archivo css
 const prepareStr = async (savedClasses) => {
   let fileStr = "";
@@ -182,6 +204,17 @@ const prepareStr = async (savedClasses) => {
           ? await createPseudoElements(uniqueClass)
           : "";
         let stylesStr = "";
+        if (uniqueClass.animation) {
+          const someAnima = animationsUsed.some(
+            (a) => uniqueClass.animation === a
+          );
+          if (!someAnima) {
+            console.log(
+              `\n${txt.query.animation} ${chalk.green(uniqueClass.animation)}`
+            );
+            animationsUsed.push(uniqueClass.animation);
+          }
+        }
         if (uniqueClass.template) {
           // escribre los templates de css puro
           fileStr = fileStr + uniqueClass.template;
@@ -190,8 +223,8 @@ const prepareStr = async (savedClasses) => {
           stylesStr = await prepareStylesStr(uniqueClass.items);
           //$$ crear funcion para poner un . o # o nada segun el type que hay que añadir a las plantillas
           if (uniqueClass.query) {
-            const classStr = `.${uniqueClass.name}${target}${pseudoClass} {
-${stylesStr}}\n\n${pseudoElementsStr}`;
+            const classStr = `\n  .${uniqueClass.name}${target}${pseudoClass} {
+${stylesStr}  }\n${pseudoElementsStr}`;
             await prepareClassesQueryStr(uniqueClass.query, classStr);
           } else {
             fileStr =
@@ -208,14 +241,23 @@ ${stylesStr}}\n\n`;
   // Añade las fuentes al comienzo del string root
   rootStr = `${await fonts()}` + rootStr + "}\n" + classesQueryStr;
   const mediaQueryStr = await createMediaQueriesStr();
+  const animationsStr = await createAnimationsStr();
   // Añade root, mediaqueries y el restor de clases usadas
-  fileStr = rootStr + [baseCss.grid[0].template] + mediaQueryStr + fileStr;
+  fileStr =
+    rootStr +
+    [baseCss.grid[0].template] +
+    "\n\n/* Media Queries */\n\n" +
+    mediaQueryStr +
+    "\n\n/* Animations */\n\n" +
+    animationsStr +
+    fileStr;
   return fileStr;
 };
 
 const updateSchema = async (savedClasses, path) => {
   const pathSchema = `${path}/patuco.css`;
   const fileStr = await prepareStr(savedClasses);
+
   if (!fs.existsSync(path)) {
     fs.mkdirSync(path, 0777);
   }
@@ -337,7 +379,7 @@ const createCSS = async () => {
     const savedClasses = await openFiles(direcPath.type, filePath, baseCss);
     const direcSavePath = await queryParams("direcctories", direcctories, true);
     await createFile(savedClasses, direcSavePath.type);
-    await deleteCssSchema();
+    // await deleteCssSchema();
     createCSS();
   } else {
     const configStyles = require("./index.js");

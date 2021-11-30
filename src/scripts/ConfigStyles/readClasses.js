@@ -4,7 +4,6 @@ const chalk = require("chalk");
 const baseCss = require("../../templates/styles/baseCss.js");
 
 const txt = require("./translations/readClasses.js");
-console.log(txt);
 
 const groupKeys = Object.keys(baseCss);
 

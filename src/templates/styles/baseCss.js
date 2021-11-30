@@ -25,7 +25,7 @@ const position = require("./position.js");
 const size = require("./size.js");
 const transform = require("./transform.js");
 const transitions = require("./transitions");
-const animations = require("./animations");
+const animationClasses = require("./animationClasses");
 
 const stylesUser = require(pathUser && isPath
   ? `${pathUser}/classes/base.js`
@@ -61,7 +61,7 @@ const baseCss = {
   size,
   transform,
   transitions,
-  animations,
+  animationClasses,
 };
 
 module.exports = baseCss;

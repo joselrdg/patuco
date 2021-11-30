@@ -1,14 +1,31 @@
 const animations = [
   {
-    name: "_pic_in",
-    items: ["animation: in 1s", "transition: all 300ms linear"],
-    animation: "in",
-
+    name: "inAnimation",
+    template: `@keyframes inAnimation {
+  0% {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}`,
   },
   {
-    name: "_pic_out",
-    items: ["animation: out 1s", "transition: all 300ms linear"],
-    animation: "out",
+    name: "outAnimation",
+    template: `@keyframes outAnimation {
+  20% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}`,
   },
 ];
 

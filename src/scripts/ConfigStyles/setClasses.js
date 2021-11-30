@@ -31,10 +31,7 @@ const queryParams = (type, msm, choices) => {
 };
 
 const checkPath = async (path) => {
-  console.log(chalk.bold.yellow(path));
   const exists = fs.existsSync(path);
-  console.log(chalk.bold.yellow(exists));
-
   if (exists) {
     const classesPath = `${path}/classes`;
     if (!fs.existsSync(classesPath)) {
@@ -172,12 +169,9 @@ const setClasses = async (data, oldDataProyect) => {
     console.log(chalk.bold.italic.red(txt.c.ipath));
     config.config();
   } else {
-    console.log(fs.existsSync(templatesBaseJsPath));
     const userSavedClasses = fs.existsSync(templatesBaseJsPath)
       ? requireUncached(templatesBaseJsPath)
       : [];
-    console.log(chalk.bold.yellow(userSavedClasses));
-
     const optProject = oldDataProyect
       ? oldDataProyect
       : await groupName(userSavedClasses);

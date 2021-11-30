@@ -6,7 +6,7 @@ const createClasses = {
     query: {
       addclass: "Add a new class: ",
       addCSS: "Add CSS: ",
-    //   path: "\nNo stored path found.\nPlease configure the path to your templates\n",
+      //   path: "\nNo stored path found.\nPlease configure the path to your templates\n",
       pathdir:
         "\nThe directory was not found in the stored path.\nConfigure the path of your templates\n",
       entercss:
@@ -26,6 +26,7 @@ const createClasses = {
       inpsudo:
         "Enter pseudo-class, like for example: 'hover'.\nIf you don't need it you can leave it blank: ",
       iaddprop: "\nYou have to enter at least one property.\n",
+      createanima: "Create animation",
     },
   },
   es: {
@@ -33,7 +34,7 @@ const createClasses = {
     query: {
       addclass: "Añadir una nueva clase: ",
       addCSS: "Añadir CSS: ",
-    //   path: "\nNo se encotro ruta almacenada.\nConfigura la ruta a tus plantillas\n",
+      //   path: "\nNo se encotro ruta almacenada.\nConfigura la ruta a tus plantillas\n",
       pathdir:
         "\nNo se encotro el direcctorio el el path almacenado.\nConfigura el path de tus plantillas\n",
       entercss:
@@ -53,6 +54,7 @@ const createClasses = {
       inpsudo:
         "Introduce pseudo-clase, como por ejemplo: 'hover'.\nSi no lo necesitas puedes dejarlo en blanco: ",
       iaddprop: "\nTienes que introducir al menos una propiedad.\n",
+      createanima: "Crear animación",
     },
   },
 };

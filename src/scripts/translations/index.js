@@ -4,6 +4,7 @@ const index = {
   en: {
     c: common,
     query: {
+      welcome: "Welcome to",
       styles: "Styles",
       components: "Components",
       settings: "Settings",
@@ -12,6 +13,7 @@ const index = {
   es: {
     c: common,
     query: {
+      welcome: "Bienvenido a",
       styles: "Estilos",
       components: "Componentes",
       settings: "Ajustes",

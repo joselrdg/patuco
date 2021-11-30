@@ -21,7 +21,7 @@ const createCss = {
       rest: "Total classes without repeating:",
       forget: "Don't forget to import the new css file:",
       deletedfile: "\nDeleted file",
-
+      animation: "Animation found:",
     },
   },
   es: {
@@ -44,6 +44,7 @@ const createCss = {
       rest: "Total de clases sin repetir:",
       forget: "No olvides importar el nuevo archivo css:",
       deletedfile: "\nArchivo borrado",
+      animation: "Se encontro la animación:",
     },
   },
 };
