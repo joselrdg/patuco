@@ -6,6 +6,7 @@ const animations = require("./animationsdata.js");
 const pathUser = require("../constants/patucoConfig.js").path.userTemplate;
 const setClasses = require("./setClasses");
 const txt = require("./translations/createClasses.js");
+const baseCss = require("../../templates/styles/baseCss.js");
 
 const continueCreate = (name) =>
   chalk.bold.italic.magentaBright(`${txt.query.addmstyles} ${name}`);
@@ -46,6 +47,17 @@ const writeData = async (data, oldDataProyect) => {
       break;
   }
 };
+
+const existsName = async (name) => {
+  for (const key in baseCss) {
+    const existsClass = baseCss[key].find((element) => element.name === name);
+    if (existsClass) {
+      return true;
+    }
+  }
+  return false;
+};
+
 const initData = async (queryInit, oldDataProyect) => {
   let endProp = false;
   let cont = -1;
@@ -69,108 +81,119 @@ const initData = async (queryInit, oldDataProyect) => {
       createClasses();
     }
   } else if (queryInit === txt.query.addclass) {
-    data.items = [];
-    const name = await queryParams("input", txt.query.incssms);
-    if (name.type === "") {
-      console.log(txt.c.haveadd);
-      createClasses();
-    } else {
-      if (name.type[0] !== "_") {
-        name.type = "_" + name.type;
-      }
-      const children = await queryParams("input", txt.query.inchild);
-      const pseudoClass = await queryParams("input", txt.query.inpsudo);
-      while (!endProp) {
-        const addProp = await queryParams("addProp", [
-          txt.query.addprop,
-          txt.c.continue,
-        ]);
-        if (addProp.type === txt.c.continue) {
-          // if (data.items.length === 0) {
-          //   console.log(chalk.red.italic(txt.query.iaddprop));
-          // } else {
-            endProp = true;
-          // }
-        } else {
-          const items = await queryParams("input", txt.query.entercss);
-          if (items.type === "") {
-            console.log(txt.c.haveadd);
-          } else {
-            data.items.push(items.type);
-          }
+    while (!endProp) {
+      const name = await queryParams("input", txt.query.incssms);
+      if (name.type === "") {
+        console.log(txt.c.haveadd);
+        createClasses();
+      } else {
+        if (name.type[0] !== "_") {
+          name.type = "_" + name.type;
         }
-      }
-
-      endProp = false;
-      while (!endProp) {
-        const addPsudoClass = await queryParams("addProp", [
-          txt.query.addpsudo,
-          txt.c.continue,
-        ]);
-        if (addPsudoClass.type === txt.c.continue) {
-          endProp = true;
-        } else {
-          if (!data.pseudoElement) {
-            data.pseudoElement = [];
-          }
-          cont++;
-          let end = true;
-          const pseudoElement = await queryParams(
-            "input",
-            txt.query.addpsudoms
+        if (await existsName(name.type)) {
+          console.log(
+            chalk.red.italic(`\n${name.type} ${txt.query.iexname}\n`)
           );
-          if (pseudoElement.type !== "") {
-            data.pseudoElement[cont] = { type: pseudoElement.type, items: [] };
-            while (end) {
-              const endQuery = await queryParams("addProp", [
-                txt.query.addprop,
-                txt.c.continue,
-              ]);
-              if (endQuery.type === txt.c.continue) {
-                if (data.pseudoElement[cont].items.length === 0) {
-                  console.log(chalk.red.italic(txt.query.iaddprop));
-                } else {
-                  end = false;
-                }
-              } else {
-                const pseudoElementProp = await queryParams(
-                  "input",
-                  txt.query.entercss
-                );
-                if (pseudoElementProp.type === "") {
-                  console.log(txt.c.haveadd);
-                } else {
-                  data.pseudoElement[cont].items.push(pseudoElementProp.type);
-                }
-              }
-            }
-          } else {
-            cont--;
-            console.log(txt.c.haveadd);
-          }
+        } else {
+          data.name = name.type;
+          endProp = true;
         }
+        // const found = baseCss.find(element => element.name === name.type)
       }
-
-      const animation = await queryParams("addProp", [
-        txt.query.createanima,
+    }
+    endProp = false;
+    const children = await queryParams("input", txt.query.inchild);
+    const pseudoClass = await queryParams("input", txt.query.inpsudo);
+    while (!endProp) {
+      const addProp = await queryParams("addProp", [
+        txt.query.addprop,
         txt.c.continue,
       ]);
-      if (animation.type !== txt.c.continue) {
-        const anima = await animations.animations();
-        data.animation = anima.animation;
-        data.items.push(...anima.items);
+      if (addProp.type === txt.c.continue) {
+        // if (data.items.length === 0) {
+        //   console.log(chalk.red.italic(txt.query.iaddprop));
+        // } else {
+        endProp = true;
+        // }
+      } else {
+        if (!data.items) {
+          data.items = [];
+        }
+        const items = await queryParams("input", txt.query.entercss);
+        if (items.type === "") {
+          console.log(txt.c.haveadd);
+        } else {
+          data.items.push(items.type);
+        }
       }
-
-      data.name = name.type;
-      if (children.type !== "") {
-        data.target = children.type;
-      }
-      if (pseudoClass.type !== "") {
-        data.pseudoClass = pseudoClass.type;
-      }
-
-      writeData(data, oldDataProyect);
     }
+
+    endProp = false;
+    while (!endProp) {
+      const addPsudoClass = await queryParams("addProp", [
+        txt.query.addpsudo,
+        txt.c.continue,
+      ]);
+      if (addPsudoClass.type === txt.c.continue) {
+        endProp = true;
+      } else {
+        if (!data.pseudoElement) {
+          data.pseudoElement = [];
+        }
+        cont++;
+        let end = true;
+        const pseudoElement = await queryParams("input", txt.query.addpsudoms);
+        if (pseudoElement.type !== "") {
+          data.pseudoElement[cont] = { type: pseudoElement.type, items: [] };
+          while (end) {
+            const endQuery = await queryParams("addProp", [
+              txt.query.addprop,
+              txt.c.continue,
+            ]);
+            if (endQuery.type === txt.c.continue) {
+              if (data.pseudoElement[cont].items.length === 0) {
+                console.log(chalk.red.italic(txt.query.iaddprop));
+              } else {
+                end = false;
+              }
+            } else {
+              const pseudoElementProp = await queryParams(
+                "input",
+                txt.query.entercss
+              );
+              if (pseudoElementProp.type === "") {
+                console.log(txt.c.haveadd);
+              } else {
+                data.pseudoElement[cont].items.push(pseudoElementProp.type);
+              }
+            }
+          }
+        } else {
+          cont--;
+          console.log(txt.c.haveadd);
+        }
+      }
+    }
+
+    const animation = await queryParams("addProp", [
+      txt.query.createanima,
+      txt.c.continue,
+    ]);
+    if (animation.type !== txt.c.continue) {
+      const anima = await animations.animations();
+      data.animation = anima.animation;
+      data.items.push(...anima.items);
+    }
+
+    if (children.type !== "") {
+      data.target = children.type;
+    }
+    if (pseudoClass.type !== "") {
+      data.pseudoClass = pseudoClass.type;
+    }
+
+    writeData(data, oldDataProyect);
+    // }
   }
 };
 

@@ -18,6 +18,7 @@ const createClasses = {
       addmstyles: "Add more styles to the project ->",
       finisproj: "Finish the project for now",
       inname: "Enter a name to identify it: ",
+      iexname: "has already been used to name another class",
       incss: "Enter CSS: ",
       incssms:
         "Enter the name of the class. The name must start with '_'. If the first character is not '_' it will be added automatically: ",
@@ -46,6 +47,7 @@ const createClasses = {
       addmstyles: "Añadir más estilos al proyecto ->",
       finisproj: "Terminar el proyecto por ahora",
       inname: "Introduce un nombre para identificarlo: ",
+      iexname: "ya ha sido utilizado para nombrar otra clase",
       incss: "Introduce CSS: ",
       incssms:
         "Introduce el nombre de la clase. El nombre tiene que comenzar por '_'. Si el primer caracter no es '_' se añadira automaticamente: ",

@@ -21,6 +21,15 @@ const conjunto = [
     ],
     "animation": "Animation",
     "name": "_Animation"
+  },
+  {
+    "name": "_pepi"
+  },
+  {
+    "name": "_fasdfsad",
+    "items": [
+      "display: none"
+    ]
   }
 ];
  
