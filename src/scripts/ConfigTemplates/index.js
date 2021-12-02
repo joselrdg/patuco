@@ -32,8 +32,8 @@ const optionsCollection = async (patuco, path, depth, end) => {
     await exportCollection("file", path);
     configTemplates();
   } else {
-    const albumDir = await filewalker(path, "directories", undefined, depth);
-    const albumFile = await filewalker(path, "files", undefined, depth);
+    const albumDir = await filewalker(path, { type: "directories", depth });
+    const albumFile = await filewalker(path, { type: "files", depth });
     const options = patuco
       ? [chalk.green.italic(txt.q.exportcollection)]
       : [
@@ -73,18 +73,14 @@ const optionsCollection = async (patuco, path, depth, end) => {
 const configTemplates = async () => {
   if (pathExists.pathExists(pathTemplates)) {
     pathExists.createDirectory(pathLayouts);
-    const directoriesUser = await filewalker(
-      pathLayouts,
-      "directories",
-      undefined,
-      0
-    );
-    const directoriesPatuco = await filewalker(
-      patucoLayoutsPath,
-      "directories",
-      undefined,
-      0
-    );
+    const directoriesUser = await filewalker(pathLayouts, {
+      type: "directories",
+      depth: 0,
+    });
+    const directoriesPatuco = await filewalker(patucoLayoutsPath, {
+      type: "directories",
+      depth: 0,
+    });
     const choices = [
       chalk.green.italic(txt.q.createdir),
       chalk.blue.italic("Layouts patuco"),
