@@ -71,5 +71,4 @@ Now you can see the classes that "patuco" has or create new styles to incorporat
 
 Import and export components, views, models or whatever you need...
 
-![ScreenShot Patuco](./screenShot/styles.png)
-![ScreenShot Patuco](./screenShot/styles2.png)
+![ScreenShot Patuco](./screenShot/templates.png)
