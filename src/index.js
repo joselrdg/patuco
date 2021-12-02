@@ -2,9 +2,7 @@ const chalk = require("chalk");
 const figlet = require("figlet");
 const inquirer = require("inquirer");
 const fs = require("fs");
-
 const path = require("./scripts/constants/patucoConfig.js").path;
-
 const txt = require("./scripts/translations/index.js");
 
 const msn = (msn) => {
@@ -45,6 +43,10 @@ const createFile = (data) => {
     case txt.query.styles:
       const configStyles = require("./scripts/ConfigStyles/index.js");
       configStyles.configStyles();
+      break;
+    case txt.query.components:
+      const configTemplates = require("./scripts/ConfigTemplates/index.js");
+      configTemplates.configTemplates();
       break;
     case txt.query.settings:
       const config = require("./scripts/config.js");

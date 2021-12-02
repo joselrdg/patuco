@@ -1,7 +1,7 @@
 // const variables = require("./variables.js");
 const fs = require("fs");
 const chalk = require("chalk");
-const requireUncached = require("../../scripts/requireUncached.js");
+const requireUncached = require("../../scripts/common/requireUncached.js");
 
 const modulePatucoPath = require("../../scripts/constants/patucoConfig.js").path
   .patucoModule;

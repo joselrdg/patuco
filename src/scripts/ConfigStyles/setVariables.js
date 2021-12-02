@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
 const chalk = require("chalk");
 const fs = require("fs");
-const requireUncached = require("../requireUncached.js");
+const requireUncached = require("../common/requireUncached.js");
 
 const pathBase = process.cwd();
 const pathVariables = `${pathBase}/patuco/variables.js`;

@@ -1,10 +1,11 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const chalk = require("chalk");
-const requireUncached = require("../requireUncached.js");
+const requireUncached = require("../common/requireUncached.js");
 const config = require("../config.js");
 
 const userPath = require("../constants/patucoConfig.js").path.userTemplate;
+const animationsPredefined = require("../../templates/styles/animations.js");
 const templateAnimaPath = `${userPath}/animations/animations.js`;
 const txt = require("./translations/animations");
 
@@ -30,9 +31,9 @@ const prepareStr = async (animations) => {
   let fileStr = "const animations = [\n";
   for (let i = 0; i < animations.length; i++) {
     const element = animations[i];
-    fileStr += `  {\n    name: "${
-      element.animation
-    }",\n    template: ${"`"}${element.template}${"`"}  },\n`;
+    fileStr += `  {\n    name: "${element.animation}",\n    template: ${"`"}${
+      element.template
+    }${"`"}  },\n`;
   }
   fileStr += "]\n\nmodule.exports = animations;";
   return fileStr;
@@ -58,16 +59,21 @@ ${txt.c.created}\n
   }
 };
 
-const enterData = async () => {
+const enterData = async (animationsUser) => {
   const query = {};
   let template = "";
   let end = false;
   while (!end) {
     const name = await queryParams("input", txt.query.name);
     if (name.type !== "") {
-      query.animation = name.type;
-      template += `@keyframes ${name.type} {\n`;
-      end = true;
+      const data = [...animationsPredefined, ...animationsUser];
+      if (!data.some((a) => a.name === name.type)) {
+        query.animation = name.type;
+        template += `@keyframes ${name.type} {\n`;
+        end = true;
+      } else {
+        console.log(chalk.red.italic(`\n${name.type } ${txt.query.nameused}\n`));
+      }
     } else {
       console.log(txt.c.haveadd);
     }
@@ -210,7 +216,7 @@ const animations = async () => {
       txt.c.back,
     ]);
     if (option.type === txt.query.create) {
-      const query = await enterData();
+      const query = await enterData(data);
       data.unshift(query);
       await updateSchema(data);
       animations();

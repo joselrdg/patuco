@@ -1,5 +1,5 @@
 const language = require("../../constants/patucoConfig.js");
-const common = require("./common.js");
+const common = require("../../translations/common.js");
 const createClasses = {
   en: {
     c: common,

@@ -1,11 +1,12 @@
 const language = require("../../constants/patucoConfig.js").language;
-const common = require("./common.js");
+const common = require("../../translations/common.js");
 const animation = {
   en: {
     c: common,
     query: {
       create: "Create animation",
       name: "Enter the name of the animation: ",
+      nameused: "has already been used to name another animation.",
       fronto: "From - To",
       timep: "Time in percentage",
       addpropFrom: "Add property to: From",
@@ -34,6 +35,7 @@ const animation = {
     query: {
       create: "Crear animación",
       name: "Introduce el nombre de la animación: ",
+      nameused: "ya ha sido utilizado para nombrar otra animación.",
       fronto: "Desde - A",
       timep: "Tiempo en porcentaje",
       addpropFrom: "Añadir propiedad a: From",

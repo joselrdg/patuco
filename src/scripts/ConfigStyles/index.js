@@ -15,7 +15,7 @@ const patucoModulePath = require("../constants/patucoConfig.js").path
 const readClassesPath = `${patucoModulePath}/src/scripts/ConfigStyles/readClasses.js`;
 const updateCssSchemaPath = `${patucoModulePath}/src/scripts/ConfigStyles/updateCssSchema.js`;
 const createCSSPath = `${patucoModulePath}/src/scripts/ConfigStyles/createCss.js`;
-const requireUncached = require("../requireUncached.js");
+const requireUncached = require("../common/requireUncached.js");
 
 const back = txt.c.back;
 

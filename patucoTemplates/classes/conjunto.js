@@ -30,6 +30,10 @@ const conjunto = [
     "items": [
       "display: none"
     ]
+  },
+  {
+    "name": "josele",
+    "template": "sadfasdfadsfsadf"
   }
 ];
  

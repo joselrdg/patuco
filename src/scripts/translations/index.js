@@ -1,12 +1,12 @@
 const language = require("../constants/patucoConfig.js").language;
-const common = require("../ConfigStyles/translations/common.js");
+const common = require("../translations/common.js");
 const index = {
   en: {
     c: common,
     query: {
       welcome: "Welcome to",
       styles: "Styles",
-      components: "Components",
+      components: "Templates",
       settings: "Settings",
     },
   },
@@ -15,7 +15,7 @@ const index = {
     query: {
       welcome: "Bienvenido a",
       styles: "Estilos",
-      components: "Componentes",
+      components: "Plantillas",
       settings: "Ajustes",
     },
   },

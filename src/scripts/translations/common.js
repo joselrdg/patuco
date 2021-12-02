@@ -1,5 +1,5 @@
 const chalk = require("chalk");
-const language = require("../../constants/patucoConfig.js");
+const language = require("../constants/patucoConfig.js");
 
 const common = {
   en: {

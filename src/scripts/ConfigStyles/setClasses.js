@@ -2,7 +2,7 @@ const inquirer = require("inquirer");
 const chalk = require("chalk");
 const fs = require("fs");
 const config = require("../config.js");
-const requireUncached = require("../requireUncached.js");
+const requireUncached = require("../common/requireUncached.js");
 
 const userTemplatesPath = require("../constants/patucoConfig.js").path
   .userTemplate;
