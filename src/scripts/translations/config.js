@@ -8,7 +8,7 @@ const config = {
       typeClass: "Select to configure: ",
       sconfigmodule: "Configure the path to the patucostrap module",
       sconfigtm: "Configure the path of user templates",
-      sconfiglan: "Configure idiom",
+      sconfiglan: "Configure language.",
       language: "Select a language: ",
       lanen: "English",
       lanes: "Spanish",
@@ -16,7 +16,7 @@ const config = {
       searchdirhand: "Enter the path to the module manually",
       path: "Write the path to the global node_modules folder where the 'patucostrap' directory is located: ",
       patucoPath:
-        "Write the path that you create closest to the global node_modules folder where the 'patucostrap' directory is located.\nYou can try '/home/yourName/.nvm/versions/node'.\nIf you do not enter any value, it will be searched from' /home': ",
+        "Write the path that you create closest to the global node_modules folder where the 'patucostrap/src/scripts/constants/patucoConfig.js' file is located.\nYou can try '/home/yourName/.nvm/versions/node'.\nIf you do not enter any value, it will be searched from' /home': ",
       dirFilter:
         "Enter directories with a '!' or '! *' in front, example '! .git',! * modules' in which you DO NOT want to search.\nOr the one of the directories in which you DO search example '/yourName' .\nSeparated by commas !: ",
       templatesPath:
@@ -41,7 +41,7 @@ const config = {
       searchdirhand: "Introducir la ruta al módulo manualmente",
       path: "Escribe el path a la carpeta node_modules global donde se encuentra el directorio 'patucostrap': ",
       patucoPath:
-        "Escribe el path que creas más cercano a la carpeta node_modules global donde se encuentra el directorio 'patucostrap'.\nPuedes probar con '/home/tuNombre/.nvm/versions/node'.\nSi no introduces ningun valor se buscara desde '/home': ",
+        "Escribe el path que creas más cercano a la carpeta node_modules global donde se encuentra el archivo 'patucostrap/src/scripts/constants/patucoConfig.js'.\nPuedes probar con '/home/tuNombre/.nvm/versions/node'.\nSi no introduces ningun valor se buscara desde '/home': ",
       dirFilter:
         "Introduce directorios con un '!' o '!*' delante, ejemplo '!.git', !*modules' en los que NO quieres buscar.\nO el de los direcctorios en los que SI buscar ejemplo '/tuNombre'.\nSeparados por comas!: ",
       templatesPath:
