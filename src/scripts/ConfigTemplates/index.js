@@ -1,4 +1,5 @@
 const chalk = require("chalk");
+const config = require("../config.js");
 const queryParams = require("../common/queryParams.js");
 const pathExists = require("../common/pathExists.js");
 const filewalker = require("../common/filewalker.js");

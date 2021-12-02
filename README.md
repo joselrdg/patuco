@@ -53,7 +53,10 @@ Type in the terminal. In your project directory:
   
 Save the path where the patuco module is located, configure the path where you want to save your templates and configure the language.
 
-![ScreenShot CarePet](./screenShot/settings.png)
-![ScreenShot CarePet](./screenShot/settings2.png)
+![ScreenShot Patuco](./screenShot/settings.png)
+![ScreenShot Patuco](./screenShot/settings2.png)
 
-Now you can see the classes that booties have or create new styles to incorporate them into your projects.
+Now you can see the classes that "patuco" has or create new styles to incorporate them into your projects.
+
+![ScreenShot Patuco](./screenShot/styles.png)
+![ScreenShot Patuco](./screenShot/styles2.png)
