@@ -10,13 +10,13 @@ const txt = require("./translations/config.js");
 const back = txt.c.back;
 
 function filewalker(
-  dir = "/home/jose/.nvm/versions/node/v16.2.0/lib/node_modules",
+  dir = "/home",
   dirFilter = ["!.git"],
   type = "files",
   filFilter = "patucoConfig.js"
 ) {
   if (dir === "") {
-    dir = "/home/jose/.nvm/versions/node/v16.2.0/lib/node_modules";
+    dir = "/home";
   }
   return new Promise((resolve) => {
     const data = [];
@@ -24,12 +24,10 @@ function filewalker(
       directoryFilter: dirFilter,
       fileFilter: filFilter,
       type: type,
-      alwaysStat: true,
     })
       .on("data", (entry) => {
         const {
           path,
-          stats: { size },
         } = entry;
         data.push(`${dir}/${path}`);
       })
