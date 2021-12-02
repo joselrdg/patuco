@@ -6,7 +6,7 @@ Quickly design and customize responsive websites just like you would with Bootst
 You can create css styles, css variables, animations, media queries among other options and save them to use them in any project.
 When your project is ready, you can create an optimized css file with only the styles you have used.
 
-# <br>Layauts:
+# <br>Layouts:
 
 Import and export components, views, models or whatever you need ...
 You can save templates with the directories and files you need to quickly start projects or reuse files.
@@ -62,3 +62,6 @@ Now you can see the classes that "patuco" has or create new styles to incorporat
 ![ScreenShot Patuco](./screenShot/styles2.png)
 
 Import and export components, views, models or whatever you need... 
+
+![ScreenShot Patuco](./screenShot/styles.png)
+![ScreenShot Patuco](./screenShot/styles2.png)
