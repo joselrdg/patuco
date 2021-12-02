@@ -39,7 +39,7 @@ const exportCollection = async (type, path) => {
     // console.log(basedir);
     const option = await queryParams(
       "addProp",
-      txt.c.option,
+      txt.q.dir,
       basedir.map((e) => e.path)
     );
     if (type === "dir") {

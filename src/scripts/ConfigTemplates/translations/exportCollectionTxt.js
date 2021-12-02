@@ -4,13 +4,13 @@ const others = {
   en: {
     c: common,
     q: {
-      gitignore: ".gitIgnore",
+      dir: "Seleccione el directorio en el que copiar los archivos. Si seleccionas '/' se copiaran en el direcctorio en el que te encuentras:",
     },
   },
   es: {
     c: common,
     q: {
-      components: "Componentes",
+      dir: "Seleccione el directorio en el que copiar los archivos. Si seleccionas '/' se copiaran en el direcctorio en el que te encuentras:",
     },
   },
 };
