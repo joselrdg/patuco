@@ -40,7 +40,7 @@ Copy-paste the stylesheet <link> into your <head> before all other stylesheets t
  ```sh
     <link rel="stylesheet" type="text/css" href="patucostrap/style/patucoSchema.css" media="screen" />
    ```
-In JS:
+In JSX:
  ```sh
    import "patucostrap/style/patucoSchema.css"
    ```
@@ -60,3 +60,5 @@ Now you can see the classes that "patuco" has or create new styles to incorporat
 
 ![ScreenShot Patuco](./screenShot/styles.png)
 ![ScreenShot Patuco](./screenShot/styles2.png)
+
+Import and export components, views, models or whatever you need... 
