@@ -39,8 +39,8 @@ const optionsCollection = async (patuco, path, depth, end) => {
       ? [chalk.green.italic(txt.q.exportcollection)]
       : [
           chalk.green.italic(txt.q.exportcollection),
-          chalk.green.italic(txt.q.createcollection),
           chalk.green.italic(txt.q.importcollection),
+          chalk.green.italic(txt.q.createcollection),
         ];
     const optcolle = await queryParams("addProp", txt.c.option, [
       ...options,
