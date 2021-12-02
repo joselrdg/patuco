@@ -7,7 +7,7 @@ const start = require("../index");
 const patucoConfig = require("./constants/patucoConfig.js");
 
 const txt = require("./translations/config.js");
-const back = chalk.bold.italic.magentaBright("Volver");
+const back = txt.c.back;
 
 function filewalker(
   dir = "/home/jose/.nvm/versions/node/v16.2.0/lib/node_modules",
