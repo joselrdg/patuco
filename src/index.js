@@ -86,7 +86,7 @@ const start = async () => {
       chalk.bold.yellow("                 *  ") + txt.query.welcome
     ) +
       " " +
-      chalk.bold.magenta("PATUCOSTRAP") +
+      chalk.bold.magenta("PATUCO") +
       chalk.bold.yellow("  *\n")
   );
 

@@ -8,12 +8,12 @@
 
     
 :root {
-  --primaryfontFamily1: Spartan;
+  --primaryfontFamily1: joseleeeeee;
   --primaryfontFamily2: Spartan;
   --primaryfontFamily3: Spartan;
   --primaryfontFamily4: Spartan;
   --primaryfontFamily5: Spartan;
-  --secundaryfontFamily1: Spartan;
+  --secundaryfontFamily1: joseleeeeee;
   --secundaryfontFamily2: Spartan;
   --secundaryfontFamily3: Spartan;
   --secundaryfontFamily4: Spartan;
@@ -27,7 +27,7 @@
   --background-colorBody: undefined;
   --background-color1: undefined;
   --background-color2: undefined;
-  --container: 300px;
+  --container: 0 9% 0 9%;
 }
     
     
@@ -55,6 +55,143 @@ input:-webkit-autofill {
   width: 100%;
 }
 
+/* Custom CSS reset by @alindeveloper */
+
+/* Use a more-intuitive box-sizing model. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin all elements */
+* {
+  margin: 0;
+}
+
+/* Prevent adjustments of font size after orientation changes in iOS */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Allow percentage-based heights */
+html,
+body {
+  height: 100%;
+}
+
+/* Typographic tweaks */
+body {
+  line-height: calc(1em + 0.5rem);
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Avoid text overflows */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  overflow-wrap: break-word;
+}
+
+/* Remove list styles on ul, ol elements with a list role */
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+
+/* Improve media defaults */
+img,
+picture,
+video,
+canvas,
+svg,
+iframe {
+  display: block;
+  max-width: 100%;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+/* Single taps are dispatched immediately on clickable elements */
+a,
+area,
+button,
+input,
+label,
+select,
+summary,
+textarea,
+[tabindex] {
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+
+/* Remove built-in form typography styles */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Add the correct font weight in Chrome, Edge, and Safari. */
+strong {
+  font-weight: bolder;
+}
+
+/* Correct the inability to style buttons in iOS and Safari. */
+:where(button, [type='button' i], [type='reset' i], [type='submit' i]) {
+  -webkit-appearance: button;
+}
+
+/* Correct small font size in all browsers. */
+small {
+  font-size: 80%;
+}
+
+/* Table adjustments */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  caption-side: bottom;
+}
+
+/* revert the 'white-space' property for textarea elements on Safari */
+textarea {
+  white-space: revert;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:focus-within {
+    scroll-behavior: smooth;
+  }
+}
+
+/*  Remove all animations, transitions and smooth scroll */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
 /* grid */
 
       
@@ -78,7 +215,7 @@ input:-webkit-autofill {
   left: calc(50% - (90% / 2));
 } 
 ._cont {
-    margin: 0, var(--container);
+    margin: 0 var(--container);
 }
 
  ._row {
@@ -1048,6 +1185,10 @@ margin-bottom: 4rem;
 margin-bottom: 5rem;
 }
 
+ ._mx_a {
+    margin: 0 auto;
+}
+
  ._mx_1s {
     margin-left: 0.2rem;
 margin-right: 0.2rem;
@@ -1101,11 +1242,6 @@ margin-right: 4rem;
  ._mx_5 {
     margin-left: 5rem;
 margin-right: 5rem;
-}
-
- ._mx_a {
-    margin-right: auto;
-margin-left: auto;
 }
 
  
@@ -1667,331 +1803,33 @@ transform: rotate(90deg);
 transform: rotate(-90deg);
 }
 
+ 
+
+/* transitions */
+
+._grow {
+    transition: all 0.4s ease-in-out;
+}
+
+ ._grow::hover {
+  transform: scale(1.2);
+}
+
+
+
+/* animationClasses */
+
+._pic_in {
+    animation: in 1s;
+transition: all 300ms linear;
+}
+
+ ._pic_out {
+    animation: out 1s;
+transition: all 300ms linear;
+}
+
  @media only screen and (min-width: 600px) {
-.col_s_1 {
-width: 8.33%;
-}
-
-.col_s_2 {
-width: 16.66%;
-}
-
-.col_s_3 {
-width: 25%;
-}
-
-.col_s_4 {
-width: 33.33%;
-}
-
-.col_s_5 {
-width: 41.66%;
-}
-
-.col_s_6 {
-width: 50%;
-}
-
-.col_s_7 {
-width: 58.33%;
-}
-
-.col_s_8 {
-width: 66.66%;
-}
-
-.col_s_9 {
-width: 75%;
-}
-
-.col_s_10 {
-width: 83.33%;
-}
-
-.col_s_11 {
-width: 91.66%;
-}
-
-.col_s_12 {
-width: 16.66%;
-}
-
-.floatCl_s_1 {
-width: 8.33%;
-left: calc(50% - (8.33% / 2));
-}
-
-.floatCl_s_2 {
-width: 16.66%;
-left: calc(50% - (16.66% / 2));
-}
-
-.floatCl_s_3 {
-width: 25%;
-left: calc(50% - (25% / 2));
-}
-
-.floatCl_s_4 {
-width: 33.33%;
-left: calc(50% - (33.33% / 2));
-}
-
-.floatCl_s_5 {
-width: 41.66%;
-left: calc(50% - (41.66% / 2));
-}
-
-.floatCl_s_6 {
-width: 50%;
-left: calc(50% - (50% / 2));
-}
-
-.floatCl_s_7 {
-width: 58.33%;
-left: calc(50% - (58.33% / 2));
-}
-
-.floatCl_s_8 {
-width: 66.66%;
-left: calc(50% - (66.66% / 2));
-}
-
-.floatCl_s_9 {
-width: 75%;
-left: calc(50% - (75% / 2));
-}
-
-.floatCl_s_10 {
-width: 83.33%;
-left: calc(50% - (83.33% / 2));
-}
-
-.floatCl_s_11 {
-width: 91.66%;
-left: calc(50% - (91.66% / 2));
-}
-
-.floatCl_s_12 {
-width: 100%;
-left: calc(50% - (100% / 2));
-}
-
-.col_s_1 {
-width: 8.33%;
-}
-
-.col_s_2 {
-width: 16.66%;
-}
-
-.col_s_3 {
-width: 25%;
-}
-
-.col_s_4 {
-width: 33.33%;
-}
-
-.col_s_5 {
-width: 41.66%;
-}
-
-.col_s_6 {
-width: 50%;
-}
-
-.col_s_7 {
-width: 58.33%;
-}
-
-.col_s_8 {
-width: 66.66%;
-}
-
-.col_s_9 {
-width: 75%;
-}
-
-.col_s_10 {
-width: 83.33%;
-}
-
-.col_s_11 {
-width: 91.66%;
-}
-
-.col_s_12 {
-width: 16.66%;
-}
-
-.floatCl_s_1 {
-width: 8.33%;
-left: calc(50% - (8.33% / 2));
-}
-
-.floatCl_s_2 {
-width: 16.66%;
-left: calc(50% - (16.66% / 2));
-}
-
-.floatCl_s_3 {
-width: 25%;
-left: calc(50% - (25% / 2));
-}
-
-.floatCl_s_4 {
-width: 33.33%;
-left: calc(50% - (33.33% / 2));
-}
-
-.floatCl_s_5 {
-width: 41.66%;
-left: calc(50% - (41.66% / 2));
-}
-
-.floatCl_s_6 {
-width: 50%;
-left: calc(50% - (50% / 2));
-}
-
-.floatCl_s_7 {
-width: 58.33%;
-left: calc(50% - (58.33% / 2));
-}
-
-.floatCl_s_8 {
-width: 66.66%;
-left: calc(50% - (66.66% / 2));
-}
-
-.floatCl_s_9 {
-width: 75%;
-left: calc(50% - (75% / 2));
-}
-
-.floatCl_s_10 {
-width: 83.33%;
-left: calc(50% - (83.33% / 2));
-}
-
-.floatCl_s_11 {
-width: 91.66%;
-left: calc(50% - (91.66% / 2));
-}
-
-.floatCl_s_12 {
-width: 100%;
-left: calc(50% - (100% / 2));
-}
-
-.col_s_1 {
-width: 8.33%;
-}
-
-.col_s_2 {
-width: 16.66%;
-}
-
-.col_s_3 {
-width: 25%;
-}
-
-.col_s_4 {
-width: 33.33%;
-}
-
-.col_s_5 {
-width: 41.66%;
-}
-
-.col_s_6 {
-width: 50%;
-}
-
-.col_s_7 {
-width: 58.33%;
-}
-
-.col_s_8 {
-width: 66.66%;
-}
-
-.col_s_9 {
-width: 75%;
-}
-
-.col_s_10 {
-width: 83.33%;
-}
-
-.col_s_11 {
-width: 91.66%;
-}
-
-.col_s_12 {
-width: 16.66%;
-}
-
-.floatCl_s_1 {
-width: 8.33%;
-left: calc(50% - (8.33% / 2));
-}
-
-.floatCl_s_2 {
-width: 16.66%;
-left: calc(50% - (16.66% / 2));
-}
-
-.floatCl_s_3 {
-width: 25%;
-left: calc(50% - (25% / 2));
-}
-
-.floatCl_s_4 {
-width: 33.33%;
-left: calc(50% - (33.33% / 2));
-}
-
-.floatCl_s_5 {
-width: 41.66%;
-left: calc(50% - (41.66% / 2));
-}
-
-.floatCl_s_6 {
-width: 50%;
-left: calc(50% - (50% / 2));
-}
-
-.floatCl_s_7 {
-width: 58.33%;
-left: calc(50% - (58.33% / 2));
-}
-
-.floatCl_s_8 {
-width: 66.66%;
-left: calc(50% - (66.66% / 2));
-}
-
-.floatCl_s_9 {
-width: 75%;
-left: calc(50% - (75% / 2));
-}
-
-.floatCl_s_10 {
-width: 83.33%;
-left: calc(50% - (83.33% / 2));
-}
-
-.floatCl_s_11 {
-width: 91.66%;
-left: calc(50% - (91.66% / 2));
-}
-
-.floatCl_s_12 {
-width: 100%;
-left: calc(50% - (100% / 2));
-}
-
 .col_s_1 {
 width: 8.33%;
 }
@@ -2180,636 +2018,9 @@ margin-right: 4rem;
 margin-right: 5rem;
 }
 
-.col_1 {
-width: 8.33%;
-}
-
-.col_2 {
-width: 16.66%;
-}
-
-.col_3 {
-width: 25%;
-}
-
-.col_4 {
-width: 33.33%;
-}
-
-.col_5 {
-width: 41.66%;
-}
-
-.col_6 {
-width: 50%;
-}
-
-.col_7 {
-width: 58.33%;
-}
-
-.col_8 {
-width: 66.66%;
-}
-
-.col_9 {
-width: 75%;
-}
-
-.col_10 {
-width: 83.33%;
-}
-
-.col_11 {
-width: 91.66%;
-}
-
-.col_12 {
-width: 16.66%;
-}
-
-.floatCl_12 {
-width: 100%;
-left: calc(50% - (100% / 2));
-}
-
-.media_mr_0 {
-margin-right: 0rem;
-}
-
-.media_mr_1 {
-margin-right: 1rem;
-}
-
-.media_mr_2 {
-margin-right: 2rem;
-}
-
-.media_mr_3 {
-margin-right: 3rem;
-}
-
-.media_mr_4 {
-margin-right: 4rem;
-}
-
-.media_mr_5 {
-margin-right: 5rem;
-}
-
-.col_1 {
-width: 8.33%;
-}
-
-.col_2 {
-width: 16.66%;
-}
-
-.col_3 {
-width: 25%;
-}
-
-.col_4 {
-width: 33.33%;
-}
-
-.col_5 {
-width: 41.66%;
-}
-
-.col_6 {
-width: 50%;
-}
-
-.col_7 {
-width: 58.33%;
-}
-
-.col_8 {
-width: 66.66%;
-}
-
-.col_9 {
-width: 75%;
-}
-
-.col_10 {
-width: 83.33%;
-}
-
-.col_11 {
-width: 91.66%;
-}
-
-.col_12 {
-width: 16.66%;
-}
-
-.floatCl_12 {
-width: 100%;
-left: calc(50% - (100% / 2));
-}
-
-.media_mr_0 {
-margin-right: 0rem;
-}
-
-.media_mr_1 {
-margin-right: 1rem;
-}
-
-.media_mr_2 {
-margin-right: 2rem;
-}
-
-.media_mr_3 {
-margin-right: 3rem;
-}
-
-.media_mr_4 {
-margin-right: 4rem;
-}
-
-.media_mr_5 {
-margin-right: 5rem;
-}
-
-.col_1 {
-width: 8.33%;
-}
-
-.col_2 {
-width: 16.66%;
-}
-
-.col_3 {
-width: 25%;
-}
-
-.col_4 {
-width: 33.33%;
-}
-
-.col_5 {
-width: 41.66%;
-}
-
-.col_6 {
-width: 50%;
-}
-
-.col_7 {
-width: 58.33%;
-}
-
-.col_8 {
-width: 66.66%;
-}
-
-.col_9 {
-width: 75%;
-}
-
-.col_10 {
-width: 83.33%;
-}
-
-.col_11 {
-width: 91.66%;
-}
-
-.col_12 {
-width: 16.66%;
-}
-
-.floatCl_12 {
-width: 100%;
-left: calc(50% - (100% / 2));
-}
-
-.media_mr_0 {
-margin-right: 0rem;
-}
-
-.media_mr_1 {
-margin-right: 1rem;
-}
-
-.media_mr_2 {
-margin-right: 2rem;
-}
-
-.media_mr_3 {
-margin-right: 3rem;
-}
-
-.media_mr_4 {
-margin-right: 4rem;
-}
-
-.media_mr_5 {
-margin-right: 5rem;
-}
-
 
 }
 @media only screen and (min-width: 1200px) {
-.col_l_1 {
-width: 8.33%;
-}
-
-.col_l_2 {
-width: 8.33%;
-}
-
-.col_l_3 {
-width: 25%;
-}
-
-.col_l_4 {
-width: 33.33%;
-}
-
-.col_l_5 {
-width: 41.66%;
-}
-
-.col_l_6 {
-width: 50%;
-}
-
-.col_l_7 {
-width: 58.33%;
-}
-
-.col_l_8 {
-width: 66.66%;
-}
-
-.col_l_9 {
-width: 75%;
-}
-
-.col_l_10 {
-width: 83.33%;
-}
-
-.col_l_11 {
-width: 91.66%;
-}
-
-.col_l_12 {
-width: 16.66%;
-}
-
-.floatCl_l_1 {
-width: 8.33%;
-left: calc(50% - (8.33% / 2));
-}
-
-.floatCl_l_2 {
-width: 16.66%;
-left: calc(50% - (16.66% / 2));
-}
-
-.floatCl_l_3 {
-width: 25%;
-left: calc(50% - (25% / 2));
-}
-
-.floatCl_l_4 {
-width: 33.33%;
-left: calc(50% - (33.33% / 2));
-}
-
-.floatCl_l_5 {
-width: 41.66%;
-left: calc(50% - (41.66% / 2));
-}
-
-.floatCl_l_6 {
-width: 50%;
-left: calc(50% - (50% / 2));
-}
-
-.floatCl_l_7 {
-width: 58.33%;
-left: calc(50% - (58.33% / 2));
-}
-
-.floatCl_l_8 {
-width: 66.66%;
-left: calc(50% - (66.66% / 2));
-}
-
-.floatCl_l_9 {
-width: 75%;
-left: calc(50% - (75% / 2));
-}
-
-.floatCl_l_10 {
-width: 83.33%;
-left: calc(50% - (83.33% / 2));
-}
-
-.floatCl_l_11 {
-width: 91.66%;
-left: calc(50% - (91.66% / 2));
-}
-
-.floatCl_l_12 {
-width: 100%;
-left: calc(50% - (100% / 2));
-}
-
-.media_l_mr_0 {
-margin-right: 0rem;
-}
-
-.media_l_mr_1 {
-margin-right: 1rem;
-}
-
-.media_l_mr_2 {
-margin-right: 2rem;
-}
-
-.media_l_mr_3 {
-margin-right: 3rem;
-}
-
-.media_l_mr_4 {
-margin-right: 4rem;
-}
-
-.media_l_mr_5 {
-margin-right: 5rem;
-}
-
-.col_l_1 {
-width: 8.33%;
-}
-
-.col_l_2 {
-width: 8.33%;
-}
-
-.col_l_3 {
-width: 25%;
-}
-
-.col_l_4 {
-width: 33.33%;
-}
-
-.col_l_5 {
-width: 41.66%;
-}
-
-.col_l_6 {
-width: 50%;
-}
-
-.col_l_7 {
-width: 58.33%;
-}
-
-.col_l_8 {
-width: 66.66%;
-}
-
-.col_l_9 {
-width: 75%;
-}
-
-.col_l_10 {
-width: 83.33%;
-}
-
-.col_l_11 {
-width: 91.66%;
-}
-
-.col_l_12 {
-width: 16.66%;
-}
-
-.floatCl_l_1 {
-width: 8.33%;
-left: calc(50% - (8.33% / 2));
-}
-
-.floatCl_l_2 {
-width: 16.66%;
-left: calc(50% - (16.66% / 2));
-}
-
-.floatCl_l_3 {
-width: 25%;
-left: calc(50% - (25% / 2));
-}
-
-.floatCl_l_4 {
-width: 33.33%;
-left: calc(50% - (33.33% / 2));
-}
-
-.floatCl_l_5 {
-width: 41.66%;
-left: calc(50% - (41.66% / 2));
-}
-
-.floatCl_l_6 {
-width: 50%;
-left: calc(50% - (50% / 2));
-}
-
-.floatCl_l_7 {
-width: 58.33%;
-left: calc(50% - (58.33% / 2));
-}
-
-.floatCl_l_8 {
-width: 66.66%;
-left: calc(50% - (66.66% / 2));
-}
-
-.floatCl_l_9 {
-width: 75%;
-left: calc(50% - (75% / 2));
-}
-
-.floatCl_l_10 {
-width: 83.33%;
-left: calc(50% - (83.33% / 2));
-}
-
-.floatCl_l_11 {
-width: 91.66%;
-left: calc(50% - (91.66% / 2));
-}
-
-.floatCl_l_12 {
-width: 100%;
-left: calc(50% - (100% / 2));
-}
-
-.media_l_mr_0 {
-margin-right: 0rem;
-}
-
-.media_l_mr_1 {
-margin-right: 1rem;
-}
-
-.media_l_mr_2 {
-margin-right: 2rem;
-}
-
-.media_l_mr_3 {
-margin-right: 3rem;
-}
-
-.media_l_mr_4 {
-margin-right: 4rem;
-}
-
-.media_l_mr_5 {
-margin-right: 5rem;
-}
-
-.col_l_1 {
-width: 8.33%;
-}
-
-.col_l_2 {
-width: 8.33%;
-}
-
-.col_l_3 {
-width: 25%;
-}
-
-.col_l_4 {
-width: 33.33%;
-}
-
-.col_l_5 {
-width: 41.66%;
-}
-
-.col_l_6 {
-width: 50%;
-}
-
-.col_l_7 {
-width: 58.33%;
-}
-
-.col_l_8 {
-width: 66.66%;
-}
-
-.col_l_9 {
-width: 75%;
-}
-
-.col_l_10 {
-width: 83.33%;
-}
-
-.col_l_11 {
-width: 91.66%;
-}
-
-.col_l_12 {
-width: 16.66%;
-}
-
-.floatCl_l_1 {
-width: 8.33%;
-left: calc(50% - (8.33% / 2));
-}
-
-.floatCl_l_2 {
-width: 16.66%;
-left: calc(50% - (16.66% / 2));
-}
-
-.floatCl_l_3 {
-width: 25%;
-left: calc(50% - (25% / 2));
-}
-
-.floatCl_l_4 {
-width: 33.33%;
-left: calc(50% - (33.33% / 2));
-}
-
-.floatCl_l_5 {
-width: 41.66%;
-left: calc(50% - (41.66% / 2));
-}
-
-.floatCl_l_6 {
-width: 50%;
-left: calc(50% - (50% / 2));
-}
-
-.floatCl_l_7 {
-width: 58.33%;
-left: calc(50% - (58.33% / 2));
-}
-
-.floatCl_l_8 {
-width: 66.66%;
-left: calc(50% - (66.66% / 2));
-}
-
-.floatCl_l_9 {
-width: 75%;
-left: calc(50% - (75% / 2));
-}
-
-.floatCl_l_10 {
-width: 83.33%;
-left: calc(50% - (83.33% / 2));
-}
-
-.floatCl_l_11 {
-width: 91.66%;
-left: calc(50% - (91.66% / 2));
-}
-
-.floatCl_l_12 {
-width: 100%;
-left: calc(50% - (100% / 2));
-}
-
-.media_l_mr_0 {
-margin-right: 0rem;
-}
-
-.media_l_mr_1 {
-margin-right: 1rem;
-}
-
-.media_l_mr_2 {
-margin-right: 2rem;
-}
-
-.media_l_mr_3 {
-margin-right: 3rem;
-}
-
-.media_l_mr_4 {
-margin-right: 4rem;
-}
-
-.media_l_mr_5 {
-margin-right: 5rem;
-}
-
 .col_l_1 {
 width: 8.33%;
 }
