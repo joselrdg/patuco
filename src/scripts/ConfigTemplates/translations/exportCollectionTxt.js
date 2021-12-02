@@ -4,13 +4,13 @@ const others = {
   en: {
     c: common,
     q: {
-      dir: "Seleccione el directorio en el que copiar los archivos. Si seleccionas '/' se copiaran en el direcctorio en el que te encuentras:",
+      dir: "Select the destination directory where the files will be copied:",
     },
   },
   es: {
     c: common,
     q: {
-      dir: "Seleccione el directorio en el que copiar los archivos. Si seleccionas '/' se copiaran en el direcctorio en el que te encuentras:",
+      dir: "Seleccione el directorio de destino en el que se copiaran los archivos:",
     },
   },
 };
