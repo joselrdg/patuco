@@ -3,7 +3,7 @@ const patucoConfig = {
     patucoModule: undefined,
     patucoConfig: undefined,
     baseCss: undefined,
-    userTemplate: undefined
+    userTemplate: undefined,
   },
   language: "en",
 };

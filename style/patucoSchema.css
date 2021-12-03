@@ -8,12 +8,12 @@
 
     
 :root {
-  --primaryfontFamily1: joseleeeeee;
+  --primaryfontFamily1: Spartan;
   --primaryfontFamily2: Spartan;
   --primaryfontFamily3: Spartan;
   --primaryfontFamily4: Spartan;
   --primaryfontFamily5: Spartan;
-  --secundaryfontFamily1: joseleeeeee;
+  --secundaryfontFamily1: Spartan;
   --secundaryfontFamily2: Spartan;
   --secundaryfontFamily3: Spartan;
   --secundaryfontFamily4: Spartan;
@@ -54,8 +54,6 @@ input:-webkit-autofill {
   top: 0;
   width: 100%;
 }
-
-/* Custom CSS reset by @alindeveloper */
 
 /* Use a more-intuitive box-sizing model. */
 *,

@@ -3,7 +3,6 @@ const config = require("../config.js");
 const queryParams = require("../common/queryParams.js");
 const pathExists = require("../common/pathExists.js");
 const filewalker = require("../common/filewalker.js");
-const createCollection = require("./createCollection.js");
 const exportCollection = require("./exportCollection.js");
 const importCollection = require("./importCollection.js");
 const pathTemplates = require("../constants/patucoConfig.js").path.userTemplate;
@@ -28,6 +27,7 @@ ${txt.c.created}\n
   }
 };
 
+const previousDir = [];
 const optionsCollection = async (patuco, path, depth, end) => {
   if (end) {
     await exportCollection("file", path);
@@ -49,22 +49,39 @@ const optionsCollection = async (patuco, path, depth, end) => {
       txt.c.back,
     ]);
     if (optcolle.type === txt.c.back) {
-      configTemplates();
+      if (previousDir.length < 1) {
+        configTemplates();
+      } else {
+        const prev = previousDir[previousDir.length - 1];
+        previousDir.pop();
+        optionsCollection(patuco, prev);
+      }
     } else if (optcolle.type === chalk.green.italic(txt.q.exportcollection)) {
       await exportCollection("dir", path);
       configTemplates();
     } else if (optcolle.type === chalk.green.italic(txt.q.createcollection)) {
-      await createCollection(path);
-      configTemplates();
+      if (!patuco) {
+        const dirname = await queryParams("input", txt.q.dirname);
+        if (dirname.type === "") {
+          console.log(txt.c.haveadd);
+          optionsCollection(patuco, path);
+        } else {
+          await createDir(dirname.type, `${path}/${dirname.type}`);
+          optionsCollection(patuco, path);
+        }
+      } else {
+        console.log("No se puede crear dir");
+        optionsCollection(patuco, path);
+      }
     } else if (optcolle.type === chalk.green.italic(txt.q.importcollection)) {
       await importCollection(path);
       configTemplates();
     } else {
       if (albumDir.some((e) => e.path === optcolle.type)) {
-        console.log("some true");
+        previousDir.push(path);
         optionsCollection(patuco, `${path}/${optcolle.type}`);
       } else {
-        console.log("some false");
+        previousDir = path;
         optionsCollection(patuco, `${path}/${optcolle.type}`, undefined, true);
       }
     }
