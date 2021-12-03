@@ -4,6 +4,8 @@ const inquirer = require("inquirer");
 const fs = require("fs");
 const path = require("./scripts/constants/patucoConfig.js").path;
 const txt = require("./scripts/translations/index.js");
+const modulePath = require("./scripts/constants/patucoConfig.js").path
+  .patucoModule;
 
 const msn = (msn) => {
   console.log(
@@ -57,6 +59,22 @@ const createFile = (data) => {
   }
 };
 
+const displayImports = () => {
+  console.log(chalk.bgGrey.cyanBright(` ${txt.query.import} HTML: \n`));
+  console.log(
+    chalk.cyanBright(
+      `  <link rel="stylesheet" 
+  type="text/css" 
+  href="${modulePath}/style/patucoSchema.css" 
+  media="screen" />\n\n`
+    )
+  );
+  console.log(chalk.bgGrey.cyanBright(` ${txt.query.import} JSX: \n`));
+  console.log(
+    chalk.cyanBright(`   import "${modulePath}/style/patucoSchema.css"\n\n`)
+  );
+}
+
 const start = async () => {
   const a = `\n                         +               *
            *                    ___ _               +
@@ -73,21 +91,21 @@ const start = async () => {
                         *              
                                           +\n`;
 
-  console.log(chalk.bold.cyan(b));
+  console.log(chalk.bold.cyanBright(b));
   msn(`\n\n
 'shoehorn'`);
-  console.log(chalk.bold.cyan(a));
+  console.log(chalk.bold.cyanBright(a));
 
   msn(`\n\n
 '  patuco'`);
-  console.log(chalk.bold.cyan(b));
+  console.log(chalk.bold.cyanBright(b));
   console.log(
     chalk.bold.green(
       chalk.bold.yellow("                 *  ") + txt.query.welcome
     ) +
       " " +
       chalk.bold.magenta("PATUCO") +
-      chalk.bold.yellow("  *\n")
+      chalk.bold.yellow("  *\n\n")
   );
 
   if (
@@ -99,6 +117,7 @@ const start = async () => {
     const config = require("./scripts/config.js");
     config.config();
   } else {
+    displayImports()
     createFile(await queryParams());
   }
 };

@@ -8,6 +8,7 @@ const index = {
       styles: "Styles",
       components: "Templates",
       settings: "Settings",
+      import: "Import in",
     },
   },
   es: {
@@ -17,6 +18,7 @@ const index = {
       styles: "Estilos",
       components: "Plantillas",
       settings: "Ajustes",
+      import: "Importar en",
     },
   },
 };
