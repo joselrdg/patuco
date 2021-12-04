@@ -25,11 +25,12 @@
   --color-white: white;
   --color-red: #de5246;
   --background-colorBody: #e9eaea;
-  --button-background-color_-bc1: black;
-  --button-background-color_-bc2: black;
-  --button-background-color_-bc3: black;
-  --button-background-color_-bc4: black;
-  --button-background-color_-bc5: black;
+  --button-background-color_-0: black;
+  --button-background-color_-1: black;
+  --button-background-color_-2: black;
+  --button-background-color_-3: black;
+  --button-background-color_-4: black;
+  --button-background-color_-5: black;
   --button-color_-c1: black;
   --button-color_-c2: black;
   --button-color_-c3: black;
@@ -1849,7 +1850,7 @@ transition: all 300ms linear;
 
 /* buttons */
 
-._btn_bg_- {
+._btn_bg_-0 {
     padding: var(--button-background-color_-0);
 }
 

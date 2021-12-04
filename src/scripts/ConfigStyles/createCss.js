@@ -6,6 +6,7 @@ const fs = require("fs");
 const baseCss = require("../../templates/styles/baseCss.js");
 const userTemplatePath = require("../constants/patucoConfig.js").path
   .userTemplate;
+const isUserTemplate = userTemplatePath ? userTemplatePath : "";
 const mediaQueriesArr = require(fs.existsSync(
   `${userTemplatePath}/mediaQueries/mediaQueries.js`
 )
@@ -20,12 +21,8 @@ const variables = require(fs.existsSync(variablesUser)
   : "../../templates/styles/variables.js");
 
 const animations = require("../../templates/styles/animations.js");
-const animationsUser = require(fs.existsSync(
-  `${userTemplatePath}/animations/animations.js`
-)
-  ? `${userTemplatePath}/animations/animations.js`
-  : []);
-
+const useAnimaPath = `${userTemplatePath}/animations/animations.js`;
+const animationsUser = fs.existsSync(useAnimaPath) ? require(useAnimaPath) : [];
 const animationsUsed = [];
 
 const txt = require("./translations/createCss.js");

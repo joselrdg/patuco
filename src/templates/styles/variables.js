@@ -23,6 +23,12 @@ const variables = {
   "background-color1": "#e9eaea",
   "background-color2": "#e9eaea",
   "container": "0 9% 0 9%",
+  "button-background-color_-0": "black",
+  "button-background-color_-1": "black",
+  "button-background-color_-2": "black",
+  "button-background-color_-3": "black",
+  "button-background-color_-4": "black",
+  "button-background-color_-5": "black",
 };
 
 module.exports = variables;
