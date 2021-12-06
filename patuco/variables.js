@@ -20,8 +20,8 @@ const variables = {
    "color-white": "white",
    "color-red": "#de5246",
    "background-colorBody": "#e9eaea",
-   "button-background-color_-0": "black",
-   "button-background-color_-1": "black",
+   "button-background-color_-0": "#0d6efd",
+   "button-background-color_-1": "#2f80ed",
    "button-background-color_-2": "black",
    "button-background-color_-3": "black",
    "button-background-color_-4": "black",
@@ -38,6 +38,7 @@ const variables = {
    "size-s_-5": "1vw",
    "background-color1": "#e9eaea",
    "background-color2": "#e9eaea",
+   "card-outline-width": "0px",
    "container": "0 9% 0 9%",
 };
   

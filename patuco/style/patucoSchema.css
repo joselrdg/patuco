@@ -26,7 +26,7 @@
   --color-red: #de5246;
   --background-colorBody: #e9eaea;
   --button-background-color_-0: black;
-  --button-background-color_-1: black;
+  --button-background-color_-1: #2f80ed;
   --button-background-color_-2: black;
   --button-background-color_-3: black;
   --button-background-color_-4: black;
@@ -212,7 +212,7 @@ textarea {
 /* grid */
 
       
-[class*="col_"] {
+[class*="_col_"] {
   float: left;
   /* padding: 15px; */
 }
@@ -223,7 +223,7 @@ textarea {
 }
       
 /* For mobile phones: */
-[class*="col_"] {
+[class*="_col_"] {
   width: 100%;
 }
       
@@ -1851,13 +1851,220 @@ transition: all 300ms linear;
 /* buttons */
 
 ._btn_bg_-0 {
-    padding: var(--button-background-color_-0);
+    background-color: var(--button-background-color_-0);
 }
 
- ._btn_1 {
+ ._btn_bg_-1 {
+    background-color: var(--button-background-color_-1);
+}
+
+ ._btn_bg_-2 {
+    background-color: var(--button-background-color_-2);
+}
+
+ ._btn_bg_-3 {
+    background-color: var(--button-background-color_-3);
+}
+
+ ._btn_bg_-4 {
+    background-color: var(--button-background-color_-4);
+}
+
+ ._btn_bg_-5 {
+    background-color: var(--button-background-color_-5);
+}
+
+ ._btn_bgg_-0 {
+    background: var(--button-background-gradient_-0);
+}
+
+ ._btn_bgg_-1 {
+    background: var(--button-background-gradient_-1);
+}
+
+ ._btn_2_-0 {
+    cursor: pointer;
+border: 0;
+border-radius: 12px;
+color: black;
+background: linear-gradient(to bottom right, #003bca, #40a1ff);
+display: inline-block;
+font-family: -apple-system,system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+font-size: 16px;
+font-weight: 500;
+line-height: 2.5;
+outline: transparent;
+padding: 0 1rem;
+text-align: center;
+text-decoration: none;
+transition: box-shadow .2s ease-in-out;
+user-select: none;
+-webkit-user-select: none;
+touch-action: manipulation;
+white-space: nowrap;
+}
+
+ ._btn_2:not([disabled]):focus {
+  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem #003bca, .125rem .125rem 1rem #40a1ff;
+}
+
+._btn_2:not([disabled]):hover {
+  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem #003bca, .125rem .125rem 1rem #40a1ff;
+}
+
+._btn_2_-1 {
+    cursor: pointer;
+border: 0;
+border-radius: 12px;
+color: black;
+background: linear-gradient(to bottom right, #003bca, #40a1ff);
+display: inline-block;
+font-family: -apple-system,system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+font-size: 16px;
+font-weight: 500;
+line-height: 2.5;
+outline: transparent;
+padding: 0 1rem;
+text-align: center;
+text-decoration: none;
+transition: box-shadow .2s ease-in-out;
+user-select: none;
+-webkit-user-select: none;
+touch-action: manipulation;
+white-space: nowrap;
+}
+
+ ._btn_2:not([disabled]):focus {
+  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem #003bca, .125rem .125rem 1rem #40a1ff;
+}
+
+._btn_2:not([disabled]):hover {
+  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem #003bca, .125rem .125rem 1rem #40a1ff;
+}
+
+._btn_2_-2 {
+    cursor: pointer;
+border: 0;
+border-radius: 12px;
+color: black;
+background: linear-gradient(to bottom right, #003bca, #40a1ff);
+display: inline-block;
+font-family: -apple-system,system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+font-size: 16px;
+font-weight: 500;
+line-height: 2.5;
+outline: transparent;
+padding: 0 1rem;
+text-align: center;
+text-decoration: none;
+transition: box-shadow .2s ease-in-out;
+user-select: none;
+-webkit-user-select: none;
+touch-action: manipulation;
+white-space: nowrap;
+}
+
+ ._btn_2:not([disabled]):focus {
+  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem #003bca, .125rem .125rem 1rem #40a1ff;
+}
+
+._btn_2:not([disabled]):hover {
+  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem #003bca, .125rem .125rem 1rem #40a1ff;
+}
+
+._btn_2_-3 {
+    cursor: pointer;
+border: 0;
+border-radius: 12px;
+color: black;
+background: linear-gradient(to bottom right, #003bca, #40a1ff);
+display: inline-block;
+font-family: -apple-system,system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+font-size: 16px;
+font-weight: 500;
+line-height: 2.5;
+outline: transparent;
+padding: 0 1rem;
+text-align: center;
+text-decoration: none;
+transition: box-shadow .2s ease-in-out;
+user-select: none;
+-webkit-user-select: none;
+touch-action: manipulation;
+white-space: nowrap;
+}
+
+ ._btn_2:not([disabled]):focus {
+  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem #003bca, .125rem .125rem 1rem #40a1ff;
+}
+
+._btn_2:not([disabled]):hover {
+  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem #003bca, .125rem .125rem 1rem #40a1ff;
+}
+
+._btn_2_-4 {
+    cursor: pointer;
+border: 0;
+border-radius: 12px;
+color: black;
+background: linear-gradient(to bottom right, #003bca, #40a1ff);
+display: inline-block;
+font-family: -apple-system,system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+font-size: 16px;
+font-weight: 500;
+line-height: 2.5;
+outline: transparent;
+padding: 0 1rem;
+text-align: center;
+text-decoration: none;
+transition: box-shadow .2s ease-in-out;
+user-select: none;
+-webkit-user-select: none;
+touch-action: manipulation;
+white-space: nowrap;
+}
+
+ ._btn_2:not([disabled]):focus {
+  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem #003bca, .125rem .125rem 1rem #40a1ff;
+}
+
+._btn_2:not([disabled]):hover {
+  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem #003bca, .125rem .125rem 1rem #40a1ff;
+}
+
+._btn_2_-5 {
+    cursor: pointer;
+border: 0;
+border-radius: 12px;
+color: black;
+background: linear-gradient(to bottom right, #003bca, #40a1ff);
+display: inline-block;
+font-family: -apple-system,system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+font-size: 16px;
+font-weight: 500;
+line-height: 2.5;
+outline: transparent;
+padding: 0 1rem;
+text-align: center;
+text-decoration: none;
+transition: box-shadow .2s ease-in-out;
+user-select: none;
+-webkit-user-select: none;
+touch-action: manipulation;
+white-space: nowrap;
+}
+
+ ._btn_2:not([disabled]):focus {
+  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem #003bca, .125rem .125rem 1rem #40a1ff;
+}
+
+._btn_2:not([disabled]):hover {
+  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem #003bca, .125rem .125rem 1rem #40a1ff;
+}
+
+._btn_1 {
     appearance: none;
 backface-visibility: hidden;
-background-color: #2f80ed;
 border-radius: 10px;
 border-style: none;
 box-shadow: none;
@@ -1908,51 +2115,51 @@ white-space: nowrap;
 }
 
 @media only screen and (min-width: 600px) {
-.col_s_1 {
+._col_s_1 {
 width: 8.33%;
 }
 
-.col_s_2 {
+._col_s_2 {
 width: 16.66%;
 }
 
-.col_s_3 {
+._col_s_3 {
 width: 25%;
 }
 
-.col_s_4 {
+._col_s_4 {
 width: 33.33%;
 }
 
-.col_s_5 {
+._col_s_5 {
 width: 41.66%;
 }
 
-.col_s_6 {
+._col_s_6 {
 width: 50%;
 }
 
-.col_s_7 {
+._col_s_7 {
 width: 58.33%;
 }
 
-.col_s_8 {
+._col_s_8 {
 width: 66.66%;
 }
 
-.col_s_9 {
+._col_s_9 {
 width: 75%;
 }
 
-.col_s_10 {
+._col_s_10 {
 width: 83.33%;
 }
 
-.col_s_11 {
+._col_s_11 {
 width: 91.66%;
 }
 
-.col_s_12 {
+._col_s_12 {
 width: 16.66%;
 }
 
@@ -2019,51 +2226,51 @@ left: calc(50% - (100% / 2));
 
 }
 @media only screen and (min-width: 768px) {
-.col_1 {
+._col_1 {
 width: 8.33%;
 }
 
-.col_2 {
+._col_2 {
 width: 16.66%;
 }
 
-.col_3 {
+._col_3 {
 width: 25%;
 }
 
-.col_4 {
+._col_4 {
 width: 33.33%;
 }
 
-.col_5 {
+._col_5 {
 width: 41.66%;
 }
 
-.col_6 {
+._col_6 {
 width: 50%;
 }
 
-.col_7 {
+._col_7 {
 width: 58.33%;
 }
 
-.col_8 {
+._col_8 {
 width: 66.66%;
 }
 
-.col_9 {
+._col_9 {
 width: 75%;
 }
 
-.col_10 {
+._col_10 {
 width: 83.33%;
 }
 
-.col_11 {
+._col_11 {
 width: 91.66%;
 }
 
-.col_12 {
+._col_12 {
 width: 16.66%;
 }
 
@@ -2104,51 +2311,51 @@ margin-right: 5rem;
 
 }
 @media only screen and (min-width: 1200px) {
-.col_l_1 {
+._col_l_1 {
 width: 8.33%;
 }
 
-.col_l_2 {
+._col_l_2 {
 width: 8.33%;
 }
 
-.col_l_3 {
+._col_l_3 {
 width: 25%;
 }
 
-.col_l_4 {
+._col_l_4 {
 width: 33.33%;
 }
 
-.col_l_5 {
+._col_l_5 {
 width: 41.66%;
 }
 
-.col_l_6 {
+._col_l_6 {
 width: 50%;
 }
 
-.col_l_7 {
+._col_l_7 {
 width: 58.33%;
 }
 
-.col_l_8 {
+._col_l_8 {
 width: 66.66%;
 }
 
-.col_l_9 {
+._col_l_9 {
 width: 75%;
 }
 
-.col_l_10 {
+._col_l_10 {
 width: 83.33%;
 }
 
-.col_l_11 {
+._col_l_11 {
 width: 91.66%;
 }
 
-.col_l_12 {
+._col_l_12 {
 width: 16.66%;
 }
 

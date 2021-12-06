@@ -24,6 +24,10 @@ const groupQureryStr = [];
 const txt = require("./translations/updateCssSchema.js");
 const back = txt.c.back;
 
+const reqPatuVar = require("../../templates/styles/requestPatuVar.js");
+
+const regexPatuVar = new RegExp("_cVP", "g");
+
 const queryParams = (item) => {
   const message = {
     option: {
@@ -55,15 +59,19 @@ const queryParams = (item) => {
 
 const prepareStylesStr = async (arr, recursivevar, recursiname) => {
   let str = "";
-  const regex = new RegExp(recursivevar, "g");
   for (let index = 0; index < arr.length; index++) {
-    const element = arr[index];
-    const is = await isRegex(regex, element);
-    if (is) {
-      const newVar = element.replace(recursivevar, recursiname);
+    let element = arr[index];
+    if (element.includes(recursivevar)) {
+      let newVar = element.replace(recursivevar, recursiname);
+      if (newVar.includes("_cVP")) {
+        newVar = await reqPatuVar(newVar);
+      }
       console.log("newVar: " + newVar);
       str = str + `${newVar};\n`;
     } else {
+      if (element.includes("_cVP")) {
+        element = await reqPatuVar(element);
+      }
       str = str + `${element};\n`;
     }
   }
@@ -90,7 +98,10 @@ const createPseudoElements = async (uniqueClass) => {
     const element = pseudoElements[index];
     let stylesStr = `.${uniqueClass.name}${element.type} {\n`;
     for (let index = 0; index < element.items.length; index++) {
-      const styleElement = element.items[index];
+      let styleElement = element.items[index];
+      if (styleElement.includes("_cVP")) {
+        styleElement = await reqPatuVar(styleElement);
+      }
       stylesStr = stylesStr + `  ${styleElement};\n`;
     }
     stylesStr = stylesStr + "}\n\n";
@@ -112,7 +123,7 @@ const prepareClassesQueryStr = async (query, classStr) => {
         groupQureryStr[isQuerySaved].str =
           groupQureryStr[isQuerySaved].str + classStr;
       } else {
-        console.log(chalk.bold.yellow(`\nMedia query: ${query}\n`));
+        console.log(`\nMedia query: ${chalk.blue.italic(query)}\n`);
         querysUsed.push(element.name);
         groupQureryStr.push({
           name: element.name,
@@ -141,7 +152,6 @@ const recursiveVariablesCount = async (variableReg) => {
   const regex = new RegExp(variableReg, "i");
   for (const key in variables) {
     const is = await isRegex(regex, key);
-    console.log(key, is);
     if (is) {
       count.push(key);
     }
@@ -167,7 +177,6 @@ const prepareStr = async () => {
       const recursiveCount = uniqueClass.recursivevar
         ? await recursiveVariablesCount(uniqueClass.recursivevar)
         : null;
-      console.log(recursiveCount);
       if (uniqueClass.template) {
         str = str + uniqueClass.template;
       }
@@ -204,8 +213,6 @@ ${stylesStr}}\n\n${pseudoElementsStr}`;
 };
 
 const updateSchema = async (path) => {
-  console.log(groupQureryStr);
-  console.log(querysUsed);
   const fileStr = await prepareStr();
   try {
     fs.writeFileSync(path, fileStr, { mode: 0o777 });

@@ -31,7 +31,7 @@ const queryParams = () => {
         // "Views",
         // "Layouts",
         // "Models",
-        "Javascript",
+        // "Javascript",
         txt.query.settings,
         txt.c.exit,
       ],
@@ -73,7 +73,7 @@ const displayImports = () => {
   console.log(
     chalk.cyanBright(`   import "${modulePath}/style/patucoSchema.css"\n\n`)
   );
-}
+};
 
 const start = async () => {
   const a = `\n                         +               *
@@ -91,21 +91,19 @@ const start = async () => {
                         *              
                                           +\n`;
 
-  console.log(chalk.bold.cyanBright(b));
+  console.log(chalk.bold.greenBright(b));
   msn(`\n\n
 'shoehorn'`);
-  console.log(chalk.bold.cyanBright(a));
+
+  console.log(chalk.bold.greenBright(a));
 
   msn(`\n\n
 '  patuco'`);
-  console.log(chalk.bold.cyanBright(b));
+  console.log(chalk.bold.greenBright(b));
   console.log(
-    chalk.bold.green(
-      chalk.bold.yellow("                 *  ") + txt.query.welcome
-    ) +
-      " " +
-      chalk.bold.magenta("PATUCO") +
-      chalk.bold.yellow("  *\n\n")
+    chalk.bold.greenBright("                    *  ") +
+      chalk.bold.cyanBright(txt.query.welcome + " " + "PATUCO") +
+      chalk.bold.greenBright("  *\n\n")
   );
 
   if (
@@ -117,7 +115,7 @@ const start = async () => {
     const config = require("./scripts/config.js");
     config.config();
   } else {
-    displayImports()
+    displayImports();
     createFile(await queryParams());
   }
 };
