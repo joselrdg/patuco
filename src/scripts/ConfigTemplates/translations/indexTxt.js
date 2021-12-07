@@ -10,6 +10,11 @@ const index = {
       createcollection: "Create dir",
       importcollection: "Import",
       exportcollection: "Export",
+      injectfile: "Inject file",
+      diranalyzed: "\n   The directory you are in will be analyzed\n",
+      injectauto: "Inject components automatically",
+      iextension:
+        "Enter extension to filter by file type such as 'js' or 'html'. If you don't enter any value, all files will be scanned:",
 
       components: "Components",
       views: "Views",
@@ -27,6 +32,11 @@ const index = {
       createcollection: "Crear dir",
       importcollection: "Importar",
       exportcollection: "Exportar",
+      injectfile: "Inyectar archivo",
+      diranalyzed: "\n   Se analizará el directorio en el que te encuentras\n",
+      injectauto: "Inyectar componentes automáticamente",
+      iextension:
+        "Introduce extension para filtrar por tipo de archivo como por ejemplo 'js' o 'html'. Si no introduces ningún valor se analizaran todos los archivos.",
 
       components: "Componentes",
       views: "Vistas",

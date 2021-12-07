@@ -5,6 +5,8 @@ const pathExists = require("../common/pathExists.js");
 const filewalker = require("../common/filewalker.js");
 const exportCollection = require("./exportCollection.js");
 const importCollection = require("./importCollection.js");
+const injectComponent = require("./injectComponent.js");
+const injectComponentAuto = require("./injectComponentAuto.js");
 const pathTemplates = require("../constants/patucoConfig.js").path.userTemplate;
 const patucoModule = require("../constants/patucoConfig.js").path.patucoModule;
 const patucoLayoutsPath = `${patucoModule}/src/templates/layouts`;
@@ -30,7 +32,16 @@ ${txt.c.created}\n
 const previousDir = [];
 const optionsCollection = async (patuco, path, depth, end) => {
   if (end) {
-    await exportCollection("file", path);
+    const optionFile = await queryParams("addProp", txt.c.option, [
+      txt.q.injectfile,
+      txt.q.exportcollection,
+    ]);
+    if (optionFile.type === txt.q.exportcollection) {
+      await exportCollection("file", path);
+    } else {
+      console.log(chalk.yellow.bold.italic(txt.q.diranalyzed));
+      await injectComponent(path);
+    }
     configTemplates();
   } else {
     const albumDir = await filewalker(path, { type: "directories", depth });
@@ -81,7 +92,7 @@ const optionsCollection = async (patuco, path, depth, end) => {
         previousDir.push(path);
         optionsCollection(patuco, `${path}/${optcolle.type}`);
       } else {
-        previousDir = path;
+        previousDir.push(path);
         optionsCollection(patuco, `${path}/${optcolle.type}`, undefined, true);
       }
     }
@@ -100,15 +111,20 @@ const configTemplates = async () => {
       depth: 0,
     });
     const choices = [
+      chalk.yellow.italic(txt.q.injectauto),
       chalk.green.italic(txt.q.createdir),
-      chalk.blue.italic("Layouts patuco"),
+      chalk.blue("Layouts patuco"),
       ...directoriesUser.map((e) => e.path),
       txt.c.back,
     ];
     const option = await queryParams("addProp", txt.c.option, choices);
     if (option.type === txt.c.back) {
       start.start();
-    } else if (option.type === chalk.blue.italic("Layouts patuco")) {
+    } else if (option.type === chalk.yellow.italic(txt.q.injectauto)) {
+      console.log(chalk.yellow.bold.italic(txt.q.diranalyzed));
+      await injectComponentAuto();
+      configTemplates();
+    } else if (option.type === chalk.blue("Layouts patuco")) {
       const optionDirPatu = await queryParams(
         "addProp",
         txt.c.option,

@@ -6,7 +6,7 @@ const grid = [
   {
     name: "grind",
     template: `      
-[class*="col_"] {
+[class*="_col_"] {
   float: left;
   /* padding: 15px; */
 }
@@ -17,7 +17,7 @@ const grid = [
 }
       
 /* For mobile phones: */
-[class*="col_"] {
+[class*="_col_"] {
   width: 100%;
 }
       
@@ -44,62 +44,62 @@ const grid = [
   },
 
   {
-    name: "col_s_1",
+    name: "_col_s_1",
     items: ["width: 8.33%"],
     query: "min-width 600px",
   },
   {
-    name: "col_s_2",
+    name: "_col_s_2",
     items: ["width: 16.66%"],
     query: "min-width 600px",
   },
   {
-    name: "col_s_3",
+    name: "_col_s_3",
     items: ["width: 25%"],
     query: "min-width 600px",
   },
   {
-    name: "col_s_4",
+    name: "_col_s_4",
     items: ["width: 33.33%"],
     query: "min-width 600px",
   },
   {
-    name: "col_s_5",
+    name: "_col_s_5",
     items: ["width: 41.66%"],
     query: "min-width 600px",
   },
   {
-    name: "col_s_6",
+    name: "_col_s_6",
     items: ["width: 50%"],
     query: "min-width 600px",
   },
   {
-    name: "col_s_7",
+    name: "_col_s_7",
     items: ["width: 58.33%"],
     query: "min-width 600px",
   },
   {
-    name: "col_s_8",
+    name: "_col_s_8",
     items: ["width: 66.66%"],
     query: "min-width 600px",
   },
   {
-    name: "col_s_9",
+    name: "_col_s_9",
     items: ["width: 75%"],
     query: "min-width 600px",
   },
   {
-    name: "col_s_10",
+    name: "_col_s_10",
     items: ["width: 83.33%"],
     query: "min-width 600px",
   },
   {
-    name: "col_s_11",
+    name: "_col_s_11",
     items: ["width: 91.66%"],
     query: "min-width 600px",
   },
   {
-    name: "col_s_12",
+    name: "_col_s_12",
     items: ["width: 16.66%"],
     query: "min-width 600px",
   },
@@ -166,62 +166,62 @@ const grid = [
   },
   /* For desktop: */
   {
-    name: "col_1",
+    name: "_col_1",
     items: ["width: 8.33%"],
     query: "min-width 768px",
   },
   {
-    name: "col_2",
+    name: "_col_2",
     items: ["width: 16.66%"],
     query: "min-width 768px",
   },
   {
-    name: "col_3",
+    name: "_col_3",
     items: ["width: 25%"],
     query: "min-width 768px",
   },
   {
-    name: "col_4",
+    name: "_col_4",
     items: ["width: 33.33%"],
     query: "min-width 768px",
   },
   {
-    name: "col_5",
+    name: "_col_5",
     items: ["width: 41.66%"],
     query: "min-width 768px",
   },
   {
-    name: "col_6",
+    name: "_col_6",
     items: ["width: 50%"],
     query: "min-width 768px",
   },
   {
-    name: "col_7",
+    name: "_col_7",
     items: ["width: 58.33%"],
     query: "min-width 768px",
   },
   {
-    name: "col_8",
+    name: "_col_8",
     items: ["width: 66.66%"],
     query: "min-width 768px",
   },
   {
-    name: "col_9",
+    name: "_col_9",
     items: ["width: 75%"],
     query: "min-width 768px",
   },
   {
-    name: "col_10",
+    name: "_col_10",
     items: ["width: 83.33%"],
     query: "min-width 768px",
   },
   {
-    name: "col_11",
+    name: "_col_11",
     items: ["width: 91.66%"],
     query: "min-width 768px",
   },
   {
-    name: "col_12",
+    name: "_col_12",
     items: ["width: 16.66%"],
     query: "min-width 768px",
   },
@@ -264,62 +264,62 @@ const grid = [
   },
 
   {
-    name: "col_l_1",
+    name: "_col_l_1",
     items: ["width: 8.33%"],
     query: "min-width 1200px",
   },
   {
-    name: "col_l_2",
+    name: "_col_l_2",
     items: ["width: 8.33%"],
     query: "min-width 1200px",
   },
   {
-    name: "col_l_3",
+    name: "_col_l_3",
     items: ["width: 25%"],
     query: "min-width 1200px",
   },
   {
-    name: "col_l_4",
+    name: "_col_l_4",
     items: ["width: 33.33%"],
     query: "min-width 1200px",
   },
   {
-    name: "col_l_5",
+    name: "_col_l_5",
     items: ["width: 41.66%"],
     query: "min-width 1200px",
   },
   {
-    name: "col_l_6",
+    name: "_col_l_6",
     items: ["width: 50%"],
     query: "min-width 1200px",
   },
   {
-    name: "col_l_7",
+    name: "_col_l_7",
     items: ["width: 58.33%"],
     query: "min-width 1200px",
   },
   {
-    name: "col_l_8",
+    name: "_col_l_8",
     items: ["width: 66.66%"],
     query: "min-width 1200px",
   },
   {
-    name: "col_l_9",
+    name: "_col_l_9",
     items: ["width: 75%"],
     query: "min-width 1200px",
   },
   {
-    name: "col_l_10",
+    name: "_col_l_10",
     items: ["width: 83.33%"],
     query: "min-width 1200px",
   },
   {
-    name: "col_l_11",
+    name: "_col_l_11",
     items: ["width: 91.66%"],
     query: "min-width 1200px",
   },
   {
-    name: "col_l_12",
+    name: "_col_l_12",
     items: ["width: 16.66%"],
     query: "min-width 1200px",
   },

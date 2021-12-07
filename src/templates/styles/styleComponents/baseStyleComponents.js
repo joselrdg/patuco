@@ -1,8 +1,9 @@
 const buttons = require("./buttons.js");
+const cards = require("./cards.js");
 
 const baseStyleComponents = {
     buttons,
-  ...userComponents,
+    cards,
 };
 
 module.exports = baseStyleComponents;

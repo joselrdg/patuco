@@ -1,3 +1,4 @@
+
 const variables = {
   "fonts": [
     "@import url('https://fonts.googleapis.com/css2?family=Spartan:wght@300&display=swap')",
@@ -23,6 +24,27 @@ const variables = {
   "background-color1": "#e9eaea",
   "background-color2": "#e9eaea",
   "container": "0 9% 0 9%",
+  "spacer_-0": '0',
+  "spacer_-1": '1rem',
+  "spacer_-2": '2rem',
+  "spacer_-3": '3rem',
+  "spacer_-4": '4rem',
+  "spacer_-5": '5rem',
+  "spacer-K-s_-0": '0',
+  "spacer-K-s_-1": '0.2rem',
+  "spacer-K-s_-2": '0.3rem',
+  "spacer-K-s_-3": '0.4rem',
+  "spacer-K-s_-4": '0.5rem',
+  "spacer-K-s_-5": '0.8rem',
+  "button-background-color_-0": "#0d6efd",
+  "button-background-color_-1": "white",
+  "button-background-color_-2": "green",
+  "button-background-color_-3": "blue",
+  "button-background-color_-4": "black",
+  "button-background-color_-5": "black",
+  "button-background-gradient_-0": "linear-gradient(to bottom right, #EF4765, #FF9A5A)",
+  "button-background-gradient_-1": "linear-gradient(to bottom right, #4766ef, #5ad0ff)",
+  "button-box-shadow_-0": "0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5)"
 };
 
 module.exports = variables;

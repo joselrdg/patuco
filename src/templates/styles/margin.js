@@ -12,6 +12,16 @@ const margin = [
     items: ["float: right"],
   },
   {
+    name: "_m",
+    recursivevar: "spacer_-",
+    items: ["background-color: var(--spacer_-0)"],
+  },
+  {
+    name: "_m",
+    recursivevar: "spacer-K-s_-",
+    items: ["background-color: var(--spacer-K-s_-0)"],
+  },
+  {
     name: "_m_0",
     items: ["margin: 0"],
   },

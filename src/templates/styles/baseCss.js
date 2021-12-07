@@ -1,5 +1,4 @@
 const fs = require("fs");
-const chalk = require("chalk");
 
 const modulePatucoPath =
   require("../../scripts/constants/patucoConfig.js").path;
@@ -25,9 +24,10 @@ const position = require("./position.js");
 const size = require("./size.js");
 const transform = require("./transform.js");
 const transitions = require("./transitions");
-const animationClasses = require("./animationClasses");
+const animation_classes = require("./animationClasses");
+const Style_Components = require("./styleComponents/baseStyleComponents.js");
 
-const stylesUser = require(pathUser && isPath
+const Styles_User = require(pathUser && isPath
   ? `${pathUser}/classes/base.js`
   : "./stylesUser.js");
 
@@ -37,7 +37,7 @@ if (!isPath) {
   );
 }
 
-console.log(chalk.bold.green("baseCss actualizado"));
+// console.log(chalk.bold.green("baseCss actualizado"));
 
 const baseCss = {
   root,
@@ -45,7 +45,7 @@ const baseCss = {
   // ...requireUncached(
   //   pathUser && isPath ? `${pathUser}/classes/base.js` : "./stylesUser.js"
   // ),
-  ...stylesUser,
+  ...Styles_User,
   background,
   border,
   boxshadow,
@@ -61,7 +61,8 @@ const baseCss = {
   size,
   transform,
   transitions,
-  animationClasses,
+  animation_classes,
+  ...Style_Components
 };
 
 module.exports = baseCss;

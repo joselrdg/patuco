@@ -57,9 +57,22 @@ const readGroup = async (typeClass) => {
   for (let i = 0; i < typeClass.length; i++) {
     const items = typeClass[i].items;
     const name = typeClass[i].name;
-    name &&
-      console.log(`\n- ${txt.c.name}: ${chalk.blue.bold(name)}
-${readStyles(items)}\n`);
+    const pseudoElements = typeClass[i].pseudoElement;
+    name && console.log(`\n- ${txt.c.name}: ${chalk.blue.bold(name)}`);
+    if (items) {
+      items.forEach((s) => {
+        console.log(chalk.green(`  ${s}`));
+      });
+    }
+    if (pseudoElements) {
+      console.log("\n- Pseudo-Elements:");
+      pseudoElements.forEach((ps) => {
+        console.log(chalk.blue.bold(`  ${ps.type}`));
+        ps.items.forEach((psE) => {
+          console.log(chalk.green(`    ${psE}`));
+        });
+      });
+    }
   }
 };
 

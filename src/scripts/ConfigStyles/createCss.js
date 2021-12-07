@@ -6,6 +6,7 @@ const fs = require("fs");
 const baseCss = require("../../templates/styles/baseCss.js");
 const userTemplatePath = require("../constants/patucoConfig.js").path
   .userTemplate;
+const isUserTemplate = userTemplatePath ? userTemplatePath : "";
 const mediaQueriesArr = require(fs.existsSync(
   `${userTemplatePath}/mediaQueries/mediaQueries.js`
 )
@@ -20,12 +21,8 @@ const variables = require(fs.existsSync(variablesUser)
   : "../../templates/styles/variables.js");
 
 const animations = require("../../templates/styles/animations.js");
-const animationsUser = require(fs.existsSync(
-  `${userTemplatePath}/animations/animations.js`
-)
-  ? `${userTemplatePath}/animations/animations.js`
-  : []);
-
+const useAnimaPath = `${userTemplatePath}/animations/animations.js`;
+const animationsUser = fs.existsSync(useAnimaPath) ? require(useAnimaPath) : [];
 const animationsUsed = [];
 
 const txt = require("./translations/createCss.js");
@@ -161,13 +158,20 @@ const createPseudoElements = async (uniqueClass) => {
   let pseudoElementsStr = "";
   for (let index = 0; index < pseudoElements.length; index++) {
     const element = pseudoElements[index];
-    let stylesStr = `.${uniqueClass.name}::${element.type} {\n`;
+    let stylesStr = `.${uniqueClass.name}${element.type} {\n`;
     for (let index = 0; index < element.items.length; index++) {
       const styleElement = element.items[index];
       stylesStr = stylesStr + `  ${styleElement};\n`;
     }
     stylesStr = stylesStr + "}\n\n";
-    pseudoElementsStr = pseudoElementsStr + stylesStr;
+
+
+    if (element.query) {
+      await prepareClassesQueryStr(element.query, stylesStr);
+    } else {
+      pseudoElementsStr = pseudoElementsStr + stylesStr;
+    }
+    // pseudoElementsStr = pseudoElementsStr + stylesStr;
   }
 
   return pseudoElementsStr;
@@ -223,8 +227,8 @@ const prepareStr = async (savedClasses) => {
           stylesStr = await prepareStylesStr(uniqueClass.items);
           //$$ crear funcion para poner un . o # o nada segun el type que hay que añadir a las plantillas
           if (uniqueClass.query) {
-            const classStr = `\n  .${uniqueClass.name}${target}${pseudoClass} {
-${stylesStr}  }\n${pseudoElementsStr}`;
+            const classStr = ` .${uniqueClass.name}${target}${pseudoClass} {
+${stylesStr}  }\n\n ${pseudoElementsStr}`;
             await prepareClassesQueryStr(uniqueClass.query, classStr);
           } else {
             fileStr =
@@ -240,6 +244,7 @@ ${stylesStr}}\n\n`;
   }
   // Añade las fuentes al comienzo del string root
   rootStr = `${await fonts()}` + rootStr + "}\n" + classesQueryStr;
+  console.log(chalk.cyanBright(rootStr));
   const mediaQueryStr = await createMediaQueriesStr();
   const animationsStr = await createAnimationsStr();
   // Añade root, mediaqueries y el restor de clases usadas
@@ -289,20 +294,95 @@ const analyzeRoute = async (route) => {
   return files;
 };
 
+const isRegex = async (regex, key) => {
+  const is = regex.test(key);
+  return is;
+};
+
+const createClassRecursive = async (
+  savedClasses,
+  key,
+  file,
+  classTemplate,
+  counterTotal,
+  counterEnd
+) => {
+  const regex = new RegExp(classTemplate.recursivevar, "i");
+  const keysVariables = Object.keys(variables);
+  for (let i = 0; i < keysVariables.length; i++) {
+    const keyVar = keysVariables[i];
+    const isKeyVar = await isRegex(regex, keyVar);
+    if (isKeyVar) {
+      const name = keyVar.replace(
+        classTemplate.recursivevar,
+        `${classTemplate.name}_-`
+      );
+      console.log(chalk.bold.yellow(name));
+      const regexName = new RegExp(name, "g");
+      const isVar = await isRegex(regexName, file);
+      if (isVar) {
+        console.log(chalk.bold.yellow("estaaaa: " + name));
+        counterTotal.push("");
+        const someClass = savedClasses[key].some(
+          (arrVal) => name === arrVal.name
+        );
+        if (!someClass) {
+          const data = JSON.parse(JSON.stringify(classTemplate));
+          data.name = name;
+          const regVar = new RegExp();
+          const items = [];
+          for (let index = 0; index < classTemplate.items.length; index++) {
+            const element = classTemplate.items[index];
+            const isRegVar = await isRegex(regVar, element);
+            if (isRegVar) {
+              const elementRepla = element.replace(
+                `${classTemplate.recursivevar}0`,
+                keyVar
+              );
+              items.push(elementRepla);
+            } else {
+              items.push(element);
+            }
+          }
+
+          data.items = items;
+          console.log(`    Encontrda clase: ${chalk.green.italic(name)}`);
+          counterEnd.push("");
+          savedClasses[key].push(data);
+        }
+      }
+    }
+  }
+};
+
 const readStyles = async (file, savedClasses, counterTotal, counterEnd) => {
   for (const key in baseCss) {
     const arr = baseCss[key];
     for (let i = 0; i < arr.length; i++) {
-      if (arr[i].name) {
-        const regex = new RegExp(arr[i].name, "g");
-        if (regex.test(file)) {
-          counterTotal.push("");
-          const someClass = savedClasses[key].some(
-            (arrVal) => arr[i].name === arrVal.name
-          );
-          if (!someClass) {
-            counterEnd.push("");
-            savedClasses[key].push(arr[i]);
+      let name = arr[i].name;
+      if (name) {
+        const regex = new RegExp(name, "g");
+        const is = regex.test(file);
+        if (is) {
+          if (arr[i].recursivevar) {
+            await createClassRecursive(
+              savedClasses,
+              key,
+              file,
+              arr[i],
+              counterTotal,
+              counterEnd
+            );
+          } else {
+            counterTotal.push("");
+            const someClass = savedClasses[key].some(
+              (arrVal) => name === arrVal.name
+            );
+            if (!someClass) {
+              console.log(`    Encontrda clase: ${chalk.green.italic(name)}`);
+              counterEnd.push("");
+              savedClasses[key].push(arr[i]);
+            }
           }
         }
       }

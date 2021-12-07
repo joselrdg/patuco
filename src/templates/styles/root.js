@@ -21,57 +21,29 @@ const fonts = () => {
   return str;
 };
 
-console.log(chalk.bold.green("baseCss actualizado"));
+const variablesKeys = Object.keys(variables);
+variablesKeys.shift();
+
+const variablesStr = () => {
+  let str = "";
+  for (const key in variables) {
+    if (key !== "fonts") {
+      const element = variables[key];
+      str += `  --${key}: ${element};\n`;
+    }
+  }
+  return str;
+};
 
 const root = [
   {
     name: "root",
-    variables: [
-      "primaryfontFamily1",
-      "primaryfontFamily2",
-      "primaryfontFamily3",
-      "primaryfontFamily4",
-      "primaryfontFamily5",
-      "secundaryfontFamily1",
-      "secundaryfontFamily2",
-      "secundaryfontFamily3",
-      "secundaryfontFamily4",
-      "secundaryfontFamily5",
-      "primary-color1",
-      "color-icon",
-      "dark-grey",
-      "ligth-grey",
-      "color-white",
-      "color-red",
-      "background-colorBody",
-      "background-color1",
-      "background-color2",
-      "container",
-    ],
+    variables: variablesKeys,
     template: `
 ${fonts()}
     
 :root {
-  --primaryfontFamily1: ${variables.primaryfontFamily1};
-  --primaryfontFamily2: ${variables.primaryfontFamily2};
-  --primaryfontFamily3: ${variables.primaryfontFamily3};
-  --primaryfontFamily4: ${variables.primaryfontFamily4};
-  --primaryfontFamily5: ${variables.primaryfontFamily5};
-  --secundaryfontFamily1: ${variables.primaryfontFamily1};
-  --secundaryfontFamily2: ${variables.primaryfontFamily2};
-  --secundaryfontFamily3: ${variables.primaryfontFamily3};
-  --secundaryfontFamily4: ${variables.primaryfontFamily4};
-  --secundaryfontFamily5: ${variables.primaryfontFamily5};
-  --primary-color1: ${variables.primaryColor1};
-  --color-icon: ${variables.iconColor};
-  --dark-grey: ${variables.darkGrey};
-  --ligth-grey: ${variables.ligthGrey};
-  --color-white: ${variables.colorWhite};
-  --color-red: ${variables.colorRed};
-  --background-colorBody: ${variables.backgroundColorBody};
-  --background-color1: ${variables.backgroundColor1};
-  --background-color2: ${variables.backgroundColor2};
-  --container: ${variables.container};
+${variablesStr()}
 }
     
     
@@ -235,8 +207,6 @@ textarea {
   }
 }
 `,
-
-
   },
 ];
 
