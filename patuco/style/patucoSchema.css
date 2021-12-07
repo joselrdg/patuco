@@ -8,7 +8,7 @@
 
     
 :root {
-  --primaryfontFamily1: jose;
+  --primaryfontFamily1: Spartan;
   --primaryfontFamily2: Spartan;
   --primaryfontFamily3: Spartan;
   --primaryfontFamily4: Spartan;
@@ -25,25 +25,29 @@
   --color-white: white;
   --color-red: #de5246;
   --background-colorBody: #e9eaea;
-  --button-background-color_-0: black;
-  --button-background-color_-1: #2f80ed;
-  --button-background-color_-2: black;
-  --button-background-color_-3: black;
-  --button-background-color_-4: black;
-  --button-background-color_-5: black;
-  --button-color_-c1: black;
-  --button-color_-c2: black;
-  --button-color_-c3: black;
-  --button-color_-c4: black;
-  --button-color_-c5: black;
-  --size-s_-1: 1vw;
-  --size-s_-2: 1vw;
-  --size-s_-3: 1vw;
-  --size-s_-4: 1vw;
-  --size-s_-5: 1vw;
   --background-color1: #e9eaea;
   --background-color2: #e9eaea;
   --container: 0 9% 0 9%;
+  --spacer_-0: 0;
+  --spacer_-1: 1rem;
+  --spacer_-2: 2rem;
+  --spacer_-3: 3rem;
+  --spacer_-4: 4rem;
+  --spacer_-5: 5rem;
+  --spacer_-1s: 0.2rem;
+  --spacer_-2s: 0.3rem;
+  --spacer_-3s: 0.4rem;
+  --spacer_-4s: 0.5rem;
+  --spacer_-5s: 0.8rem;
+  --button-background-color_-0: #0d6efd;
+  --button-background-color_-1: white;
+  --button-background-color_-2: green;
+  --button-background-color_-3: blue;
+  --button-background-color_-4: black;
+  --button-background-color_-5: black;
+  --button-background-gradient_-0: linear-gradient(to bottom right, #EF4765, #FF9A5A);
+  --button-background-gradient_-1: linear-gradient(to bottom right, #4766ef, #5ad0ff);
+  --button-box-shadow_-0: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
 
 }
     
@@ -950,6 +954,94 @@ list-style-position: outside;
 
  ._f_r {
     float: right;
+}
+
+ ._m_-0 {
+    background-color: var(--spacer_-0);
+}
+
+ ._m_-1 {
+    background-color: var(--spacer_-1);
+}
+
+ ._m_-2 {
+    background-color: var(--spacer_-2);
+}
+
+ ._m_-3 {
+    background-color: var(--spacer_-3);
+}
+
+ ._m_-4 {
+    background-color: var(--spacer_-4);
+}
+
+ ._m_-5 {
+    background-color: var(--spacer_-5);
+}
+
+ ._m_-6 {
+    background-color: var(--spacer_-1s);
+}
+
+ ._m_-7 {
+    background-color: var(--spacer_-2s);
+}
+
+ ._m_-8 {
+    background-color: var(--spacer_-3s);
+}
+
+ ._m_-9 {
+    background-color: var(--spacer_-4s);
+}
+
+ ._m_-10 {
+    background-color: var(--spacer_-5s);
+}
+
+ ._m_-0 {
+    background-color: var(--spacer_-0s);
+}
+
+ ._m_-1 {
+    background-color: var(--spacer_-1s);
+}
+
+ ._m_-2 {
+    background-color: var(--spacer_-2s);
+}
+
+ ._m_-3 {
+    background-color: var(--spacer_-3s);
+}
+
+ ._m_-4 {
+    background-color: var(--spacer_-4s);
+}
+
+ ._m_-5 {
+    background-color: var(--spacer_-5s);
+}
+
+ ._m_-6 {
+    background-color: var(--spacer_-1ss);
+}
+
+ ._m_-7 {
+    background-color: var(--spacer_-2ss);
+}
+
+ ._m_-8 {
+    background-color: var(--spacer_-3ss);
+}
+
+ ._m_-9 {
+    background-color: var(--spacer_-4ss);
+}
+
+ ._m_-10 {
+    background-color: var(--spacer_-5ss);
 }
 
  ._m_0 {
@@ -1882,12 +1974,12 @@ transition: all 300ms linear;
     background: var(--button-background-gradient_-1);
 }
 
- ._btn_2_-0 {
+ ._btn_2 {
     cursor: pointer;
 border: 0;
 border-radius: 12px;
-color: black;
-background: linear-gradient(to bottom right, #003bca, #40a1ff);
+color: #fff;
+background: linear-gradient(to bottom right, #0d6efd, #40a1ff);
 display: inline-block;
 font-family: -apple-system,system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
 font-size: 16px;
@@ -1904,158 +1996,10 @@ touch-action: manipulation;
 white-space: nowrap;
 }
 
- ._btn_2:not([disabled]):focus {
+ ._btn_2:active {
   box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem #003bca, .125rem .125rem 1rem #40a1ff;
-}
-
-._btn_2:not([disabled]):hover {
-  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem #003bca, .125rem .125rem 1rem #40a1ff;
-}
-
-._btn_2_-1 {
-    cursor: pointer;
-border: 0;
-border-radius: 12px;
-color: black;
-background: linear-gradient(to bottom right, #003bca, #40a1ff);
-display: inline-block;
-font-family: -apple-system,system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-font-size: 16px;
-font-weight: 500;
-line-height: 2.5;
-outline: transparent;
-padding: 0 1rem;
-text-align: center;
-text-decoration: none;
-transition: box-shadow .2s ease-in-out;
-user-select: none;
--webkit-user-select: none;
-touch-action: manipulation;
-white-space: nowrap;
-}
-
- ._btn_2:not([disabled]):focus {
-  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem #003bca, .125rem .125rem 1rem #40a1ff;
-}
-
-._btn_2:not([disabled]):hover {
-  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem #003bca, .125rem .125rem 1rem #40a1ff;
-}
-
-._btn_2_-2 {
-    cursor: pointer;
-border: 0;
-border-radius: 12px;
-color: black;
-background: linear-gradient(to bottom right, #003bca, #40a1ff);
-display: inline-block;
-font-family: -apple-system,system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-font-size: 16px;
-font-weight: 500;
-line-height: 2.5;
-outline: transparent;
-padding: 0 1rem;
-text-align: center;
-text-decoration: none;
-transition: box-shadow .2s ease-in-out;
-user-select: none;
--webkit-user-select: none;
-touch-action: manipulation;
-white-space: nowrap;
-}
-
- ._btn_2:not([disabled]):focus {
-  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem #003bca, .125rem .125rem 1rem #40a1ff;
-}
-
-._btn_2:not([disabled]):hover {
-  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem #003bca, .125rem .125rem 1rem #40a1ff;
-}
-
-._btn_2_-3 {
-    cursor: pointer;
-border: 0;
-border-radius: 12px;
-color: black;
-background: linear-gradient(to bottom right, #003bca, #40a1ff);
-display: inline-block;
-font-family: -apple-system,system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-font-size: 16px;
-font-weight: 500;
-line-height: 2.5;
-outline: transparent;
-padding: 0 1rem;
-text-align: center;
-text-decoration: none;
-transition: box-shadow .2s ease-in-out;
-user-select: none;
--webkit-user-select: none;
-touch-action: manipulation;
-white-space: nowrap;
-}
-
- ._btn_2:not([disabled]):focus {
-  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem #003bca, .125rem .125rem 1rem #40a1ff;
-}
-
-._btn_2:not([disabled]):hover {
-  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem #003bca, .125rem .125rem 1rem #40a1ff;
-}
-
-._btn_2_-4 {
-    cursor: pointer;
-border: 0;
-border-radius: 12px;
-color: black;
-background: linear-gradient(to bottom right, #003bca, #40a1ff);
-display: inline-block;
-font-family: -apple-system,system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-font-size: 16px;
-font-weight: 500;
-line-height: 2.5;
-outline: transparent;
-padding: 0 1rem;
-text-align: center;
-text-decoration: none;
-transition: box-shadow .2s ease-in-out;
-user-select: none;
--webkit-user-select: none;
-touch-action: manipulation;
-white-space: nowrap;
-}
-
- ._btn_2:not([disabled]):focus {
-  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem #003bca, .125rem .125rem 1rem #40a1ff;
-}
-
-._btn_2:not([disabled]):hover {
-  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem #003bca, .125rem .125rem 1rem #40a1ff;
-}
-
-._btn_2_-5 {
-    cursor: pointer;
-border: 0;
-border-radius: 12px;
-color: black;
-background: linear-gradient(to bottom right, #003bca, #40a1ff);
-display: inline-block;
-font-family: -apple-system,system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-font-size: 16px;
-font-weight: 500;
-line-height: 2.5;
-outline: transparent;
-padding: 0 1rem;
-text-align: center;
-text-decoration: none;
-transition: box-shadow .2s ease-in-out;
-user-select: none;
--webkit-user-select: none;
-touch-action: manipulation;
-white-space: nowrap;
-}
-
- ._btn_2:not([disabled]):focus {
-  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem #003bca, .125rem .125rem 1rem #40a1ff;
+  transform: translateY(2px);
+  transition-duration: 0.35s;
 }
 
 ._btn_2:not([disabled]):hover {
@@ -2064,6 +2008,7 @@ white-space: nowrap;
 
 ._btn_1 {
     appearance: none;
+font-family: -apple-system,system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
 backface-visibility: hidden;
 border-radius: 10px;
 border-style: none;
@@ -2112,6 +2057,40 @@ white-space: nowrap;
 
 ._btn_1:active:after {
   opacity: 1;
+}
+
+
+
+/* cards */
+
+.card1_cont {
+    box-shadow: 0 0.2em 1em rgba(0, 0, 0, 0.1), 0 1em 2em rgba(0, 0, 0, 0.1);
+background: rgb(255, 255, 255);
+color: rgb(10, 5, 7);
+border-radius: 1em;
+overflow: hidden;
+display: grid;
+grid-template-areas: 'text img';
+grid-template-columns: 1fr 1fr;;
+grid-template-rows: auto;
+align-items: stretch;
+outline: var(--card-outline-width) solid lime;
+}
+
+ .card1_cont > div {
+  grid-area: text;
+  width: 80%;
+  place-self: center;
+  text-align: left;
+  display: grid;
+  gap: 1em;
+  place-items: start;
+}
+
+.card1_cont > figure > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 @media only screen and (min-width: 600px) {

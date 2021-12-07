@@ -62,11 +62,12 @@ const prepareStylesStr = async (arr, recursivevar, recursiname) => {
   for (let index = 0; index < arr.length; index++) {
     let element = arr[index];
     if (element.includes(recursivevar)) {
+      console.log(element, recursivevar, recursiname);
       let newVar = element.replace(recursivevar, recursiname);
       if (newVar.includes("_cVP")) {
         newVar = await reqPatuVar(newVar);
       }
-      console.log("newVar: " + newVar);
+      // console.log("newVar: " + newVar);
       str = str + `${newVar};\n`;
     } else {
       if (element.includes("_cVP")) {
@@ -189,8 +190,15 @@ const prepareStr = async () => {
             recursiveCount !== null && recursiveCount[0],
             recursiveCount !== null && recursiveCount[recurIndex]
           );
+          let keyP = "";
+          if (uniqueClass.recursivevar) {
+            keyP = uniqueClass.recursivevar
+              .replace("_-", "")
+              .split("-K-")
+              .pop();
+          }
           const recurClassName =
-            recursiveCount === null ? "" : `_-${recurIndex}`;
+            recursiveCount === null ? "" : `_-${keyP + recurIndex}`;
 
           if (uniqueClass.query) {
             const classStr = `.${uniqueClass.name}${recurClassName}${target}${pseudoClass} {
