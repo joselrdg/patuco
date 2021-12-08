@@ -78,6 +78,7 @@ Import and export components, views, models or whatever you need...
 <table>
   <tr>
     <td valign="top">
+      <h3>Styles</h3>
       <ul>
         <li><a href="#view_and_edit_classes">View_And_Edit_Classes</a></li>
         <ul>
@@ -92,9 +93,9 @@ Import and export components, views, models or whatever you need...
           <li><a href="#Properties">Properties</a></li>
           <li><a href="#Variables-In-Properties">Variables-In-Properties</a></li>
           <li><a href="#Typical-CSS-variables">- Typical-CSS-variables</a></li>
-          <li><a href="#Add_CSS">Add_CSS</a></li>
           <li><a href="#Recurring-CSS-variables">- Recurring-CSS-variables</a></li>
           <li><a href="#Patuco-variables">- Patuco-variables</a></li>
+          <li><a href="#Add_CSS">Add_CSS</a></li>
           <li><a href="#presentationcontrols">PresentationControls</a></li>
         </ul>
         <li><a href="#abstractions">Abstractions</a></li>
@@ -130,6 +131,7 @@ Import and export components, views, models or whatever you need...
       </ul>
     </td>
     <td valign="top">
+    <h3>Templates</h3>
       <ul>
         <li><a href="#misc">Misc</a></li>
         <ul>
@@ -174,7 +176,7 @@ Import and export components, views, models or whatever you need...
   </tr>
 </table>
 
-# <br><p align="center">Styles</p>
+<!-- # <br><p align="center">Styles</p> -->
 
 ## <br>View_And_Edit_Classes
 
@@ -240,5 +242,49 @@ If you want to add more than one recurring variable to a property, you just have
 _margin:_ var(|spacer_-0, spacer-K-s_-0|)
 
 ### <br>Patuco-variables
+
+You can store collections of variables with any value type, including javascript functions, to add to css properties. They will be stored in a javascript object.
+
+To write the variables in the properties of your classes, you must indicate the requested data between double parentheses as indicated below:
+
+background: linear-gradient (to bottom right, ((_cVP, store, example, colors-primary)), ((_cVP, lighter, example, ((_ cVP, store, example, colors-primary)), 20))) "
+
+Let's just analyze the variable:
+
+((_cVP, store, example, colors-primary))
+
+It is equivalent to:
+
+((Function group, Action, Variable collection, Keys: parent-child, Props))
+
+- Group of functions (_cVP): indicates to which collection of functions the data is requested. At the moment there is only _cVP. _cVP contains functions to request the values ​​of variables and functions to modify colors.
+
+- Action (store): It is the action that you want to be triggered. It is related to the collection of functions, since it indicates which function to use. At the moment the actions that can be requested are:
+   - store: Returns the values ​​stored in the patuco variables.
+   - darker: Returns a darker color than the one sent to it. You can send a color directly by adding it to the Keys parameter, or by adding a typical CSS variable to the keys parameter, or by adding a patuco variable to the Keys parameter.
+   - lighter: Same as the previous one but returns a lighter color.
+   - contrastYiq: Returns the color with the highest contrast.
+
+- Variable collection (example): Name of the variable collection.
+
+- Keys (colors-primary): In the action (store) this parameter is used to introduce the keys of the object where the patuco variables are stored. They are entered separated by -, to arrive at the stored values. The first value before - will indicate the parent's key, the next value after - will indicate the child's key, and so on. The values ​​will be taken from the collection indicated in the previous parameter. It is also used to send other types of values ​​to the functions, at the moment it is used to send colors to the rest of the functions of the _cVP group.
+
+- Props: This parameter is used to send the rest of the properties that the actions need. For example, in the case of the darker and lighter actions, a number would be entered to indicate the amount of dark or light colors you need.
+
+<br>
+You can nest patuco variables.
+
+Let's analyze the following variable:
+
+((_cVP, lighter, example, ((_ cVP, store, example, colors-primary)), 20))
+
+- To nest variables you just have to add them between double parentheses.
+- In the first variable, the name of the variable collection _example_ is useless but you have to add it.
+
+<br>Examples of CSS properties with patuco variables:
+
+_background: linear-gradient(to bottom right, ((\_cVP, store, example, colors-primary)), ((\_cVP, lighter, example,((\_cVP, store, example, colors-primary)), 20)))_
+
+_box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem ((\_cVP, darker, example,((\_cVP, store, example, colors-primary)), 20)), .125rem .125rem 1rem ((\_cVP, lighter, example,((\_cVP, store, example, colors-primary)), 20))_
 
 ### <br>Add_CSS
