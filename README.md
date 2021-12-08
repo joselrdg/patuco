@@ -79,9 +79,9 @@ Import and export components, views, models or whatever you need...
   <tr>
     <td valign="top">
       <ul>
-        <li><a href="#viewandeditclasses">ViewAndEditClasses</a></li>
+        <li><a href="#view_and_edit_classes">View_And_Edit_Classes</a></li>
         <ul>
-          <li><a href="#SearchByClassOrPropertyName">SearchByClassOrPropertyName</a></li>
+          <li><a href="#SearchByClassOrPropertyName">Search_By_Class_Or_Property_Name</a></li>
           <li><a href="#orthographiccamera">OrthographicCamera</a></li>
           <li><a href="#cubecamera">CubeCamera</a></li>
         </ul>
