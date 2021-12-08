@@ -38,13 +38,13 @@ Copy-paste the stylesheet <link> into your <head> before all other stylesheets t
 In HTML:
 
 ```sh
-   <link rel="stylesheet" type="text/css" href="patucostrap/style/patucoSchema.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/home/<yourName>/.nvm/versions/node/v<nodeVersion>/lib/node_modules/patucostrap/style/patucoSchema.css" media="screen" />
 ```
 
 In JSX:
 
 ```sh
-  import "patucostrap/style/patucoSchema.css"
+  import "/home/<yourName>/.nvm/versions/node/v<nodeVersion>/lib/node_modules/patucostrap/style/patucoSchema.css"
 ```
 
 Type in the terminal. In your project directory:
