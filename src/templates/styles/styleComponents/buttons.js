@@ -1,14 +1,14 @@
 const buttons = [
-  {
-    name: "_btn_bg",
-    recursivevar: "button-background-color_-",
-    items: ["background-color: var(--button-background-color_-0)"],
-  },
-  {
-    name: "_btn_bgg",
-    recursivevar: "button-background-gradient_-",
-    items: ["background: var(--button-background-gradient_-0)"],
-  },
+  // {
+  //   name: "_btn_bg",
+  //   recursivevar: ["button-background-color_-"],
+  //   items: ["background-color: var(|--button-background-color_-0|)"],
+  // },
+  // {
+  //   name: "_btn_bgg",
+  //   recursivevar: ["button-background-gradient_-"],
+  //   items: ["background: var(|--button-background-gradient_-0|)"],
+  // },
   // const d = await reqPatuVar(
   //   "color: (_cVP, contrastYiq, example, (_cVP, store, example, theme-primary))"
   // );

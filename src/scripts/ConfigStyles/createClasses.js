@@ -61,7 +61,7 @@ const existsName = async (name) => {
 const initData = async (queryInit, oldDataProyect) => {
   let endProp = false;
   let cont = -1;
-  const data = {};
+  const data = { items: [] };
   if (queryInit === back) {
     createClasses();
   } else if (queryInit === txt.query.addCSS) {

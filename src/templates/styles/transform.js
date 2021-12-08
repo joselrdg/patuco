@@ -1,5 +1,9 @@
 const transform = [
   {
+    name: "scale_s8",
+    items: ["transform: scale(0.8)"],
+  },
+  {
     name: "_tt_u",
     items: ["text-transform: uppercase"],
   },

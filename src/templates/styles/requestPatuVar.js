@@ -1,3 +1,4 @@
+const chalk = require("chalk");
 const cVP = require("./reqColor.js");
 
 // const regex = new RegExp(variableReg, "i");
@@ -49,7 +50,7 @@ const requestVarPatu = async (request) => {
     const outcome = await organizeData(data.slice(1, data.length - 1));
     property = property.replace(data, outcome);
   }
-  console.log(key + " = " + property);
+  console.log("\n   - " + key + chalk.blue.bold(property));
   return key + property;
 };
 

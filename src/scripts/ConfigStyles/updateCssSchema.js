@@ -1,6 +1,8 @@
 const inquirer = require("inquirer");
 const chalk = require("chalk");
 const fs = require("fs");
+const configStyles = require("./index.js");
+
 const pathBase = process.cwd();
 const baseCss = require("../../templates/styles/baseCss.js");
 
@@ -25,8 +27,6 @@ const txt = require("./translations/updateCssSchema.js");
 const back = txt.c.back;
 
 const reqPatuVar = require("../../templates/styles/requestPatuVar.js");
-
-const regexPatuVar = new RegExp("_cVP", "g");
 
 const queryParams = (item) => {
   const message = {
@@ -57,17 +57,30 @@ const queryParams = (item) => {
   return inquirer.prompt(qs);
 };
 
+const includesVarName = async (element, recursivevar, recursiname) => {
+  if (element.includes("var(|")) {
+    const replace = element.slice(
+      element.indexOf("(|"),
+      element.indexOf("|)") + 2
+    );
+    newVar = element.replace(replace, "(--" + recursiname + ")");
+  } else {
+    newVar = element.replace(recursivevar, recursiname);
+  }
+  if (newVar.includes("_cVP")) {
+    newVar = await reqPatuVar(newVar);
+  }
+  return newVar;
+};
+
 const prepareStylesStr = async (arr, recursivevar, recursiname) => {
   let str = "";
+
   for (let index = 0; index < arr.length; index++) {
     let element = arr[index];
     if (element.includes(recursivevar)) {
-      console.log(element, recursivevar, recursiname);
-      let newVar = element.replace(recursivevar, recursiname);
-      if (newVar.includes("_cVP")) {
-        newVar = await reqPatuVar(newVar);
-      }
-      // console.log("newVar: " + newVar);
+      const newVar = await includesVarName(element, recursivevar, recursiname);
+      // console.log("\n   New var: " + newVar);
       str = str + `${newVar};\n`;
     } else {
       if (element.includes("_cVP")) {
@@ -124,7 +137,7 @@ const prepareClassesQueryStr = async (query, classStr) => {
         groupQureryStr[isQuerySaved].str =
           groupQureryStr[isQuerySaved].str + classStr;
       } else {
-        console.log(`\nMedia query: ${chalk.blue.italic(query)}\n`);
+        console.log(`\n   - Media query: ${chalk.blue.bold(query)}`);
         querysUsed.push(element.name);
         groupQureryStr.push({
           name: element.name,
@@ -143,24 +156,49 @@ const createMediaQueriesStr = async () => {
   return mediaQueriesStr;
 };
 
-const isRegex = async (regex, key) => {
-  const is = regex.test(key);
-  return is;
-};
+const recursiveVariablesCount = async (items) => {
+  const count = [];
+  let varNames = [];
 
-const recursiveVariablesCount = async (variableReg) => {
-  let count = [];
-  const regex = new RegExp(variableReg, "i");
-  for (const key in variables) {
-    const is = await isRegex(regex, key);
-    if (is) {
-      count.push(key);
+  const edit = async (element) => {
+    if (element.includes("var(|")) {
+      const varData = element
+        .slice(element.indexOf("(|") + 2, element.indexOf("|)"))
+        .replace(" ", "");
+      // if(varNames.some(e => e))
+      return varData.split(",").map((e) => e.slice(0, e.indexOf("_-") + 2));
     }
+  };
+  for (let index = 0; index < items.length; index++) {
+    const element = items[index];
+    const names = await edit(element);
+    names.forEach((name) => {
+      const is = varNames.some((e) => e === name);
+      if (!is) {
+        varNames.push(name);
+      }
+    });
+  }
+
+  for (let i = 0; i < varNames.length; i++) {
+    const data = [];
+    for (const key in variables) {
+      const is = key.includes(varNames[i]);
+      if (is) {
+        // console.log(count)
+        const isSaved = count.some((sav) => sav[0].includes(varNames[i]));
+        if (!isSaved) {
+          data.push(key);
+        }
+      }
+    }
+    count.push(data);
   }
   return count;
 };
 
 const prepareStr = async () => {
+  let recuVarCheck = [];
   let str = "";
   for (const key in baseCss) {
     str = str + `\n\n/* ${key} */\n\n`;
@@ -175,40 +213,54 @@ const prepareStr = async () => {
         ? await createPseudoElements(uniqueClass)
         : "";
       let stylesStr = "";
+
       const recursiveCount = uniqueClass.recursivevar
-        ? await recursiveVariablesCount(uniqueClass.recursivevar)
+        ? await recursiveVariablesCount(uniqueClass.items)
         : null;
       if (uniqueClass.template) {
         str = str + uniqueClass.template;
       }
       // if (uniqueClass.items)
       else {
-        const iteration = recursiveCount === null ? 1 : recursiveCount.length;
-        for (let recurIndex = 0; recurIndex < iteration; recurIndex++) {
-          stylesStr = await prepareStylesStr(
-            uniqueClass.items,
-            recursiveCount !== null && recursiveCount[0],
-            recursiveCount !== null && recursiveCount[recurIndex]
-          );
-          let keyP = "";
-          if (uniqueClass.recursivevar) {
-            keyP = uniqueClass.recursivevar
-              .replace("_-", "")
-              .split("-K-")
-              .pop();
-          }
-          const recurClassName =
-            recursiveCount === null ? "" : `_-${keyP + recurIndex}`;
+        const itera = recursiveCount === null ? 1 : recursiveCount.length;
+        for (let recurI = 0; recurI < itera; recurI++) {
+          const iteration =
+            recursiveCount === null ? 1 : recursiveCount[recurI].length;
+          for (let recurIndex = 0; recurIndex < iteration; recurIndex++) {
+            if (recursiveCount !== null) {
+              console.log(
+                "\n   - Variable: " +
+                  chalk.blue.bold(recursiveCount[recurI][recurIndex])
+              );
+            }
+            stylesStr = await prepareStylesStr(
+              uniqueClass.items,
+              recursiveCount !== null && recursiveCount[recurI][0],
+              recursiveCount !== null && recursiveCount[recurI][recurIndex]
+            );
+            let keyP = "";
+            if (
+              uniqueClass.recursivevar &&
+              recursiveCount[recurI][0].includes("-K-")
+            ) {
+              keyP = recursiveCount[recurI][0]
+                .replace("_-0", "")
+                .split("-K-")
+                .pop();
+            }
+            const recurClassName =
+              recursiveCount === null ? "" : recurIndex + keyP;
 
-          if (uniqueClass.query) {
-            const classStr = `.${uniqueClass.name}${recurClassName}${target}${pseudoClass} {
+            if (uniqueClass.query) {
+              const classStr = `.${uniqueClass.name}${recurClassName}${target}${pseudoClass} {
 ${stylesStr}}\n\n${pseudoElementsStr}`;
-            await prepareClassesQueryStr(uniqueClass.query, classStr);
-          } else {
-            str =
-              str +
-              `.${uniqueClass.name}${recurClassName}${target}${pseudoClass} {
+              await prepareClassesQueryStr(uniqueClass.query, classStr);
+            } else {
+              str =
+                str +
+                `.${uniqueClass.name}${recurClassName}${target}${pseudoClass} {
     ${stylesStr}}\n\n ${pseudoElementsStr}`;
+            }
           }
         }
       }
@@ -229,13 +281,13 @@ const updateSchema = async (path) => {
     updateCssSchema();
   } finally {
     console.log(`
- ${txt.c.createdOk}\n
- ${txt.c.created}\n
- - ${txt.c.file}: ${chalk.blue.bold("patucoSchema.css")}\n
- - ${txt.c.path}: ${chalk.blue.bold(path)}\n
- ----------------------------------\n`);
+   ${txt.c.createdOk}\n
+   ${txt.c.created}\n
+   - ${txt.c.file}: ${chalk.green.bold("patucoSchema.css")}\n
+   - ${txt.c.path}: ${chalk.green.bold(path)}\n
+   ----------------------------------\n`);
   }
-  updateCssSchema();
+  configStyles.configStyles();
 };
 
 const filterSelect = async () => {
@@ -271,7 +323,6 @@ const updateCssSchema = async () => {
       savePr ? filterSelect(savePr) : updateSchema(pathStyleCfg);
     }
   } else {
-    const configStyles = require("./index.js");
     configStyles.configStyles();
   }
 };

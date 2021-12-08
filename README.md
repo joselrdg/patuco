@@ -72,3 +72,112 @@ Now you can see the classes that "patuco" has or create new styles to incorporat
 Import and export components, views, models or whatever you need...
 
 ![ScreenShot Patuco](./screenShot/templates.png)
+
+
+### Index
+
+<table>
+  <tr>
+    <td valign="top">
+      <ul>
+        <li><a href="#cameras">Cameras</a></li>
+        <ul>
+          <li><a href="#perspectivecamera">PerspectiveCamera</a></li>
+          <li><a href="#orthographiccamera">OrthographicCamera</a></li>
+          <li><a href="#cubecamera">CubeCamera</a></li>
+        </ul>
+        <li><a href="#controls">Controls</a></li>
+        <ul>
+          <li><a href="#controls">Controls</a></li>
+          <li><a href="#controls">FlyControls</a></li>
+          <li><a href="#controls">MapControls</a></li>
+          <li><a href="#controls">DeviceOrientationControls</a></li>
+          <li><a href="#controls">TrackballControls</a></li>
+          <li><a href="#controls">ArcballControls</a></li>
+          <li><a href="#controls">PointerLockControls</a></li>
+          <li><a href="#controls">FirstPersonControls</a></li>
+          <li><a href="#transformcontrols">TransformControls</a></li>
+          <li><a href="#scrollcontrols">ScrollControls</a></li>
+          <li><a href="#presentationcontrols">PresentationControls</a></li>
+        </ul>
+        <li><a href="#abstractions">Abstractions</a></li>
+        <ul>
+          <li><a href="#image">Image</a></li>
+          <li><a href="#text">Text</a></li>
+          <li><a href="#line">Line</a></li>
+          <li><a href="#quadraticbezierline">QuadraticBezierLine</a></li>
+          <li><a href="#cubicbezierline">CubicBezierLine</a></li>
+          <li><a href="#positionalaudio">PositionalAudio</a></li>
+          <li><a href="#billboard">Billboard</a></li>
+          <li><a href="#gizmohelper">GizmoHelper</a></li>
+          <li><a href="#effects">Effects</a></li>
+          <li><a href="#gradienttexture">GradientTexture</a></li>
+          <li><a href="#useanimations">useAnimations</a></li>
+        </ul>
+        <li><a href="#shaders">Shaders</a></li>
+        <ul>
+          <li><a href="#meshreflectormaterial">MeshReflectorMaterial</a></li>
+          <li><a href="#meshwobblematerial">MeshWobbleMaterial</a></li>
+          <li><a href="#meshdistortmaterial">MeshDistortMaterial</a></li>
+          <li><a href="#pointmaterial">PointMaterial</a></li>
+          <li><a href="#softshadows">softShadows</a></li>
+          <li><a href="#shadermaterial">shaderMaterial</a></li>
+        </ul>
+        <li><a href="#modifiers">Modifiers</a></li>
+        <ul>
+          <li><a href="#curvemodifier">CurveModifier</a></li>
+          <li><a href="#useedgesplit">useEdgeSplit</a></li>
+          <li><a href="#usetessellation">useTessellation</a></li>
+          <li><a href="#usesimplification">useSimplification</a></li>
+        </ul>
+      </ul>
+    </td>
+    <td valign="top">
+      <ul>
+        <li><a href="#misc">Misc</a></li>
+        <ul>
+          <li><a href="#html">Html</a></li>
+          <li><a href="#cycleraycast">CycleRaycast</a></li>
+          <li><a href="#stats">Stats</a></li>
+          <li><a href="#usedepthbuffer">useDepthBuffer</a></li>
+          <li><a href="#usecontextbridge">useContextBridge</a></li>
+          <li><a href="#usefbo">useFBO</a></li>
+          <li><a href="#usecamera">useCamera</a></li>
+          <li><a href="#usedetectgpu">useDetectGPU</a></li>
+          <li><a href="#usehelper">useHelper</a></li>
+          <li><a href="#useaspect">useAspect</a></li>
+          <li><a href="#usecursor">useCursor</a></li>
+          <li><a href="#useintersect">useIntersect</a></li>
+        </ul>
+        <li><a href="#loading">Loaders</a></li>
+        <ul>
+          <li><a href="#loader">Loader</a></li>
+          <li><a href="#useprogress">useProgress</a></li>
+          <li><a href="#usegltf">useGLTF</a></li>
+          <li><a href="#usefbx">useFBX</a></li>
+          <li><a href="#usetexture">useTexture</a></li>
+          <li><a href="#usecubetexture">useCubeTexture</a></li>
+        </ul>
+        <li><a href="#performance">Performance</a></li>
+        <ul>
+          <li><a href="#instances">Instances</a></li>
+          <li><a href="#merged">Merged</a></li>
+          <li><a href="#points">Points</a></li>
+          <li><a href="#segments">Segments</a></li>
+          <li><a href="#detailed">Detailed</a></li>
+          <li><a href="#preload">Preload</a></li>
+          <li><a href="#bakeshadows">BakeShadows</a></li>
+          <li><a href="#meshbounds">meshBounds</a></li>
+          <li><a href="#adaptivedpr">AdaptiveDpr</a></li>
+          <li><a href="#adaptiveevents">AdaptiveEvents</a></li>
+          <li><a href="#usebvh">useBVH</a></li>
+        </ul>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+
+# Cameras
+
+#### PerspectiveCamera

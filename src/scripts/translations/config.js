@@ -23,7 +23,7 @@ const config = {
         "Write the path to the directory where you want to save your templates: ",
       iwriteArr:
         "Something went wrong ... Check that the following paths are correct:",
-      templcreate: "\nThe directory '/ patucoTemplates' has been created ",
+      templcreate: "\nThe directory '/patucoTemplates' has been created ",
     },
   },
   es: {
