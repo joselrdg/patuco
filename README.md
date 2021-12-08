@@ -75,7 +75,7 @@ Import and export components, views, models or whatever you need...
 
 ### Index
 
-<table>
+<table align="center">
   <tr>
     <td valign="top">
       <h3>Styles</h3>
