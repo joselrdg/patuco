@@ -81,7 +81,7 @@ Import and export components, views, models or whatever you need...
       <ul>
         <li><a href="#view_and_edit_classes">View_And_Edit_Classes</a></li>
         <ul>
-          <li><a href="#SearchByClassOrPropertyName">Search_By_Class_Or_Property_Name</a></li>
+          <li><a href="#Search_By_Class_Or_Property_Name">Search_By_Class_Or_Property_Name</a></li>
           <li><a href="#orthographiccamera">OrthographicCamera</a></li>
           <li><a href="#cubecamera">CubeCamera</a></li>
         </ul>
@@ -178,9 +178,9 @@ Import and export components, views, models or whatever you need...
 
 # <br><p align="center">Styles</p>
 
-## <br>ViewAndEditClasses
+## <br>View_And_Edit_Classes
 
 <br>You can see all the predefined classes and the new classes that have been created, organized by collections.
 You can also search for classes.
 
-### <br>SearchByClassOrPropertyName
+### <br>Search_By_Class_Or_Property_Name
