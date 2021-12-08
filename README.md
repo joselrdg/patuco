@@ -12,8 +12,8 @@ Import and export components, views, models or whatever you need ...
 You can save templates with the directories and files you need to quickly start projects or reuse files.
 You can save templates with code to inject it into any file.
 
-
 # <br>Quick start:
+
 <br><br><img align="left" src="https://media.giphy.com/media/ObNTw8Uzwy6KQ/giphy.gif" width="30px">&nbsp;**_If you want to try it before it's ready..._**
 
 1. Clone the repo
@@ -87,89 +87,76 @@ Import and export components, views, models or whatever you need...
         <li><a href="#Create_Classes">Create_Classes</a></li>
         <ul>
           <li><a href="#Add_A_New_Class">Add_A_New_Class</a></li>
-          <li><a href="#ClassName">ClassName</a></li>
-          <li><a href="#ChildCombinator">ChildCombinator</a></li>
-          <li><a href="#PseudoClass">PseudoClass</a></li>
-          <li><a href="#Properties">Properties</a></li>
+          <li><a href="#ClassName">- ClassName</a></li>
+          <li><a href="#ChildCombinator">- ChildCombinator</a></li>
+          <li><a href="#PseudoClass">- PseudoClass</a></li>
+          <li><a href="#Properties">- Properties</a></li>
           <li><a href="#Variables-In-Properties">Variables-In-Properties</a></li>
           <li><a href="#Typical-CSS-variables">- Typical-CSS-variables</a></li>
           <li><a href="#Recurring-CSS-variables">- Recurring-CSS-variables</a></li>
           <li><a href="#Patuco-variables">- Patuco-variables</a></li>
           <li><a href="#Add_CSS">Add_CSS</a></li>
-          <li><a href="#presentationcontrols">PresentationControls</a></li>
         </ul>
-        <li><a href="#abstractions">Abstractions</a></li>
+        <li><a href="#Set_Variables">Set_Variables</a></li>
         <ul>
-          <li><a href="#image">Image</a></li>
-          <li><a href="#text">Text</a></li>
-          <li><a href="#line">Line</a></li>
-          <li><a href="#quadraticbezierline">QuadraticBezierLine</a></li>
-          <li><a href="#cubicbezierline">CubicBezierLine</a></li>
-          <li><a href="#positionalaudio">PositionalAudio</a></li>
-          <li><a href="#billboard">Billboard</a></li>
-          <li><a href="#gizmohelper">GizmoHelper</a></li>
-          <li><a href="#effects">Effects</a></li>
-          <li><a href="#gradienttexture">GradientTexture</a></li>
-          <li><a href="#useanimations">useAnimations</a></li>
+          <!-- <li><a href="#image">Image</a></li> -->
         </ul>
-        <li><a href="#shaders">Shaders</a></li>
+        <li><a href="#Set_Animations">Set_Animations</a></li>
         <ul>
-          <li><a href="#meshreflectormaterial">MeshReflectorMaterial</a></li>
-          <li><a href="#meshwobblematerial">MeshWobbleMaterial</a></li>
-          <li><a href="#meshdistortmaterial">MeshDistortMaterial</a></li>
-          <li><a href="#pointmaterial">PointMaterial</a></li>
-          <li><a href="#softshadows">softShadows</a></li>
-          <li><a href="#shadermaterial">shaderMaterial</a></li>
+          <!-- <li><a href="#meshreflectormaterial">MeshReflectorMaterial</a></li> -->
         </ul>
-        <li><a href="#modifiers">Modifiers</a></li>
+        <li><a href="#Set_Media_Queries">Set_Media_Queries</a></li>
         <ul>
-          <li><a href="#curvemodifier">CurveModifier</a></li>
-          <li><a href="#useedgesplit">useEdgeSplit</a></li>
-          <li><a href="#usetessellation">useTessellation</a></li>
-          <li><a href="#usesimplification">useSimplification</a></li>
+          <!-- <li><a href="#curvemodifier">CurveModifier</a></li> -->
+        </ul>
+         <li><a href="#Configure_CSS_Template">Configure_CSS_Template</a></li>
+        <ul>
+          <!-- <li><a href="#curvemodifier">CurveModifier</a></li> -->
+        </ul>
+         <li><a href="#Create_CSS_File_In_Your_Project">Create_CSS_File_In_Your_Project</a></li>
+        <ul>
+          <!-- <li><a href="#curvemodifier">CurveModifier</a></li> -->
         </ul>
       </ul>
     </td>
     <td valign="top">
     <h3>Templates</h3>
       <ul>
-        <li><a href="#misc">Misc</a></li>
+        <li><a href="#Templates">Templates</a></li>
         <ul>
-          <li><a href="#html">Html</a></li>
-          <li><a href="#cycleraycast">CycleRaycast</a></li>
-          <li><a href="#stats">Stats</a></li>
-          <li><a href="#usedepthbuffer">useDepthBuffer</a></li>
-          <li><a href="#usecontextbridge">useContextBridge</a></li>
-          <li><a href="#usefbo">useFBO</a></li>
-          <li><a href="#usecamera">useCamera</a></li>
-          <li><a href="#usedetectgpu">useDetectGPU</a></li>
-          <li><a href="#usehelper">useHelper</a></li>
-          <li><a href="#useaspect">useAspect</a></li>
-          <li><a href="#usecursor">useCursor</a></li>
-          <li><a href="#useintersect">useIntersect</a></li>
+          <!-- <li><a href="#html">Html</a></li> -->
         </ul>
-        <li><a href="#loading">Loaders</a></li>
+        <li><a href="#Create_A_New_Album">Create_A_New_Album</a></li>
         <ul>
-          <li><a href="#loader">Loader</a></li>
-          <li><a href="#useprogress">useProgress</a></li>
-          <li><a href="#usegltf">useGLTF</a></li>
-          <li><a href="#usefbx">useFBX</a></li>
-          <li><a href="#usetexture">useTexture</a></li>
-          <li><a href="#usecubetexture">useCubeTexture</a></li>
+          <!-- <li><a href="#loader">Loader</a></li> -->
         </ul>
-        <li><a href="#performance">Performance</a></li>
+          <li><a href="#Create_Directory">Create_Directory</a></li>
         <ul>
-          <li><a href="#instances">Instances</a></li>
-          <li><a href="#merged">Merged</a></li>
-          <li><a href="#points">Points</a></li>
-          <li><a href="#segments">Segments</a></li>
-          <li><a href="#detailed">Detailed</a></li>
-          <li><a href="#preload">Preload</a></li>
-          <li><a href="#bakeshadows">BakeShadows</a></li>
-          <li><a href="#meshbounds">meshBounds</a></li>
-          <li><a href="#adaptivedpr">AdaptiveDpr</a></li>
-          <li><a href="#adaptiveevents">AdaptiveEvents</a></li>
-          <li><a href="#usebvh">useBVH</a></li>
+          <!-- <li><a href="#instances">Instances</a></li> -->
+        </ul>
+        <li><a href="#Layouts_Patuco">Layouts_Patuco</a></li>
+        <ul>
+          <!-- <li><a href="#instances">Instances</a></li> -->
+        </ul>
+         <li><a href="#Layouts_User">Layouts_User</a></li>
+        <ul>
+          <!-- <li><a href="#instances">Instances</a></li> -->
+        </ul>
+          <li><a href="#Import">Import</a></li>
+        <ul>
+          <!-- <li><a href="#instances">Instances</a></li> -->
+        </ul>
+          <li><a href="#Export">Export</a></li>
+        <ul>
+          <!-- <li><a href="#instances">Instances</a></li> -->
+        </ul>
+          <li><a href="#Inject_Components">Inject_Components</a></li>
+        <ul>
+          <!-- <li><a href="#instances">Instances</a></li> -->
+        </ul>
+          <li><a href="#Inject_Components">Inject_Components_Automatically</a></li>
+        <ul>
+          <!-- <li><a href="#instances">Instances</a></li> -->
         </ul>
       </ul>
     </td>
@@ -223,7 +210,7 @@ Create and configure CSS variables in the section to configure variables and add
 
 These variables indicate when updating the schema.css file that the class has to be repeated as many times as there are recursive variables with that name.
 
-The name of the variables must end with  \_- + number just like \_-0. An example of a full name would be: \_spacer_-0 and if for example there are 3 variables stored with the names _spacer\_-0, spacer\_-1, spacer\_-2_, When updating the schema.css file, the class would be repeated three times with the values ​​corresponding to those variables.
+The name of the variables must end with \_- + number just like \_-0. An example of a full name would be: \_spacer*-0 and if for example there are 3 variables stored with the names \_spacer\_-0, spacer\_-1, spacer\_-2*, When updating the schema.css file, the class would be repeated three times with the values ​​corresponding to those variables.
 
 To the names of the classes the last part of the variable name will be added at the end. If the class is called for example _m_, in the previous example there would be three classes with the names _m0, m1, m2._
 
@@ -236,10 +223,10 @@ The only thing you have to keep in mind is that if you have to use recurring var
 Another detail to keep in mind when adding more than one recursive variable to a property is to mark the variable's name with -k- + id to have unique class names.
 
 Example of how to add a recurring variable to a CSS property. Important! notice how the variable name is wrapped by the | character:
-_margin:_ var (| spacer_-0 |)
+_margin:_ var (| spacer\_-0 |)
 
 If you want to add more than one recurring variable to a property, you just have to separate them by commas:
-_margin:_ var(|spacer_-0, spacer-K-s_-0|)
+_margin:_ var(|spacer*-0, spacer-K-s*-0|)
 
 ### <br>Patuco-variables
 
@@ -247,27 +234,28 @@ You can store collections of variables with any value type, including javascript
 
 To write the variables in the properties of your classes, you must indicate the requested data between double parentheses as indicated below:
 
-background: linear-gradient (to bottom right, ((_cVP, store, example, colors-primary)), ((_cVP, lighter, example, ((_ cVP, store, example, colors-primary)), 20))) "
+background: linear-gradient (to bottom right, ((_cVP, store, example, colors-primary)), ((\_cVP, lighter, example, ((_ cVP, store, example, colors-primary)), 20))) "
 
 Let's just analyze the variable:
 
-((_cVP, store, example, colors-primary))
+((\_cVP, store, example, colors-primary))
 
 It is equivalent to:
 
 ((Function group, Action, Variable collection, Keys: parent-child, Props))
 
-- Group of functions (_cVP): indicates to which collection of functions the data is requested. At the moment there is only _cVP. _cVP contains functions to request the values ​​of variables and functions to modify colors.
+- Group of functions (\_cVP): indicates to which collection of functions the data is requested. At the moment there is only \_cVP. \_cVP contains functions to request the values ​​of variables and functions to modify colors.
 
 - Action (store): It is the action that you want to be triggered. It is related to the collection of functions, since it indicates which function to use. At the moment the actions that can be requested are:
-   - store: Returns the values ​​stored in the patuco variables.
-   - darker: Returns a darker color than the one sent to it. You can send a color directly by adding it to the Keys parameter, or by adding a typical CSS variable to the keys parameter, or by adding a patuco variable to the Keys parameter.
-   - lighter: Same as the previous one but returns a lighter color.
-   - contrastYiq: Returns the color with the highest contrast.
+
+  - store: Returns the values ​​stored in the patuco variables.
+  - darker: Returns a darker color than the one sent to it. You can send a color directly by adding it to the Keys parameter, or by adding a typical CSS variable to the keys parameter, or by adding a patuco variable to the Keys parameter.
+  - lighter: Same as the previous one but returns a lighter color.
+  - contrastYiq: Returns the color with the highest contrast.
 
 - Variable collection (example): Name of the variable collection.
 
-- Keys (colors-primary): In the action (store) this parameter is used to introduce the keys of the object where the patuco variables are stored. They are entered separated by -, to arrive at the stored values. The first value before - will indicate the parent's key, the next value after - will indicate the child's key, and so on. The values ​​will be taken from the collection indicated in the previous parameter. It is also used to send other types of values ​​to the functions, at the moment it is used to send colors to the rest of the functions of the _cVP group.
+- Keys (colors-primary): In the action (store) this parameter is used to introduce the keys of the object where the patuco variables are stored. They are entered separated by -, to arrive at the stored values. The first value before - will indicate the parent's key, the next value after - will indicate the child's key, and so on. The values ​​will be taken from the collection indicated in the previous parameter. It is also used to send other types of values ​​to the functions, at the moment it is used to send colors to the rest of the functions of the \_cVP group.
 
 - Props: This parameter is used to send the rest of the properties that the actions need. For example, in the case of the darker and lighter actions, a number would be entered to indicate the amount of dark or light colors you need.
 
@@ -288,3 +276,31 @@ _background: linear-gradient(to bottom right, ((\_cVP, store, example, colors-pr
 _box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem ((\_cVP, darker, example,((\_cVP, store, example, colors-primary)), 20)), .125rem .125rem 1rem ((\_cVP, lighter, example,((\_cVP, store, example, colors-primary)), 20))_
 
 ### <br>Add_CSS
+
+## <br>Set_Variables
+
+## <br>Set_Animations
+
+## <br>Set_Media_Queries
+
+## <br>Configure_CSS_Template
+
+## <br>Create_CSS_File_In_Your_Project
+
+## <br>Templates
+
+## <br>Create_A_New_Album
+
+## <br>Create_Directory
+
+## <br>Layouts_Patuco
+
+## <br>Layouts_User
+
+## <br>Import
+
+## <br>Export
+
+## <br>Inject_Components
+
+## <br>Inject_Components_Automatically
