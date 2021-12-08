@@ -1,4 +1,4 @@
-<h1 align="center">💉 shoehorn PATUCO   </h1>
+<h1 align="center">💉 shoehorn PATUCO 💉</h1>
 
 # <br>Styles:
 
