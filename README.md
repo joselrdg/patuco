@@ -73,7 +73,6 @@ Import and export components, views, models or whatever you need...
 
 ![ScreenShot Patuco](./screenShot/templates.png)
 
-
 ### Index
 
 <table>
@@ -82,7 +81,7 @@ Import and export components, views, models or whatever you need...
       <ul>
         <li><a href="#viewandeditclasses">ViewAndEditClasses</a></li>
         <ul>
-          <li><a href="#perspectivecamera">PerspectiveCamera</a></li>
+          <li><a href="#SearchByClassOrPropertyName">SearchByClassOrPropertyName</a></li>
           <li><a href="#orthographiccamera">OrthographicCamera</a></li>
           <li><a href="#cubecamera">CubeCamera</a></li>
         </ul>
@@ -177,7 +176,11 @@ Import and export components, views, models or whatever you need...
   </tr>
 </table>
 
+# <br><p align="center">Styles</p>
 
-# ViewAndEditClasses
+## <br>ViewAndEditClasses
 
-#### PerspectiveCamera
+<br>You can see all the predefined classes and the new classes that have been created, organized by collections.
+You can also search for classes.
+
+### <br>SearchByClassOrPropertyName
