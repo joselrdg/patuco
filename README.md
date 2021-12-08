@@ -80,7 +80,7 @@ Import and export components, views, models or whatever you need...
   <tr>
     <td valign="top">
       <ul>
-        <li><a href="#cameras">Cameras</a></li>
+        <li><a href="#View and edit classes">View and edit classes</a></li>
         <ul>
           <li><a href="#perspectivecamera">PerspectiveCamera</a></li>
           <li><a href="#orthographiccamera">OrthographicCamera</a></li>
