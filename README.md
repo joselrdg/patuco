@@ -178,6 +178,6 @@ Import and export components, views, models or whatever you need...
 </table>
 
 
-# View and edit classes
+# ViewAndEditClasses
 
 #### PerspectiveCamera
