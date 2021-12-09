@@ -95,6 +95,9 @@ Import and export components, views, models or whatever you need...
           <li><a href="#Typical-CSS-variables">- Typical-CSS-variables</a></li>
           <li><a href="#Recurring-CSS-variables">- Recurring-CSS-variables</a></li>
           <li><a href="#Patuco-variables">- Patuco-variables</a></li>
+          <li><a href="#Add-psudo-element">- Add-psudo-element</a></li>
+          <li><a href="#Create-animation-property">- Create-animation-property</a></li>
+          <li><a href="#Stores-the-class">- Stores-the-class</a></li>
           <li><a href="#Add_CSS">Add_CSS</a></li>
         </ul>
         <li><a href="#Set_Variables">Set_Variables</a></li>
@@ -186,9 +189,9 @@ First you have to enter the name of the class. Class names must be preceded by _
 
 The next thing you will be required to do is enter the children the class will have an effect on, such as 'h1' 'div> span'. You can enter anything you need, the important thing is that you are clear about the placement in which the class name will end up organized, it will be something like ._classname + Child combinator + pseudoclasses / pseudoelements_. It is not mandatory to enter any value.
 
-### <br>Properties
+### <br>PseudoClass
 
-Next you will be asked to introduce a pseudo class such as _hover_. If you enter a value it will be added to the end of the class name resulting in ._classname + Child combinator + pseudoclass_. You can enter any value, it does not necessarily have to be a pseudo-class, the important thing is how the name will be constructed. It is not mandatory to enter a value.
+Next you will be asked to introduce a pseudo-class such as _hover_. If you enter a value it will be added to the end of the class name resulting in ._classname + Child combinator + pseudoclass_. You can enter any value, it does not necessarily have to be a pseudo-class, the important is how the name will be constructed. It is not mandatory to enter a value.
 
 ### <br>Properties
 
@@ -274,6 +277,22 @@ Let's analyze the following variable:
 _background: linear-gradient(to bottom right, ((\_cVP, store, example, colors-primary)), ((\_cVP, lighter, example,((\_cVP, store, example, colors-primary)), 20)))_
 
 _box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem ((\_cVP, darker, example,((\_cVP, store, example, colors-primary)), 20)), .125rem .125rem 1rem ((\_cVP, lighter, example,((\_cVP, store, example, colors-primary)), 20))_
+
+### <br>Add-psudo-element
+
+You can add pseudo-elements like :: after or :: first-line, that will create the necessary classes with the corresponding name when updating the schema.css file or creating the optimized .css file for your project.
+
+You can enter any value it does not necessarily have to be a pseudo-element. The important thing is that when updating or creating the .css file, additional classes will be created with the following structure in their name: ._classname + pseudoelements_.
+
+You can add as many pseudo-elements as you want.
+It is not mandatory to enter a value.
+
+### <br>Create-animation-property
+
+If you need it, enter the name and properties of some animation.
+
+### <br>Stores-the-class
+
 
 ### <br>Add_CSS
 
