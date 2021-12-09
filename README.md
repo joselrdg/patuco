@@ -3,8 +3,8 @@
 # <br>Styles:
 
 Quickly design and customize responsive websites just like you would with Bootstrap.
-You can create css styles, css variables, animations, media queries among other options and save them to use them in any project.
-When your project is ready, you can create an optimized css file with only the styles you have used.
+Apart from the styles that are pre-defined, you can create css styles, three types of variables that accept functions, animations, media queries among other options, and you can also store the styles to use them in any project.
+When your project is ready, you can create an optimized CSS file with just the styles you have used.
 
 # <br>Layouts:
 
@@ -97,8 +97,8 @@ Import and export components, views, models or whatever you need...
           <li><a href="#Patuco-variables">- Patuco-variables</a></li>
           <li><a href="#Add-psudo-element">- Add-psudo-element</a></li>
           <li><a href="#Create-animation-property">- Create-animation-property</a></li>
-          <li><a href="#Stores-the-class">- Stores-the-class</a></li>
           <li><a href="#Add_CSS">Add_CSS</a></li>
+          <li><a href="#Stores-the-class">- Stores-the-class</a></li>
         </ul>
         <li><a href="#Set_Variables">Set_Variables</a></li>
         <ul>
@@ -112,7 +112,7 @@ Import and export components, views, models or whatever you need...
         <ul>
           <!-- <li><a href="#curvemodifier">CurveModifier</a></li> -->
         </ul>
-         <li><a href="#Configure_CSS_Template">Configure_CSS_Template</a></li>
+         <li><a href="#Update_CSS_template">Update_CSS_template</a></li>
         <ul>
           <!-- <li><a href="#curvemodifier">CurveModifier</a></li> -->
         </ul>
@@ -213,7 +213,7 @@ Create and configure CSS variables in the section to configure variables and add
 
 These variables indicate when updating the schema.css file that the class has to be repeated as many times as there are recursive variables with that name.
 
-The name of the variables must end with \_- + number just like \_-0. An example of a full name would be: \_spacer*-0 and if for example there are 3 variables stored with the names \_spacer\_-0, spacer\_-1, spacer\_-2*, When updating the schema.css file, the class would be repeated three times with the values ​​corresponding to those variables.
+The name of the variables must end with \_- + number just like \_-0. An example of a full name would be: \_spacer-0 and if for example there are 3 variables stored with the names \_spacer\_-0, spacer\_-1, spacer\_-2, When updating the schema.css file, the class would be repeated three times with the values ​​corresponding to those variables.
 
 To the names of the classes the last part of the variable name will be added at the end. If the class is called for example _m_, in the previous example there would be three classes with the names _m0, m1, m2._
 
@@ -229,7 +229,7 @@ Example of how to add a recurring variable to a CSS property. Important! notice 
 _margin:_ var (| spacer\_-0 |)
 
 If you want to add more than one recurring variable to a property, you just have to separate them by commas:
-_margin:_ var(|spacer*-0, spacer-K-s*-0|)
+_margin:_ var(|spacer-0, spacer-K-s-0|)
 
 ### <br>Patuco-variables
 
@@ -291,10 +291,16 @@ It is not mandatory to enter a value.
 
 If you need it, enter the name and properties of some animation.
 
+### <br>Add_CSS
+
+If you want you can add pure CSS by selecting the Add CSS section. The first thing to do is enter a name to be able to identify it. Adding that name anywhere in your projects, when you create the optimized css file, the code you have entered will be injected. Note that the name is only to indicate to Patuco that it has to inject the code, but it is not the name of any class or CSS element.
+
+The next thing you need to enter is the CSS code. Copy and paste or write CSS code as you would in a .css file. When you're done, update the templates.css file, so that the code is available in your projects.
+
 ### <br>Stores-the-class
 
-
-### <br>Add_CSS
+Finally save the style you have created. You can store them in existing collections, selecting the collection in the list that will appear in the terminal or you can create a new collection.
+The collections will be saved in the directory indicated when configuring the Patuco package.
 
 ## <br>Set_Variables
 
@@ -302,7 +308,7 @@ If you need it, enter the name and properties of some animation.
 
 ## <br>Set_Media_Queries
 
-## <br>Configure_CSS_Template
+## <br>Update_CSS_template
 
 ## <br>Create_CSS_File_In_Your_Project
 
