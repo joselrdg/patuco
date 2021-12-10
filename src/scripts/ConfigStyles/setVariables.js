@@ -2,7 +2,6 @@ const inquirer = require("inquirer");
 const chalk = require("chalk");
 const fs = require("fs");
 const requireUncached = require("../common/requireUncached.js");
-const configStyles = require("./index.js");
 const pathBase = process.cwd();
 const pathVariables = `${pathBase}/patuco/variables.js`;
 const variables = require(fs.existsSync(pathVariables)
@@ -13,6 +12,10 @@ const pathUserVar =
   require("../../scripts/constants/patucoConfig.js").path.userTemplate +
   "/variables";
 
+const modulePatuVarPath =
+  require("../../scripts/constants/patucoConfig.js").path.patucoModule +
+  "/src/templates/styles/patucoVariables.js";
+
 const userVariables = require(fs.existsSync(pathUserVar)
   ? pathUserVar + "/CSSvariables.js"
   : "../../templates/styles/uservar.js");
@@ -20,7 +23,7 @@ const userVariables = require(fs.existsSync(pathUserVar)
 const patucoVar = require("../../templates/styles/patucoVariables.js");
 const userPatucoVar = fs.existsSync(pathUserVar + "/PATUvariables.js")
   ? require(pathUserVar + "/PATUvariables.js")
-  : [];
+  : require("../../templates/styles/userpatuvar.js");
 
 const savedPaths = require("../constants/patucoConfig.js").path;
 
@@ -35,6 +38,16 @@ const upgrade = {
 
 const upgradeUserVar = {
   ...userVariables,
+};
+
+const variablesKeys = Object.keys(variables);
+
+const idsPatu = patucoVar.map((v) => v._id);
+const modifiedAlbums = {
+  var: false,
+  userVar: false,
+  patu: false,
+  userPatu: false,
 };
 
 const queryParams = (type, value = []) => {
@@ -73,7 +86,7 @@ const queryParams = (type, value = []) => {
       name: "type",
       type: "list",
       message: txt.c.select,
-      choices: [txt.query.editvalue, txt.query.dupli, txt.query.editkey, back],
+      choices: value,
     },
     namevarp: {
       name: "type",
@@ -179,17 +192,7 @@ const prepareFontVariablesStr = (groupVar) => {
 const loadVariables = async () => {
   const userPath = pathUserVar + "/CSSvariables.js";
   const path = `${pathBase}/patuco`;
-  const str = `const variables = {
-      ${prepareFontVariablesStr(upgrade)}};
-  
-module.exports = variables;
-  `;
-  const userStr = `const uservar = {
-    ${prepareFontVariablesStr(upgradeUserVar)}};
-
-module.exports = uservar;
-`;
-
+  let error = false;
   if (!fs.existsSync(path)) {
     fs.mkdirSync(path, 0777);
   }
@@ -197,14 +200,28 @@ module.exports = uservar;
     fs.mkdirSync(pathUserVar, 0777);
   }
   try {
-    fs.writeFileSync(pathVariables, str, { mode: 0o777 });
-    fs.writeFileSync(userPath, userStr, { mode: 0o777 });
+    if (modifiedAlbums.var) {
+      const str = `const variables = {
+        ${prepareFontVariablesStr(upgrade)}};
+        module.exports = variables;
+        `;
+      fs.writeFileSync(pathVariables, str, { mode: 0o777 });
+    }
+    if (modifiedAlbums.userVar) {
+      const userStr = `const uservar = {
+        ${prepareFontVariablesStr(upgradeUserVar)}};
+module.exports = uservar;
+        `;
+      fs.writeFileSync(userPath, userStr, { mode: 0o777 });
+    }
   } catch (err) {
+    error = true;
     console.error(err);
   } finally {
-    requireUncached(savedPaths.baseCss);
+    // requireUncached(savedPaths.baseCss);
     // requireUncached(userPath);
-    console.log(`
+    if (!error) {
+      console.log(`
   ${txt.c.createdOk}\n
   ${txt.c.created}\n
   - ${txt.c.file}: ${chalk.blue.bold("variables.js")}\n
@@ -212,82 +229,169 @@ module.exports = uservar;
   - ${txt.c.file}: ${chalk.blue.bold("CSSvariables.js")}\n
   - ${txt.c.path}: ${chalk.blue.bold(userPath)}\n
   ----------------------------------\n`);
+      modifiedAlbums.var = false;
+      modifiedAlbums.userVar = false;
+    }
+  }
+};
+
+const updatePatucoVar = async (data) => {
+  let error = false;
+  try {
+    fs.writeFileSync(data.path, data.str, { mode: 0o777 });
+  } catch (err) {
+    error = true;
+    console.error(err);
+  } finally {
+    // requireUncached(savedPaths.baseCss);
+    // requireUncached(userPath);
+    if (!error) {
+      console.log(`
+  ${txt.c.createdOk}\n
+  ${txt.c.created}\n
+  - ${txt.c.file}: ${chalk.blue.bold("PATUvariables.js")}\n
+  - ${txt.c.path}: ${chalk.blue.bold(data.path)}\n
+  ----------------------------------\n`);
+      modifiedAlbums.patu = false;
+      modifiedAlbums.userPatu = false;
+    }
   }
 };
 
 const storePatucoVar = async () => {
-  const userPath = pathUserVar + "/PATUvariables.js";
-  const path = `${pathBase}/patuco`;
-//   const str = `const variables = {
-//       ${prepareFontVariablesStr(upgrade)}};
-  
-// module.exports = variables;
-//   `;
-  console.log();
+  const dataStr = [];
+  modulePatuVarPath;
+  if (modifiedAlbums.patu) {
+    const patuStr = `const variablesPatuco = ${JSON.stringify(
+      patucoVar,
+      null,
+      2
+    )}
+module.exports = variablesPatuco;`;
+    dataStr.push({
+      str: patuStr,
+      path: modulePatuVarPath,
+      file: "patucoVariables.js",
+    });
+  }
+  if (modifiedAlbums.userPatu) {
+    const userPath = pathUserVar + "/PATUvariables.js";
+    const userPatuStr = `const variablesPatuco = ${JSON.stringify(
+      userPatucoVar,
+      null,
+      2
+    )}
+module.exports = variablesPatuco;`;
+    dataStr.push({ str: userPatuStr, path: userPath });
+  }
+
+  for (let i = 0; i < dataStr.length; i++) {
+    const element = dataStr[i];
+    await updatePatucoVar(element);
+  }
 };
 
 const searchPatucoVar = async () => {
+  let create = false;
   const variablesTotal = [...patucoVar, ...userPatucoVar];
-  console.log(chalk.cyan("\n------------- Album -----------------\n"));
+  console.log(chalk.cyan("\n------------- Albums -----------------\n"));
   console.log(variablesTotal);
   console.log(chalk.cyan("\n---------------------------------\n"));
-  const albums = variablesTotal.map((e) => e.name);
+  const albums = variablesTotal.map((e) => e._id);
   const albs = await queryParams("variables", albums);
-  let filter = variablesTotal.filter((f) => f.name === albs.type)[0];
-  console.log(chalk.blue("\n------------- Grupo -----------------\n"));
+  if (idsPatu.some((id) => id === albs.type)) {
+    modifiedAlbums.patu = true;
+  } else {
+    modifiedAlbums.userPatu = true;
+  }
+  let filter = variablesTotal.filter((f) => f._id === albs.type)[0];
+  console.log(chalk.blue(`\n------------- ${filter._id} -----------------\n`));
   console.log(filter);
   console.log(chalk.blue("\n---------------------------------\n"));
-  let query = filter.name;
   const prevKeyQuery = { obj: {}, key: "" };
   let end = false;
   while (!end) {
     const keys = Object.keys(filter);
     if (typeof filter === "object") {
       prevKeyQuery.obj = filter;
-      const opt = await queryParams("variables", keys);
-      query += "-" + opt.type;
-      prevKeyQuery.key = opt.type;
-      console.log(chalk.green("\n------------- Grupo -----------------\n"));
-      console.log(filter[opt.type]);
-      console.log(chalk.green("\n---------------------------------\n"));
-      filter = filter[opt.type];
+      const opt = await queryParams("variables", [
+        chalk.green.italic("Create var"),
+        ...keys,
+      ]);
+      if (opt.type !== chalk.green.italic("Create var")) {
+        prevKeyQuery.key = opt.type;
+        console.log(
+          chalk.green(`\n------------- ${opt.type} -----------------\n`)
+        );
+        console.log(filter[opt.type]);
+        console.log(chalk.green("\n---------------------------------\n"));
+        filter = filter[opt.type];
+      } else {
+        create = true;
+        end = true;
+      }
     } else {
       end = true;
     }
   }
-  const select = await queryParams("select");
-  if (select.type === txt.query.editvalue) {
-    const value = await queryParams("value");
-    prevKeyQuery.obj[prevKeyQuery.key] = value.type;
-  } else if (select.type === txt.query.dupli) {
-    const namevarpdu = await queryParams("namevarp");
-    prevKeyQuery.obj[namevarpdu.type] = prevKeyQuery.obj[prevKeyQuery.key];
-  } else if (select.type === txt.query.editkey) {
-    const namevarp = await queryParams("namevarp");
-    prevKeyQuery.obj[namevarp.type] = prevKeyQuery.obj[prevKeyQuery.key];
-    delete prevKeyQuery.obj[prevKeyQuery.key];
+  let isid = false;
+  if (prevKeyQuery.key === "_id") {
+    isid = true;
   }
-  console.log(chalk.green("\n---------------------------------\n"));
-  console.log(prevKeyQuery.obj);
-  console.log(chalk.green("\n---------------------------------\n"));
-  const optsave = await queryParams("optsave");
-  if (optsave.type === txt.query.optsave) {
-    await storePatucoVar();
+  let select = "";
+  if (create) {
+    const namevar = await queryParams("namevar");
+    const valuevar = await queryParams("value");
+    prevKeyQuery.obj[namevar.type] = valuevar.type;
+  } else {
+    select = await queryParams(
+      "select",
+      isid
+        ? [txt.query.editvalue, back]
+        : [txt.query.editvalue, txt.query.dupli, txt.query.editkey, back]
+    );
+    if (select.type === txt.query.editvalue) {
+      const value = await queryParams("value");
+      prevKeyQuery.obj[prevKeyQuery.key] = value.type;
+    } else if (select.type === txt.query.dupli) {
+      const namevarpdu = await queryParams("namevarp");
+      prevKeyQuery.obj[namevarpdu.type] = prevKeyQuery.obj[prevKeyQuery.key];
+    } else if (select.type === txt.query.editkey) {
+      const namevarp = await queryParams("namevarp");
+      prevKeyQuery.obj[namevarp.type] = prevKeyQuery.obj[prevKeyQuery.key];
+      delete prevKeyQuery.obj[prevKeyQuery.key];
+    }
+  }
+  if (select.type !== back) {
+    console.log(
+      chalk.green(`\n------------- ${prevKeyQuery.key} -----------------\n`)
+    );
+    console.log(prevKeyQuery.obj);
+    console.log(chalk.green("\n---------------------------------\n"));
+    const optsave = await queryParams("optsave");
+    if (optsave.type === txt.query.optsave) {
+      await storePatucoVar();
+    }
   }
 };
 
 const search = async (type) => {
+  const variablesTotal = { ...upgrade, ...upgradeUserVar };
   if (type === "CSS variables") {
     const crtquery = await queryParams("caracteres");
     const caracteres = crtquery.type;
     const data = [];
-    const variablesTotal = { ...upgrade, ...upgradeUserVar };
     for (const key in variablesTotal) {
       if (
         key.includes(caracteres) ||
         variablesTotal[key].includes(caracteres)
       ) {
         if (!data.some((e) => e.name === key)) {
+          if (variablesKeys.some((k) => k === key)) {
+            modifiedAlbums.var = true;
+          } else {
+            modifiedAlbums.userVar = true;
+          }
           data.push({ name: key, value: variablesTotal[key] });
           console.log(
             chalk.bold.italic.blue("  --" + key + ": ") +
@@ -306,9 +410,38 @@ const search = async (type) => {
   }
 };
 
-const typeOfVariables = async () => {};
+const areChanges = () => {
+  return console.log(`
+  - CSS variables:   ${
+    modifiedAlbums.var
+      ? chalk.red(txt.query.optsave)
+      : chalk.green(txt.query.updated)
+  }
+  - User CSS variables:   ${
+    modifiedAlbums.userVar
+      ? chalk.red(txt.query.optsave)
+      : chalk.green(txt.query.updated)
+  }
+  - PATUCO variables:   ${
+    modifiedAlbums.patu
+      ? chalk.red(txt.query.optsave)
+      : chalk.green(txt.query.updated)
+  } 
+  - User PATUCO variables:   ${
+    modifiedAlbums.userPatu
+      ? chalk.red(txt.query.optsave)
+      : chalk.green(txt.query.updated)
+  } 
+`);
+};
+
+const createVarPatuco = async () => {
+  const namevar = await queryParams("namevar");
+  const valuevar = await queryParams("value");
+};
 
 const init = async () => {
+  areChanges();
   const task = await queryParams("task");
   switch (task.type) {
     case txt.query.search:
@@ -322,22 +455,25 @@ const init = async () => {
       if (srchEdit.type !== back) {
         if (srchEdit.type === "CSS variables") {
           const key = await queryParams("variables", [
-            ...Object.keys(variables),
+            ...variablesKeys,
             ...Object.keys(userVariables),
           ]);
           await edit(key.type);
+        } else {
+          await searchPatucoVar();
         }
       }
       break;
     case txt.query.create:
       const srchcrea = await queryParams("search");
-      console.log(userVariables);
-
       if (srchcrea.type !== back) {
         if (srchcrea.type === "CSS variables") {
           const namevar = await queryParams("namevar");
           const valuevar = await queryParams("value");
+          modifiedAlbums.userVar = true;
           upgradeUserVar[`${namevar.type}`] = valuevar.type;
+        } else {
+          await searchPatucoVar(true);
         }
       }
       break;
@@ -345,6 +481,7 @@ const init = async () => {
       await loadVariables();
       break;
     case back:
+      const configStyles = require("./index.js");
       configStyles.configStyles();
       break;
     default:

@@ -24,6 +24,7 @@ const setVariables = {
       namevarp: "Enter a Key for the variable:",
       dupli: "Duplicate variable",
       optsave: "Update stored data",
+      updated: "Updated"
     },
   },
   es: {
@@ -49,6 +50,8 @@ const setVariables = {
       namevarp: "Introduce una Key para la variable:",
       dupli: "Duplicar variable",
       optsave: "Actualizar datos almacenados",
+      updated: "Actualizado"
+
     },
   },
 };
