@@ -291,6 +291,31 @@ module.exports = variablesPatuco;`;
   }
 };
 
+const enterVariable = async () => {
+  const data = {};
+  let end = false;
+  while (!end) {
+    const namevar = await queryParams("namevar");
+    if (namevar.type === "") {
+      console.log(txt.c.haveadd);
+    } else {
+      data.key = namevar.type;
+      end = true;
+    }
+  }
+  end = false;
+  while (!end) {
+    const valuevar = await queryParams("value");
+    if (valuevar.type === "") {
+      console.log(txt.c.haveadd);
+    } else {
+      data.value = valuevar.type;
+      end = true;
+    }
+  }
+  return data;
+};
+
 const searchPatucoVar = async () => {
   let create = false;
   const variablesTotal = [...patucoVar, ...userPatucoVar];
@@ -340,9 +365,8 @@ const searchPatucoVar = async () => {
   }
   let select = "";
   if (create) {
-    const namevar = await queryParams("namevar");
-    const valuevar = await queryParams("value");
-    prevKeyQuery.obj[namevar.type] = valuevar.type;
+    const vardata = await enterVariable();
+    prevKeyQuery.obj[vardata.key] = vardata.value;
   } else {
     select = await queryParams(
       "select",
@@ -468,10 +492,9 @@ const init = async () => {
       const srchcrea = await queryParams("search");
       if (srchcrea.type !== back) {
         if (srchcrea.type === "CSS variables") {
-          const namevar = await queryParams("namevar");
-          const valuevar = await queryParams("value");
+          const vardata = await enterVariable();
           modifiedAlbums.userVar = true;
-          upgradeUserVar[`${namevar.type}`] = valuevar.type;
+          upgradeUserVar[`${vardata.key}`] = vardata.value;
         } else {
           await searchPatucoVar(true);
         }
