@@ -9,7 +9,10 @@ const variablesPatuco = [
       warning: "",
       light: "",
       dark: "",
-      link: "",
+      link: {
+        primary: "#0d6efd",
+        secondary: "#0d6efd",
+      },
     },
     theme: {
       primary: "hola",
@@ -22,8 +25,5 @@ const variablesPatuco = [
   },
 ];
 // ligth dark
-
-
-
 
 module.exports = variablesPatuco;
