@@ -5,7 +5,7 @@ const patucoConfig = {
     baseCss: undefined,
     userTemplate: undefined
   },
-  language: "es",
+  language: "en",
 };
 
 module.exports = patucoConfig;
