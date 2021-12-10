@@ -41,14 +41,14 @@ function filewalker(dir, type, myFilter) {
       directoryFilter: ["!.git", "!*modules"],
       [myFilter ? "fileFilter" : "myFilter"]: myFilter,
       type: type,
-      alwaysStat: true,
+      // alwaysStat: true,
     })
       .on("data", (entry) => {
         const {
           path,
-          stats: { size },
+          // stats: { size },
         } = entry;
-        data.push({ path, size });
+        data.push({ path });
       })
       .on("warn", (error) => console.error("non-fatal error", error))
       .on("error", (error) => console.error("fatal error", error))
@@ -164,7 +164,6 @@ const createPseudoElements = async (uniqueClass) => {
       stylesStr = stylesStr + `  ${styleElement};\n`;
     }
     stylesStr = stylesStr + "}\n\n";
-
 
     if (element.query) {
       await prepareClassesQueryStr(element.query, stylesStr);
