@@ -1,9 +1,3 @@
-```
-                                  +                 *
-                         +                                         *
-                                     *              
-                                                       +
-```
 <h1 align="center">💉🩸 Shoehorn PATUCO  💉🩸</h1>
 
 ```                         +               *
