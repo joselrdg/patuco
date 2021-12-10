@@ -1,3 +1,4 @@
+const fs = require("fs");
 
 const variables = {
   "fonts": [
@@ -44,7 +45,7 @@ const variables = {
   "button-background-color_-5": "black",
   "button-background-gradient_-0": "linear-gradient(to bottom right, #EF4765, #FF9A5A)",
   "button-background-gradient_-1": "linear-gradient(to bottom right, #4766ef, #5ad0ff)",
-  "button-box-shadow_-0": "0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5)"
+  "button-box-shadow_-0": "0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5)",
 };
 
 module.exports = variables;

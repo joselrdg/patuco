@@ -98,7 +98,7 @@ Import and export components, views, models or whatever you need...
           <li><a href="#Add-psudo-element">- Add-psudo-element</a></li>
           <li><a href="#Create-animation-property">- Create-animation-property</a></li>
           <li><a href="#Add_CSS">Add_CSS</a></li>
-          <li><a href="#Stores-the-class">- Stores-the-class</a></li>
+          <li><a href="#Stores-styles">Stores-styles</a></li>
         </ul>
         <li><a href="#Set_Variables">Set_Variables</a></li>
         <ul>
@@ -297,7 +297,7 @@ If you want you can add pure CSS by selecting the Add CSS section. The first thi
 
 The next thing you need to enter is the CSS code. Copy and paste or write CSS code as you would in a .css file. When you're done, update the templates.css file, so that the code is available in your projects.
 
-### <br>Stores-the-class
+### <br>Stores-styles
 
 Finally save the style you have created. You can store them in existing collections, selecting the collection in the list that will appear in the terminal or you can create a new collection.
 The collections will be saved in the directory indicated when configuring the Patuco package.

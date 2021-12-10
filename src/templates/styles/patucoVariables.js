@@ -1,29 +1,28 @@
 const variablesPatuco = [
   {
-    name: "example",
-    colors: {
-      primary: "#0d6efd",
-      secondary: "",
-      success: "",
-      danger: "",
-      warning: "",
-      light: "",
-      dark: "",
-      link: "",
+    "_id": "example patuco",
+    "colors": {
+      "primary": "#0d6efd",
+      "secondary": "jose",
+      "success": "tres",
+      "danger": "jocuatro",
+      "warning": "",
+      "light": "",
+      "dark": "",
+      "link": {
+        "primary": "#0d6efd",
+        "secondary": "#0d6efd"
+      }
     },
-    theme: {
-      primary: "hola",
-      darkPrimary: "",
-      lightPrimary: "",
-      secondary: "",
-      darkSecondary: "",
-      lightSecondary: "",
+    "theme": {
+      "primary": "hola",
+      "darkPrimary": "",
+      "lightPrimary": "",
+      "secondary": "",
+      "darkSecondary": "",
+      "lightSecondary": ""
     },
-  },
-];
-// ligth dark
-
-
-
-
+    "hjkl": "hjkl"
+  }
+]
 module.exports = variablesPatuco;
