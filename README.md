@@ -1,5 +1,13 @@
 <h1 align="center">💉🩸 Shoehorn PATUCO  💉🩸</h1>
 
+                         +               *
+           *                    ___ _               +
+                               |x  | |          
+                   +           /x  | |     
+                              /x  __)_)       +
+          *               __./x /| / /
+                         (_____/ |/|/                  *
+
 # <br>Styles:
 
 Quickly design and customize responsive websites just like you would with Bootstrap.
