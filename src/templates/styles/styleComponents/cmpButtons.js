@@ -1,4 +1,4 @@
-const buttons = [
+const cmpButtons = [
   // {
   //   name: "_btn_bg",
   //   recursivevar: ["button-background-color_-"],
@@ -22,7 +22,7 @@ const buttons = [
       "border: 0",
       "border-radius: 12px",
       "color: #fff",
-      "background: linear-gradient(to bottom right, ((_cVP, store, example, colors-primary)), ((_cVP, lighter, example,((_cVP, store, example, colors-primary)), 20)))",
+      "background: linear-gradient(to bottom right, ((_cVP, store, example, colors-theme-primary)), ((_cVP, lighter, example,((_cVP, store, example, colors-theme-primary)), 20)))",
       "display: inline-block",
       "font-family: -apple-system,system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif",
       "font-size: 16px",
@@ -42,7 +42,7 @@ const buttons = [
       {
         type: ":active",
         items: [
-          "box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem ((_cVP, darker, example,((_cVP, store, example, colors-primary)), 20)), .125rem .125rem 1rem ((_cVP, lighter, example,((_cVP, store, example, colors-primary)), 20))",
+          "box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem ((_cVP, darker, example,((_cVP, store, example, colors-theme-primary)), 20)), .125rem .125rem 1rem ((_cVP, lighter, example,((_cVP, store, example, colors-theme-primary)), 20))",
           "transform: translateY(2px)",
           "transition-duration: 0.35s",
         ],
@@ -50,7 +50,7 @@ const buttons = [
       {
         type: ":not([disabled]):hover",
         items: [
-          "box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem ((_cVP, darker, example,((_cVP, store, example, colors-primary)), 20)), .125rem .125rem 1rem ((_cVP, lighter, example,((_cVP, store, example, colors-primary)), 20))",
+          "box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem ((_cVP, darker, example,((_cVP, store, example, colors-theme-primary)), 20)), .125rem .125rem 1rem ((_cVP, lighter, example,((_cVP, store, example, colors-theme-primary)), 20))",
         ],
       },
     ],
@@ -123,4 +123,4 @@ const buttons = [
   },
 ];
 
-module.exports = buttons;
+module.exports = cmpButtons;

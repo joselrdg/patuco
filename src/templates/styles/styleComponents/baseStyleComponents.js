@@ -1,9 +1,9 @@
-const buttons = require("./buttons.js");
-const cards = require("./cards.js");
+const cmpButtons = require("./cmpButtons.js");
+const cmpCards = require("./cmpCards.js");
 
 const baseStyleComponents = {
-    buttons,
-    cards,
+  cmpButtons,
+  cmpCards,
 };
 
 module.exports = baseStyleComponents;

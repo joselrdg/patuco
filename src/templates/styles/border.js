@@ -1,6 +1,6 @@
 const border = [
   {
-    name: "ol_n",
+    name: "_ol_n",
     items: ["outline: none"],
   },
   {
