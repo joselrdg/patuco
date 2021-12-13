@@ -1,12 +1,14 @@
 const inquirer = require("inquirer");
 const chalk = require("chalk");
 const fs = require("fs");
+const pathBase = process.cwd();
 const config = require("../config.js");
 const animations = require("./animationsdata.js");
 const pathUser = require("../constants/patucoConfig.js").path.userTemplate;
 const setClasses = require("./setClasses");
 const txt = require("./translations/createClasses.js");
 const baseCss = require("../../templates/styles/baseCss.js");
+const filewalker = require("../common/filewalker.js");
 
 const continueCreate = (name) =>
   chalk.bold.italic.magentaBright(`${txt.query.addmstyles} ${name}`);
@@ -58,6 +60,25 @@ const existsName = async (name) => {
   return false;
 };
 
+const copyFile = async () => {
+  const pathArr = await filewalker(pathBase, {
+    directoryFilter: ["!.git", "!*modules"],
+    type: "files",
+  });
+  const paths = pathArr.map((p) => p.path);
+  const path = await queryParams("addProp", paths);
+  let data = fs.readFileSync(path.type, "utf-8");
+  const startI = data.indexOf("/*<(patu)>*/");
+  if (startI !== -1) {
+    data = data.slice(startI + 12);
+  }
+  const endI = data.indexOf("/*<(/patu)>*/");
+  if (endI !== -1) {
+    data = data.slice(0, endI);
+  }
+  return data;
+};
+
 const initData = async (queryInit, oldDataProyect) => {
   let endProp = false;
   let cont = -1;
@@ -68,13 +89,26 @@ const initData = async (queryInit, oldDataProyect) => {
     const templateName = await queryParams("input", txt.query.inname);
     if (templateName.type !== "") {
       data.name = templateName.type;
-      const template = await queryParams("input", txt.query.incss);
-      if (template.type !== "") {
-        data.template = template.type;
+      const copyF = await queryParams("addProp", [
+        "Copiar archivo",
+        "Introducir manualmete",
+      ]);
+      if (copyF.type === "Copiar archivo") {
+        console.log(
+          "\nAñada el marcadaor /*<(patu)>*/ para indicar desde donde copiar, el marcadaor /*<(/patu)>*/ para indicar el final o ambos. Si no hay marcadores se copiara el archivo completo\n"
+        );
+        const dataFile = await copyFile();
+        data.template = dataFile;
         writeData(data, oldDataProyect);
       } else {
-        console.log(txt.c.haveadd);
-        createClasses();
+        const template = await queryParams("input", txt.query.incss);
+        if (template.type !== "") {
+          data.template = template.type;
+          writeData(data, oldDataProyect);
+        } else {
+          console.log(txt.c.haveadd);
+          createClasses();
+        }
       }
     } else {
       console.log(txt.c.haveadd);
@@ -85,7 +119,6 @@ const initData = async (queryInit, oldDataProyect) => {
       const name = await queryParams("input", txt.query.incssms);
       if (name.type === "") {
         console.log(txt.c.haveadd);
-        createClasses();
       } else {
         if (name.type[0] !== "_") {
           name.type = "_" + name.type;

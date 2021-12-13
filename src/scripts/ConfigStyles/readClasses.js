@@ -125,12 +125,21 @@ const askForData = async (store) => {
   }
 };
 
-const storeData = async (stock, path, item) => {
-  console.log(path + " ", fs.existsSync(path));
+const storeData = async (path, item, key) => {
   if (fs.existsSync(path)) {
-    if (stock === "userCss") {
-      console.log(str);
-    } else if (stock === "baseCss") {
+    try {
+      fs.writeFileSync(path, item, { mode: 0o777 });
+    } catch (err) {
+      console.error(err);
+      readClasses();
+    } finally {
+      console.log(`
+     ${txt.c.createdOk}\n
+     ${txt.c.created}\n
+     - ${txt.c.file}: ${chalk.green.bold(key)}\n
+     - ${txt.c.path}: ${chalk.green.bold(path)}\n
+     ----------------------------------\n`);
+      readClasses();
     }
   }
 };
@@ -138,15 +147,15 @@ const storeData = async (stock, path, item) => {
 const edit = async (names) => {
   const selection = await queryParams("select", names);
   const datauser = await isStored(userCss, selection.type);
-  console.log(datauser);
   if (datauser) {
+    const keyU = datauser.key;
     await askForData(datauser.item);
-    if (fs.existsSync(patPath)) {
-      const usrPath = `${userTemplatePath}/classes/${datauser.key}.js`;
-      const str = `const ${item.key} = 
-  ${JSON.stringify(userCss[item.key], null, 2)}
-module.exports = ${item.key};`;
-      await storeData(usrPath, str);
+    const usrPath = `${userTemplatePath}/classes/${keyU}.js`;
+    if (fs.existsSync(usrPath)) {
+      const str = `const ${keyU} = ${JSON.stringify(userCss[keyU], null, 2)}
+      
+module.exports = ${keyU};`;
+      await storeData(usrPath, str, keyU);
     }
   } else {
     const cmp = "";
@@ -158,12 +167,13 @@ module.exports = ${item.key};`;
       cmp = "cmp";
     }
     const datapatu = await isStored(baseCss, selection.type);
+    const keyp = datapatu.key;
     await askForData(datapatu.item);
-    const patPath = `${patuPath}/src/templates/styles/${cmp}${datapatu.key}.js`;
+    const patPath = `${patuPath}/src/templates/styles/${cmp}${keyp}.js`;
     if (fs.existsSync(patPath)) {
-      const ptStr = `const ${item.key} = 
-  ${JSON.stringify(baseCss[item.key], null, 2)}
-module.exports = ${item.key};`;
+      const ptStr = `const ${keyp} = ${JSON.stringify(baseCss[keyp], null, 2)}
+
+module.exports = ${datapatu.key};`;
       await storeData(patPath, ptStr);
     }
   }
@@ -194,9 +204,14 @@ const readGroup = async (typeClass) => {
     }
     console.log("\n");
   }
-  const editq = await queryParams("select", [txt.query.edit, back]);
-  if (editq.type === txt.query.edit) {
-    await edit(names);
+  if (names.length > 0) {
+    const editq = await queryParams("select", [txt.query.edit, back]);
+    if (editq.type === txt.query.edit) {
+      await edit(names);
+    }
+  } else {
+    console.log(chalk.red.italic("\n    No se encontraron clases\n"));
+    readClasses();
   }
 };
 
@@ -281,7 +296,6 @@ const options = async (typeClass, option) => {
     default:
       break;
   }
-  readClasses();
 };
 
 const readClasses = async () => {
@@ -289,12 +303,12 @@ const readClasses = async () => {
   if (typeClass.type === chalk.bold.italic.bgBlackBright(txt.query.search)) {
     const search = await queryParams("search");
     await searchClass(search.type, baseCss);
-    readClasses();
   } else if (typeClass.type === back) {
     const configStyles = require("./index.js");
     configStyles.configStyles();
   } else {
     const option = await queryParams("options");
+    console.log("option.type");
     await options(typeClass.type, option.type, baseCss);
   }
 };
