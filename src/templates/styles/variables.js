@@ -25,6 +25,7 @@ const variables = {
   "background-color1": "#e9eaea",
   "background-color2": "#e9eaea",
   "container": "0 9% 0 9%",
+  "card-outline-width": "1px",
   "spacer_-0": '0',
   "spacer_-1": '1rem',
   "spacer_-2": '2rem',

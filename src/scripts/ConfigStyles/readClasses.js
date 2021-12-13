@@ -1,5 +1,15 @@
 const inquirer = require("inquirer");
 const chalk = require("chalk");
+const fs = require("fs");
+
+const userTemplatePath = require("../constants/patucoConfig.js").path
+  .userTemplate;
+
+const patuPath = require("../constants/patucoConfig.js").path.patucoModule;
+
+const userCss = fs.existsSync(`${userTemplatePath}/classes/base.js`)
+  ? require(`${userTemplatePath}/classes/base.js`)
+  : {};
 
 const baseCss = require("../../templates/styles/baseCss.js");
 
@@ -9,7 +19,7 @@ const groupKeys = Object.keys(baseCss);
 
 const back = txt.c.back;
 
-const queryParams = (type, choices = []) => {
+const queryParams = (type, choices = [], ms) => {
   const message = {
     typeClass: {
       name: "type",
@@ -25,6 +35,11 @@ const queryParams = (type, choices = []) => {
       name: "type",
       type: "input",
       message: txt.query.isearch,
+    },
+    input: {
+      name: "type",
+      type: "input",
+      message: ms,
     },
     options: {
       name: "type",
@@ -53,26 +68,135 @@ const readStyles = (styles) => {
   return str;
 };
 
+const isStored = async (store, name) => {
+  const selected = { key: "", item: {} };
+  for (const key in store) {
+    const element = store[key];
+    if (
+      element.some((c) => {
+        if (c.name === name) {
+          selected.item = c;
+          return true;
+        }
+      })
+    ) {
+      selected.key = key;
+    }
+  }
+  if (selected.key !== "") {
+    return selected;
+  } else {
+    return undefined;
+  }
+};
+
+const askForData = async (store) => {
+  const keys = Object.keys(store);
+  const rq = await queryParams("select", keys);
+  if (rq.type === "name") {
+    const nwname = await queryParams("input", [], txt.query.iname);
+    store.name = nwname.type;
+  } else if (rq.type === "items") {
+    const addp = await queryParams("select", [
+      txt.query.addprop,
+      txt.query.editprop,
+      txt.query.deletep,
+    ]);
+    if (addp.type === txt.query.editprop) {
+      const nw = await queryParams("select", store.items);
+      const nwitem = await queryParams("input", [], txt.query.istyle);
+      for (let i = 0; i < store.items.length; i++) {
+        if (nw.type === store.items[i]) {
+          store.items[i] = nwitem.type;
+          break;
+        }
+      }
+    } else if (addp.type === txt.query.addprop) {
+      const nwitem = await queryParams("input", [], txt.query.istyle);
+      store.items.push(nwitem.type);
+    } else {
+      const nw = await queryParams("select", store.items);
+      store.items.forEach((ep, i) => {
+        if (ep === nw.type) {
+          store.items.splice(i, 1);
+        }
+      });
+    }
+  }
+};
+
+const storeData = async (stock, path, item) => {
+  console.log(path + " ", fs.existsSync(path));
+  if (fs.existsSync(path)) {
+    if (stock === "userCss") {
+      console.log(str);
+    } else if (stock === "baseCss") {
+    }
+  }
+};
+
+const edit = async (names) => {
+  const selection = await queryParams("select", names);
+  const datauser = await isStored(userCss, selection.type);
+  console.log(datauser);
+  if (datauser) {
+    await askForData(datauser.item);
+    if (fs.existsSync(patPath)) {
+      const usrPath = `${userTemplatePath}/classes/${datauser.key}.js`;
+      const str = `const ${item.key} = 
+  ${JSON.stringify(userCss[item.key], null, 2)}
+module.exports = ${item.key};`;
+      await storeData(usrPath, str);
+    }
+  } else {
+    const cmp = "";
+    if (
+      selection.type[0] === "c" &&
+      selection.type[0] === "m" &&
+      selection.type[0] === "p"
+    ) {
+      cmp = "cmp";
+    }
+    const datapatu = await isStored(baseCss, selection.type);
+    await askForData(datapatu.item);
+    const patPath = `${patuPath}/src/templates/styles/${cmp}${datapatu.key}.js`;
+    if (fs.existsSync(patPath)) {
+      const ptStr = `const ${item.key} = 
+  ${JSON.stringify(baseCss[item.key], null, 2)}
+module.exports = ${item.key};`;
+      await storeData(patPath, ptStr);
+    }
+  }
+};
+
 const readGroup = async (typeClass) => {
+  const names = [];
   for (let i = 0; i < typeClass.length; i++) {
     const items = typeClass[i].items;
     const name = typeClass[i].name;
+    names.push(name);
     const pseudoElements = typeClass[i].pseudoElement;
-    name && console.log(`\n- ${txt.c.name}: ${chalk.blue.bold(name)}`);
+    name && console.log(`\n- Class: ${chalk.blue.bold(name)}`);
     if (items) {
+      typeClass.map((e) => e.name);
       items.forEach((s) => {
         console.log(chalk.green(`  ${s}`));
       });
     }
     if (pseudoElements) {
-      console.log("\n- Pseudo-Elements:");
+      console.log("\n  - Pseudo-Elements:");
       pseudoElements.forEach((ps) => {
-        console.log(chalk.blue.bold(`  ${ps.type}`));
+        console.log(chalk.blue.bold(`   ${ps.type}`));
         ps.items.forEach((psE) => {
-          console.log(chalk.green(`    ${psE}`));
+          console.log(chalk.green(`   ${psE}`));
         });
       });
     }
+    console.log("\n");
+  }
+  const editq = await queryParams("select", [txt.query.edit, back]);
+  if (editq.type === txt.query.edit) {
+    await edit(names);
   }
 };
 

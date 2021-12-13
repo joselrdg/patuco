@@ -1,5 +1,17 @@
-const variablesPatuco = require("./patucoVariables");
-const cssVariables = require("./variables.js");
+const fs = require("fs");
+const templatesVarPath =
+  require("./../../scripts/constants/patucoConfig.js").path.userTemplate +
+  "/variables";
+const PATUvariablesUser = fs.existsSync(templatesVarPath + "/PATUvariables.js")
+  ? require(templatesVarPath + "/PATUvariables.js")
+  : require("../../templates/styles/userpatuvar.js");
+const CSSvariablesUser = fs.existsSync(templatesVarPath + "/PATUvariables.js")
+  ? require(templatesVarPath + "/CSSvariables.js")
+  : [];
+const patucoVar = require("./patucoVariables");
+const CssVar = require("./variables.js");
+const variablesPatuco = [...patucoVar, ...PATUvariablesUser];
+const cssVariables = { ...CssVar, ...CSSvariablesUser };
 
 var color = {
   primary: "#4d8af0",
@@ -38,8 +50,12 @@ var darkerColor = async function (color, store, ratio) {
 
 const storedColors = async (color, store) => {
   const storedColor = color.split("-");
-  const colorFound = store[storedColor[0]][storedColor[1]];
-  return colorFound;
+  let data = store;
+  for (let i = 0; i < storedColor.length; i++) {
+    const element = storedColor[i];
+    data = data[element];
+  }
+  return data;
 };
 
 function contrastYiq(color) {
@@ -72,9 +88,9 @@ const searchCssVar = async (variable) => {
   return result;
 };
 
-const cVP = async (name, colors = [{ id: "", colors: [], action, props }]) => {
+const cVP = async (id, colors = [{ id: "", colors: [], action, props }]) => {
   const newData = [];
-  const store = variablesPatuco.find((v) => v.name === name);
+  const store = variablesPatuco.find((v) => v._id === id);
   for (let i = 0; i < colors.length; i++) {
     const e = colors[i];
     switch (e.action) {

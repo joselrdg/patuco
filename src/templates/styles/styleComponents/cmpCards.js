@@ -1,4 +1,4 @@
-const cards = [
+const cmpCards = [
   {
     name: "card1_cont",
     items: [
@@ -35,4 +35,4 @@ const cards = [
   },
 ];
 
-module.exports = cards;
+module.exports = cmpCards;

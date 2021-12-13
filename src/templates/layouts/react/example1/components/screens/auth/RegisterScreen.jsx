@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { register } from "../../services/AuthService";
-import { setAccessToken } from "../../stores/AccessTokenStore";
-import { login } from "../../services/AuthService";
-import { useUser } from "../../hooks/useUser";
+import { register } from "../../../services/AuthService";
+import { setAccessToken } from "../../../stores/AccessTokenStore";
+import { login } from "../../../services/AuthService";
+import { useUser } from "../../../hooks/useUser";
 //eslint-disable-next-line
 const EMAIL_PATTERN =
   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
