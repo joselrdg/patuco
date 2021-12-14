@@ -1,5 +1,8 @@
 const chalk = require("chalk");
 const cVP = require("./reqColor.js");
+const variablesP = require("./variables.js");
+const variablesU = require("./uservar");
+const variables = { ...variablesP, ...variablesU };
 
 // const regex = new RegExp(variableReg, "i");
 // const isRegex = async (regex, key) => {
@@ -41,8 +44,17 @@ const searchFunctions = async (str) => {
 // };
 
 const requestVarPatu = async (request) => {
+  if (request.includes("var(")) {
+    let varC = request.slice(request.indexOf("var(") + 4);
+    varC = varC.slice(0, varC.indexOf(")"));
+    const value = variables[varC];
+    if (value) {
+      request = request.replace(`var(${varC})`, value);
+    }
+  }
   request = request.replace(/\(\(/g, "<").replace(/\)\)/g, ">");
   const key = request.slice(0, request.indexOf("<"));
+
   let property = request.slice(request.indexOf("<"));
   while (/[<>]/g.test(property)) {
     let data = property.slice(0, property.indexOf(">") + 1);

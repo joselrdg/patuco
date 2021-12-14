@@ -2,10 +2,11 @@ const fs = require("fs");
 
 const variables = {
   "fonts": [
+    "@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap')",
     "@import url('https://fonts.googleapis.com/css2?family=Spartan:wght@300&display=swap')",
     "@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@800&display=swap')",
   ],
-  "primaryfontFamily1": "Spartan",
+  "primaryfontFamily1": "Roboto",
   "primaryfontFamily2": "Spartan",
   "primaryfontFamily3": "Spartan",
   "primaryfontFamily4": "Spartan",
@@ -38,9 +39,9 @@ const variables = {
   "spacer-K-s_-3": '0.4rem',
   "spacer-K-s_-4": '0.5rem',
   "spacer-K-s_-5": '0.8rem',
-  "button-background-color_-0": "#0d6efd",
-  "button-background-color_-1": "white",
-  "button-background-color_-2": "green",
+  "button-background-color_-0": "#c8c7c7",
+  "button-background-color_-1": "#0d6efd",
+  "button-background-color_-2": "#de5246",
   "button-background-color_-3": "blue",
   "button-background-color_-4": "black",
   "button-background-color_-5": "black",

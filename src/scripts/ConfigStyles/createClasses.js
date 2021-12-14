@@ -95,7 +95,9 @@ const initData = async (queryInit, oldDataProyect) => {
       ]);
       if (copyF.type === "Copiar archivo") {
         console.log(
-          "\nAñada el marcadaor /*<(patu)>*/ para indicar desde donde copiar, el marcadaor /*<(/patu)>*/ para indicar el final o ambos. Si no hay marcadores se copiara el archivo completo\n"
+          chalk.yellow.bold.italic(
+            "\n    Añada el marcadaor /*<(patu)>*/ para indicar desde donde copiar, el marcadaor /*<(/patu)>*/ para indicar el final o ambos. Si no hay marcadores se copiara el archivo completo\n"
+          )
         );
         const dataFile = await copyFile();
         data.template = dataFile;
