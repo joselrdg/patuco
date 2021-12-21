@@ -8,8 +8,8 @@ const margin = [
     items: ["float: right"],
   },
   {
-    name: "_mx_a",
-    items: ["margin: 0 auto"],
+    name: "_my_a",
+    items: ["margin: auto 0"],
   },
   {
     name: "_mx_a",

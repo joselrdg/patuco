@@ -28,6 +28,8 @@ const createClasses = {
         "Enter pseudo-class, like for example: 'hover'.\nIf you don't need it you can leave it blank: ",
       iaddprop: "\nYou have to enter at least one property.\n",
       createanima: "Create animation",
+      saveObj: "Save as object",
+      saveStr: "Save as string",
     },
   },
   es: {
@@ -57,6 +59,8 @@ const createClasses = {
         "Introduce pseudo-clase, como por ejemplo: 'hover'.\nSi no lo necesitas puedes dejarlo en blanco: ",
       iaddprop: "\nTienes que introducir al menos una propiedad.\n",
       createanima: "Crear animación",
+      saveObj: "Guardar como objeto",
+      saveStr: "Guardar como string",
     },
   },
 };

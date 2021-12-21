@@ -1,6 +1,4 @@
-// const variables = require("./variables.js");
 const fs = require("fs");
-const chalk = require("chalk");
 const requireUncached = require("../../scripts/common/requireUncached.js");
 
 const modulePatucoPath = require("../../scripts/constants/patucoConfig.js").path
@@ -50,19 +48,6 @@ ${variablesStr()}
 body {
   font-family: var(--primaryfontFamily1);
   background-color:  var(--background-colorBody);
-}
-    
-/* Change the white to any color ;) */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  transition: background-color 5000s ease-in-out 0s;
-}
-    
-/*Change text in autofill textbox*/
-input:-webkit-autofill {
-  -webkit-text-fill-color: var(--primary-color1) !important;
 }
     
 .sticky {

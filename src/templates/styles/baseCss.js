@@ -1,4 +1,5 @@
 const fs = require("fs");
+const chalk = require("chalk");
 
 const modulePatucoPath =
   require("../../scripts/constants/patucoConfig.js").path;
@@ -37,7 +38,7 @@ if (!isPath) {
   );
 }
 
-// console.log(chalk.bold.green("baseCss actualizado"));
+console.log(chalk.bold.green("baseCss actualizado"));
 
 const baseCss = {
   root,

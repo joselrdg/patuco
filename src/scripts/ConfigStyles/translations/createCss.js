@@ -22,6 +22,9 @@ const createCss = {
       forget: "Don't forget to import the new css file:",
       deletedfile: "\nDeleted file",
       animation: "Animation found:",
+      tsclass: "Search between classes",
+      tsfile: "Search the entire archive",
+      foundclass: "Found class:",
     },
   },
   es: {
@@ -45,6 +48,9 @@ const createCss = {
       forget: "No olvides importar el nuevo archivo css:",
       deletedfile: "\nArchivo borrado",
       animation: "Se encontro la animación:",
+      tsclass: "Buscar entre clases",
+      tsfile: "Buscar en el archivo completo",
+      foundclass: "Encontrada clase:",
     },
   },
 };

@@ -1,9 +1,9 @@
 const cmpButtons = [
-  // {
-  //   name: "_btn_bg",
-  //   recursivevar: ["button-background-color_-"],
-  //   items: ["background-color: var(|--button-background-color_-0|)"],
-  // },
+  {
+    name: "_btn_bg",
+    recursivevar: true,
+    items: ["background-color: var(|button-background-color_-0|)"],
+  },
   // {
   //   name: "_btn_bgg",
   //   recursivevar: ["button-background-gradient_-"],
@@ -16,7 +16,7 @@ const cmpButtons = [
 
   // console.log(d)
   {
-    name: "_btn_2",
+    name: "_btn2",
     items: [
       "cursor: pointer",
       "border: 0",
@@ -56,12 +56,14 @@ const cmpButtons = [
     ],
   },
   {
-    name: "_btn_1",
+    name: "_btn1",
     items: [
       "appearance: none",
       "font-family: -apple-system,system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif",
       "backface-visibility: hidden",
       "border-radius: 10px",
+      "width: 100%",
+      // "background-color: var(--button-background-color_-1)",
       "border-style: none",
       "box-shadow: none",
       "box-sizing: border-box",
@@ -89,18 +91,8 @@ const cmpButtons = [
     ],
     pseudoElement: [
       {
-        type: ":hover",
-        items: [
-          "filter: brightness(85%)",
-          "box-shadow: rgba(0, 0, 0, 0.05) 0 5px 30px, rgba(0, 0, 0, 0.05) 0 1px 4px",
-          "opacity: 1",
-          "transform: translateY(0)",
-          "transition-duration: 0.35s",
-        ],
-      },
-      {
-        type: ":hover:after",
-        items: ["opacity: 0.5"],
+        type: ":disabled",
+        items: ["background-color: var(button-background-color_-0)"],
       },
       {
         type: ":active",
@@ -115,11 +107,105 @@ const cmpButtons = [
         items: ["opacity: 1"],
       },
       {
-        type: "",
-        items: ["padding: 14px 22px", "width: 176px"],
-        query: "min-width 768px",
+        type: ":hover:after",
+        items: ["opacity: 0.5"],
       },
     ],
+  },
+  {
+    recursivevar: true,
+    name: "_btn1c",
+    items: ["background-color: var(|button-background-color_-0|)"],
+    pseudoElement: [
+      {
+        type: ":hover",
+        items: [
+          "background-color: ((_cVP, darker, example, var(|button-background-color_-0|), 20))",
+          "box-shadow: rgba(0, 0, 0, 0.05) 0 5px 30px, rgba(0, 0, 0, 0.05) 0 1px 4px",
+          "opacity: 1",
+          "transform: translateY(0)",
+          "transition-duration: 0.35s",
+        ],
+      },
+    ],
+  },
+  {
+    name: "_btnRs1",
+    template: `._btnRs1 {
+  font-size: 18px;
+  white-space: nowrap;
+  width: 100%;
+  padding: 0.8em 1.5em;
+  font-family: Open Sans, Helvetica, Arial, sans-serif;
+  line-height: 18px;
+  display: inline-block;
+  zoom: 1;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  -webkit-transition: border 0.25s linear, color 0.25s linear,
+    background-color 0.25s linear;
+  transition: border 0.25s linear, color 0.25s linear,
+    background-color 0.25s linear;
+}
+`,
+  },
+  {
+    name: "_btnRs1_google",
+    template: `._btnRs1_google {
+  background-color: #be3b26;
+  border-color: #be3b26;
+  -webkit-box-shadow: 0 3px 0 #842719;
+  box-shadow: 0 3px 0 #842719;
+}
+._btnRs1_google:active {
+  top: 3px;
+  outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+  `,
+  },
+  {
+    name: "_btnRs1_facebook",
+    template: `._btnRs1_facebook {
+  background-color: #2479b6;
+  border-color: #2479b6;
+  -webkit-box-shadow: 0 3px 0 #1c6394;
+  box-shadow: 0 3px 0 #1c6394;
+}
+._btnRs1_facebook:active {
+  top: 3px;
+  outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+  `,
+  },
+  {
+    name: "_btnRs1_sea",
+    template: `._btnRs1_sea {
+  background-color: #08bc9a;
+  border-color: #08bc9a;
+  -webkit-box-shadow: 0 3px 0 #088d74;
+  box-shadow: 0 3px 0 #088d74;
+}
+._btnRs1_sea:hover {
+  background-color: #01a183;
+}
+._btnRs1_sea:active {
+  top: 3px;
+  outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+._btnRs1_sea:disabled {
+  background-color: var(--button-background-color_-0);
+  border-color: var(--button-background-color_-0);
+  -webkit-box-shadow: var(--button-background-color_-0);
+  box-shadow: var(--button-background-color_-0);
+}
+`,
   },
 ];
 
