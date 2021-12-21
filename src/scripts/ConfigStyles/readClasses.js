@@ -186,6 +186,7 @@ const readGroup = async (typeClass) => {
     const name = typeClass[i].name;
     names.push(name);
     const pseudoElements = typeClass[i].pseudoElement;
+    const template = typeClass[i].template;
     name && console.log(`\n- Class: ${chalk.blue.bold(name)}`);
     if (items) {
       typeClass.map((e) => e.name);
@@ -202,12 +203,18 @@ const readGroup = async (typeClass) => {
         });
       });
     }
+    if (template) {
+      console.log("\n  - Template:");
+      console.log(chalk.green(template));
+    }
     console.log("\n");
   }
   if (names.length > 0) {
     const editq = await queryParams("select", [txt.query.edit, back]);
     if (editq.type === txt.query.edit) {
       await edit(names);
+    } else {
+      readClasses();
     }
   } else {
     console.log(chalk.red.italic("\n    No se encontraron clases\n"));

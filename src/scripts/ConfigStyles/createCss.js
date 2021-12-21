@@ -82,6 +82,12 @@ const queryParams = (type, choices = [], messageSave = false) => {
       message: txt.query.iupdate,
       choices: [txt.c.update, txt.c.back],
     },
+    typeSearch: {
+      name: "type",
+      type: "list",
+      message: txt.query.iupdate,
+      choices: [txt.query.tsfile, txt.query.tsclass],
+    },
     deleteSchema: {
       name: "type",
       type: "list",
@@ -98,12 +104,14 @@ const queryParams = (type, choices = [], messageSave = false) => {
 // comprueba si hay variables en los estilos
 const searchVariables = async (styleElement) => {
   for (const nameVariable in variables) {
-    const regex = new RegExp(nameVariable, "g");
-    if (regex.test(styleElement)) {
-      console.log(`\n${txt.query.ivariable} ${chalk.green(nameVariable)}`);
-      variablesUsed.push(nameVariable);
-      rootStr =
-        rootStr + `  --${nameVariable}: "${variables[nameVariable]}";\n`;
+    if (!variablesUsed.some((e) => e === nameVariable)) {
+      const regex = new RegExp(nameVariable, "g");
+      if (regex.test(styleElement)) {
+        console.log(`\n${txt.query.ivariable} ${chalk.green(nameVariable)}`);
+        variablesUsed.push(nameVariable);
+        rootStr =
+          rootStr + `  --${nameVariable}: "${variables[nameVariable]}";\n`;
+      }
     }
   }
 };
@@ -243,7 +251,7 @@ ${stylesStr}}\n\n`;
   }
   // Añade las fuentes al comienzo del string root
   rootStr = `${await fonts()}` + rootStr + "}\n" + classesQueryStr;
-  console.log(chalk.cyanBright(rootStr));
+  // console.log(chalk.greenBright(rootStr));
   const mediaQueryStr = await createMediaQueriesStr();
   const animationsStr = await createAnimationsStr();
   // Añade root, mediaqueries y el restor de clases usadas
@@ -298,63 +306,157 @@ const isRegex = async (regex, key) => {
   return is;
 };
 
+const searchVarArr = async (item, ir) => {
+  let data = item.split("var(|");
+  const regex = new RegExp();
+  for (let i = 1; i < data.length; i++) {
+    let varok = "";
+    let totalStr = data[i].slice(0, data[i].indexOf("|)"));
+    const varArr = totalStr.split(",");
+    if (varArr.length > 1) {
+      for (let index = 0; index < varArr.length; index++) {
+        const element = varArr[index].trim();
+        if (element.includes("-K-" + ir) || element.includes("-k-" + ir)) {
+          varok = element;
+        }
+      }
+    } else {
+      varok = varArr[0].trim();
+    }
+    item = item.replaceAll("|" + totalStr + "|", "--" + varok);
+    // for (let index = 0; index < varArr.length; index++) {
+
+    // }
+  }
+  return item;
+};
+
+const createRecurVarItems = async (items, num, ir) => {
+  let data = [];
+  for (let index = 0; index < items.length; index++) {
+    if (items[index].includes("var(|")) {
+      items[index] = items[index].replaceAll("_-0", "_-" + num);
+      data.push(await searchVarArr(items[index], ir));
+    } else {
+      data.push(items[index]);
+    }
+  }
+  return data;
+};
+
 const createClassRecursive = async (
   savedClasses,
   key,
   file,
   classTemplate,
   counterTotal,
-  counterEnd
+  counterEnd,
+  classfile,
+  keyname
 ) => {
-  const regex = new RegExp(classTemplate.recursivevar, "i");
-  const keysVariables = Object.keys(variables);
-  for (let i = 0; i < keysVariables.length; i++) {
-    const keyVar = keysVariables[i];
-    const isKeyVar = await isRegex(regex, keyVar);
-    if (isKeyVar) {
-      const name = keyVar.replace(
-        classTemplate.recursivevar,
-        `${classTemplate.name}_-`
-      );
-      console.log(chalk.bold.yellow(name));
-      const regexName = new RegExp(name, "g");
-      const isVar = await isRegex(regexName, file);
-      if (isVar) {
-        console.log(chalk.bold.yellow("estaaaa: " + name));
-        counterTotal.push("");
-        const someClass = savedClasses[key].some(
-          (arrVal) => name === arrVal.name
-        );
-        if (!someClass) {
-          const data = JSON.parse(JSON.stringify(classTemplate));
-          data.name = name;
-          const regVar = new RegExp();
-          const items = [];
-          for (let index = 0; index < classTemplate.items.length; index++) {
-            const element = classTemplate.items[index];
-            const isRegVar = await isRegex(regVar, element);
-            if (isRegVar) {
-              const elementRepla = element.replace(
-                `${classTemplate.recursivevar}0`,
-                keyVar
-              );
-              items.push(elementRepla);
-            } else {
-              items.push(element);
-            }
-          }
+  let filecut = file.slice(file.indexOf(keyname));
+  filecut = filecut.slice(0, filecut.indexOf(" ")).trim();
 
-          data.items = items;
-          console.log(`    Encontrda clase: ${chalk.green.italic(name)}`);
-          counterEnd.push("");
-          savedClasses[key].push(data);
-        }
+  let ir = "";
+  const indNumArr = [...filecut.matchAll(/[0-9]/g)];
+
+  let recunum = "";
+  if (indNumArr[indNumArr.length - 1] !== undefined) {
+    recunum = indNumArr[indNumArr.length - 1][0];
+    if (indNumArr[indNumArr.length - 1].index < filecut.length - 1) {
+      const strfilt = filecut.slice(indNumArr[indNumArr.length - 1].index + 1);
+      if (/[a-zA-Z]|-|_/g.test(strfilt)) {
+        ir = strfilt;
       }
     }
   }
+
+  const someClass = savedClasses[key].some((arrVal) => filecut === arrVal.name);
+  if (!someClass) {
+    counterEnd.push("");
+    const data = JSON.parse(JSON.stringify(classTemplate));
+
+    data.name = keyname + recunum + ir;
+    const itms = await createRecurVarItems(data.items, recunum, ir);
+    data.items = itms;
+    if (classTemplate.pseudoElement) {
+      const psudoelemnts = [];
+      for (let index = 0; index < data.pseudoElement.length; index++) {
+        const obj = data.pseudoElement[index];
+        obj.items = await createRecurVarItems(
+          data.pseudoElement[index].items,
+          recunum,
+          ir
+        );
+        psudoelemnts.push(obj);
+      }
+    }
+    console.log(`    ${txt.query.foundclass} ${chalk.greenBright.italic(data.name)}`);
+    savedClasses[key].push(data);
+  }
+
+  // console.log(classstring);
+  // const createClassRecursive = async (
+  //   savedClasses,
+  //   key,
+  //   file,
+  //   classTemplate,
+  //   counterTotal,
+  //   counterEnd
+  // ) => {
+  // const regex = new RegExp(classTemplate.name);
+  // const keysVariables = Object.keys(variables);
+  // for (let i = 0; i < keysVariables.length; i++) {
+  //   const keyVar = keysVariables[i];
+  //   const isKeyVar = await isRegex(regex, keyVar);
+  //   if (isKeyVar) {
+  //       const name = keyVar.replace(
+  //         classTemplate.recursivevar,
+  //         `${classTemplate.name}`
+  //       );
+  //       const regexName = new RegExp(name, "g");
+  //       const isVar = await isRegex(regexName, file);
+  //       if (isVar) {
+  //         console.log(chalk.bold.yellow("estaaaa: " + name));
+  //         counterTotal.push("");
+  //         const someClass = savedClasses[key].some(
+  //           (arrVal) => name === arrVal.name
+  //         );
+  //         if (!someClass) {
+  //           const data = JSON.parse(JSON.stringify(classTemplate));
+  //           data.name = name;
+  //           const regVar = new RegExp();
+  //           const items = [];
+  //           for (let index = 0; index < classTemplate.items.length; index++) {
+  //             const element = classTemplate.items[index];
+  //             const isRegVar = await isRegex(regVar, element);
+  //             if (isRegVar) {
+  //               const elementRepla = element.replace(
+  //                 `${classTemplate.recursivevar}0`,
+  //                 keyVar
+  //               );
+  //               items.push(elementRepla);
+  //             } else {
+  //               items.push(element);
+  //             }
+  //           }
+  //           data.items = items;
+  //           console.log(`    Encontrda clase: ${chalk.green.italic(name)}`);
+  //           counterEnd.push("");
+  //           savedClasses[key].push(data);
+  //         }
+  //       }
+  // }
+  // }
 };
 
-const readStyles = async (file, savedClasses, counterTotal, counterEnd) => {
+const readStyles = async (
+  file,
+  savedClasses,
+  counterTotal,
+  counterEnd,
+  classfile
+) => {
   for (const key in baseCss) {
     const arr = baseCss[key];
     for (let i = 0; i < arr.length; i++) {
@@ -363,6 +465,7 @@ const readStyles = async (file, savedClasses, counterTotal, counterEnd) => {
         const regex = new RegExp(name, "g");
         const is = regex.test(file);
         if (is) {
+          counterTotal.push("");
           if (arr[i].recursivevar) {
             await createClassRecursive(
               savedClasses,
@@ -370,15 +473,16 @@ const readStyles = async (file, savedClasses, counterTotal, counterEnd) => {
               file,
               arr[i],
               counterTotal,
-              counterEnd
+              counterEnd,
+              classfile,
+              name
             );
           } else {
-            counterTotal.push("");
             const someClass = savedClasses[key].some(
               (arrVal) => name === arrVal.name
             );
             if (!someClass) {
-              console.log(`    Encontrda clase: ${chalk.green.italic(name)}`);
+              console.log(`    ${txt.query.foundclass} ${chalk.green.italic(name)}`);
               counterEnd.push("");
               savedClasses[key].push(arr[i]);
             }
@@ -403,7 +507,58 @@ const createFile = async (savedClasses, direcSavePath) => {
   }
 };
 
+const extractClasses = async (file, isClassName, namePath) => {
+  let str = "";
+  const itera = file.split(isClassName);
+  let filecut = "";
+  let indEnd = 0;
+  for (let i = 1; i < itera.length; i++) {
+    let elementStr = itera[i];
+    let k = elementStr[0];
+
+    elementStr = elementStr.slice(1);
+    if (k === "{") {
+      k = "}";
+      let end = false;
+      let indstr = elementStr.indexOf("{");
+      indEnd = elementStr.indexOf("}");
+      if (indstr === -1 || indstr > indEnd) {
+        end = true;
+      }
+      let fin = elementStr;
+      let count = indEnd;
+      for (let index = 0; index < elementStr.length; index++) {
+        // while (!end || indstr < indEnd) {
+        fin = fin.slice(indEnd + 1);
+        indstr = fin.indexOf("{");
+        indEnd = fin.indexOf("}");
+        count += indEnd + 1;
+        if (indstr > indEnd || indEnd === 0) {
+          indEnd = count;
+          break;
+        }
+      }
+    } else {
+      indEnd = elementStr.indexOf(k);
+    }
+
+    // if (
+    //   namePath ===
+    //   "src/example1/components/screens/auth/login/LoginScreen copy.jsx"
+    // ) {
+    //   console.log(elementStr);
+    //   console.log(chalk.yellow(elementStr.slice(0, indEnd) + " "));
+    //   console.log(chalk.red.inverse(indEnd));
+    // }
+    filecut += elementStr.slice(0, indEnd) + " ";
+  }
+  filecut = filecut.replace(/ {1,}/g, " ").trim();
+  return filecut;
+};
+
 const openFiles = async (direcPath, filePath) => {
+  const typeSearch = await queryParams("typeSearch");
+
   const savedClasses = {};
   for (const key in baseCss) {
     if (key === "root") {
@@ -417,12 +572,28 @@ const openFiles = async (direcPath, filePath) => {
   const counterTotal = [];
   const counterEnd = [];
   for (let index = 0; index < filePath.length; index++) {
+    const namePath = filePath[index].path;
     const file = fs.readFileSync(
-      `${pathBase}/${direcPath}/${filePath[index].path}`,
+      `${pathBase}/${direcPath}/${namePath}`,
       "utf-8"
     );
     if (/class=/g.test(file) || /className=/g.test(file)) {
-      await readStyles(file, savedClasses, counterTotal, counterEnd, baseCss);
+      let isClassName = "class=";
+      if (/className=/g.test(file)) {
+        isClassName = "className=";
+      }
+      const classfile = await extractClasses(file, isClassName, namePath);
+      console.log("\n   - Path: " + chalk.cyan.italic(namePath));
+      console.log("   - Classes: " + chalk.blue(classfile) + "\n");
+
+      await readStyles(
+        typeSearch.type === txt.query.tsfile ? file : classfile,
+        savedClasses,
+        counterTotal,
+        counterEnd,
+        baseCss,
+        classfile
+      );
     }
   }
   console.log(`- ${txt.query.total} ${chalk.red.bold(counterTotal.length)}

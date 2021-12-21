@@ -64,6 +64,7 @@ const copyFile = async () => {
   const pathArr = await filewalker(pathBase, {
     directoryFilter: ["!.git", "!*modules"],
     type: "files",
+    fileFilter: "*.css",
   });
   const paths = pathArr.map((p) => p.path);
   const path = await queryParams("addProp", paths);
@@ -77,6 +78,154 @@ const copyFile = async () => {
     data = data.slice(0, endI);
   }
   return data;
+};
+
+const isPseudoIndx = async (name) => {
+  const keys = [",", " ", "~", ".", ":", "[", "+", "<", ">", "_-("];
+  let index = 10000;
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    const num = name.indexOf(key);
+    if (num > 1 && index > num) {
+      index = num;
+    }
+  }
+  if (index === 10000) {
+    index = -1;
+  }
+  return index;
+};
+
+const saveAsObject = async (dataFile, clName) => {
+  let data = dataFile.replace(/ {1,}/g, " ");
+  const itera = dataFile.split("}");
+  const classNames = [];
+  // while (!end) {
+  for (let index = 0; index < itera.length; index++) {
+    let pseudo = false;
+    let recursivevar = false;
+    const i = data.indexOf(".");
+    const istart = data.indexOf("{");
+    const iend = data.indexOf("}") + 1;
+    const str = data.slice(0, iend);
+    let className = data.slice(0, istart - 1).trim();
+    let unique = false;
+    if (className[0] !== ".") {
+      if (!classNames.some((e) => e.name === clName)) {
+        classNames.push({ name: clName, pseudoElement: [] });
+      }
+      unique = true;
+    } else {
+      className = className.slice(1);
+    }
+
+    const isPseudo = await isPseudoIndx(className);
+    const indexitem = str.indexOf("{") + 1;
+    let itemsStr = str.slice(indexitem, iend).replace(/\n/g, "");
+    if (itemsStr.includes("var(|")) {
+      recursivevar = true;
+    }
+
+    const items = itemsStr.split(";").map((item) => item.trim());
+    items.pop();
+
+    if (isPseudo > -1) {
+      pseudo = true;
+    }
+    //  else if (ispace !== -1 || ispace !== istart) {
+    //   // let cut = isspace<
+    //   const d = className.slice(ispace, istart);
+    //   if (d.indexOf(/[a-z]/g) !== -1) {
+    //     console.log("pesuedooooooooooooooooooooooo");
+    //     pseudo = true;
+    //   }
+    // }
+    let firstName = unique ? clName : className;
+    if (!unique && className.includes("_-(")) {
+      firstName = className.slice(
+        className.indexOf("_-(") + 3,
+        className.indexOf(")-_")
+      );
+      className = className.replace("_-(" + firstName + ")-_", "");
+    }
+    firstName = firstName.trim();
+    // console.log((/[0-9]$/).test(firstName));
+    // console.log(firstName[firstName.length - 1].test(/[0-9]/));
+    // if ((/[0-9]$/).test(firstName)) {
+    //   console.log(
+    //     chalk.red.italic(
+    //       "\nLos nombres de las clases no pueden terminar con un número: " +
+    //         firstName +
+    //         "\n"
+    //     )
+    //   );
+    //   break;
+    // }
+    const is = classNames.some((e) => {
+      let type = className;
+      if (unique && e.name === firstName) {
+        if (!e.pseudoElement) {
+          e.pseudoElement = [];
+        }
+        if (recursivevar) {
+          e.recursivevar = recursivevar;
+        }
+        // e.unique = true;
+        e.pseudoElement.push({ type, unique: true, recursivevar, items });
+        return true;
+      } else if (e.name === firstName) {
+        if (isPseudo > -1) {
+          if (!e.pseudoElement) {
+            e.pseudoElement = [];
+          }
+          if (className.indexOf("_-(") === 0) {
+            type = type.replace(`_-(${e.name})-_`, "");
+          }
+          type = type.replaceAll(`_-(${e.name})-_`, e.name);
+          if (recursivevar) {
+            e.recursivevar = recursivevar;
+          }
+          e.pseudoElement.push({ type, recursivevar, items });
+        }
+        return true;
+      } else return false;
+    });
+
+    if (!is) {
+      data = data.replace(str, "");
+      if (isPseudo > -1) {
+        const n = firstName.slice(0, isPseudo).trim();
+        data = data.replaceAll(n, `_-(${n})-_`);
+        classNames.push({
+          name: n,
+          recursivevar,
+          pseudoElement: [
+            { type: firstName.replace(n, ""), recursivevar, items },
+          ],
+        });
+      } else {
+        if (className === "") {
+        } else {
+          className = className.replaceAll(" ", "");
+          console.log(
+            "   - Clase encontrada: " + chalk.green.inverse(className)
+          );
+          data = data.replaceAll(className, `_-(${className})-_`);
+          // console.log(data)
+          classNames.push({ name: className, recursivevar, items });
+        }
+      }
+    } else {
+      data = data.replace(str, "");
+    }
+
+    if (!data.includes(".") || !data.includes("{")) {
+      // end = true;
+      break;
+    }
+    count++;
+  }
+  return classNames;
 };
 
 const initData = async (queryInit, oldDataProyect) => {
@@ -95,11 +244,47 @@ const initData = async (queryInit, oldDataProyect) => {
       ]);
       if (copyF.type === "Copiar archivo") {
         console.log(
-          "\nAñada el marcadaor /*<(patu)>*/ para indicar desde donde copiar, el marcadaor /*<(/patu)>*/ para indicar el final o ambos. Si no hay marcadores se copiara el archivo completo\n"
+          chalk.yellow.bold.italic(
+            "\n    Añada el marcadaor /*<(patu)>*/ para indicar desde donde copiar, el marcadaor /*<(/patu)>*/ para indicar el final o ambos. Si no hay marcadores se copiara el archivo completo\n"
+          )
         );
         const dataFile = await copyFile();
-        data.template = dataFile;
-        writeData(data, oldDataProyect);
+        const saveAsObjectQ = await queryParams("addProp", [
+          txt.query.saveObj,
+          txt.query.saveStr,
+        ]);
+        if (saveAsObjectQ.type === txt.query.saveObj) {
+          const dataFileCss = await saveAsObject(dataFile, templateName.type);
+          console.log(
+            chalk.bold.green.italic(
+              `\n   - Clases encontradas: ${dataFileCss.length}\n`
+            )
+          );
+
+          // comprobar que no se repite ningun nombre de clase obtenido con los que estan guardado en el archivo
+          // en el que se guardara
+          // console.log(JSON.stringify(dataFileCss, null, 2));
+          let savePrj = false;
+          for (let indexWrt = 0; indexWrt < dataFileCss.length; indexWrt++) {
+            const elementCl = dataFileCss[indexWrt];
+            console.log(`\n   - Clase: ${chalk.bold.blue(elementCl.name)}\n`);
+            const infoProyect = await setClasses.setClasses(elementCl, savePrj);
+            if (!savePrj) {
+              const continueC = continueCreate(infoProyect.nameProject);
+              const addProp = await queryParams("addProp", [
+                continueC,
+                endCreate,
+              ]);
+              if (addProp.type === continueC) {
+                savePrj = infoProyect;
+              } else savePrj = false;
+            }
+          }
+          createClasses();
+        } else {
+          data.template = dataFile;
+          writeData(data, oldDataProyect);
+        }
       } else {
         const template = await queryParams("input", txt.query.incss);
         if (template.type !== "") {
