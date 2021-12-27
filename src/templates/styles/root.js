@@ -65,6 +65,9 @@ body {
   box-sizing: border-box;
 }
 
+
+
+
 /* Remove default margin all elements */
 * {
   margin: 0;
@@ -169,6 +172,22 @@ table {
 textarea {
   white-space: revert;
 }
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  list-style: none;
+  list-style-type: none;
+  text-decoration: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
 
 @media (prefers-reduced-motion: no-preference) {
   html:focus-within {

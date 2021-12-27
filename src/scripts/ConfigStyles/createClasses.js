@@ -223,7 +223,6 @@ const saveAsObject = async (dataFile, clName) => {
       // end = true;
       break;
     }
-    count++;
   }
   return classNames;
 };

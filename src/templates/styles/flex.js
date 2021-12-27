@@ -24,6 +24,10 @@ const flex = [
     items: ["flex-direction: column"],
   },
   {
+    name: "_fd_rr",
+    items: ["flex-direction: row-reverse"],
+  },
+  {
     name: "_fd_cr",
     items: ["flex-direction: column-reverse"],
   },

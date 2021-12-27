@@ -27,10 +27,20 @@ const grid = [
 } 
 `,
   },
-
+  {
+    name: "_vh1",
+    items: ["height: 100vh"],
+  },
   {
     name: "_cont",
     items: ["margin: 0 var(--container)"],
+    query: "min-width 768px",
+    pseudoElement: [
+      {
+        type: '',
+        items: ["margin: 0 20px"]
+      },
+    ],
   },
   {
     name: "_row",
