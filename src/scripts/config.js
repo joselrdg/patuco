@@ -4,6 +4,7 @@ const chalk = require("chalk");
 const fs = require("fs");
 const pathBase = `${process.cwd()}/patuco/patucoSchema.css`;
 const start = require("../index");
+const createSnippetsVS = require("../scripts/createSnippetsVS");
 const patucoConfig = require("./constants/patucoConfig.js");
 
 const txt = require("./translations/config.js");
@@ -23,12 +24,10 @@ function filewalker(
     readdirp(dir, {
       directoryFilter: dirFilter,
       fileFilter: filFilter,
-      type: type,
+      type: type
     })
       .on("data", (entry) => {
-        const {
-          path,
-        } = entry;
+        const { path } = entry;
         data.push(`${dir}/${path}`);
       })
       //   .on("warn", (error) => console.error("non-fatal error"))
@@ -53,7 +52,7 @@ const queryParams = (type, choices = []) => {
       name: "type",
       type: "list",
       message: txt.query.pathOk,
-      choices: choices,
+      choices: choices
     },
     typeClass: {
       name: "type",
@@ -63,41 +62,42 @@ const queryParams = (type, choices = []) => {
         txt.query.sconfigmodule,
         txt.query.sconfigtm,
         txt.query.sconfiglan,
-        back,
-      ],
+        "Crear snippets VS",
+        back
+      ]
     },
     language: {
       name: "type",
       type: "list",
       message: txt.query.language,
-      choices: [txt.query.lanen, txt.query.lanes, back],
+      choices: [txt.query.lanen, txt.query.lanes, back]
     },
     configPaths: {
       name: "type",
       type: "list",
       message: txt.c.select,
-      choices: [txt.query.searchdir, txt.query.searchdirhand, back],
+      choices: [txt.query.searchdir, txt.query.searchdirhand, back]
     },
     path: {
       name: "type",
       type: "input",
-      message: txt.query.path,
+      message: txt.query.path
     },
     patucoPath: {
       name: "type",
       type: "input",
-      message: txt.query.patucoPath,
+      message: txt.query.patucoPath
     },
     dirFilter: {
       name: "type",
       type: "input",
-      message: txt.query.dirFilter,
+      message: txt.query.dirFilter
     },
     templatesPath: {
       name: "type",
       type: "input",
-      message: txt.query.templatesPath,
-    },
+      message: txt.query.templatesPath
+    }
   };
   const qs = [message[type]];
   return inquirer.prompt(qs);
@@ -147,7 +147,7 @@ const updateFile = async (key, path) => {
       patucoConfig.path.userTemplate === "undefined"
         ? undefined
         : patucoConfig.path.userTemplate,
-    languageOk: patucoConfig.language,
+    languageOk: patucoConfig.language
   };
   switch (key) {
     case "patucoConfig":
@@ -273,6 +273,9 @@ const init = async () => {
       break;
     case txt.query.sconfiglan:
       mm() ? await configLanguage() : init();
+      break;
+    case "Crear snippets VS":
+      createSnippetsVS.createSnippetsVS();
       break;
     case back:
       start.start();
