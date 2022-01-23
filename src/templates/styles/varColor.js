@@ -5,7 +5,7 @@ const colors = {
   redGg: "#0d6efd",
   blueFb: "#74fbd0",
   icon: "#8b8b8b",
-  primaryColor0: "#c8c7c7",
+  primaryColor0: "#92a3fd",
   primaryColor1: "#45efb5",
   primaryColor2: "#888CDB",
   primaryColor3: "#FA7FB0",

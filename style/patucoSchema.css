@@ -4,12 +4,13 @@
 
 
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Spartan:wght@300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@800&display=swap');
 
     
 :root {
-  --primaryfontFamily1: Roboto;
+  --primaryfontFamily1: 'Poppins', sans-serif;
   --primaryfontFamily2: Spartan;
   --primaryfontFamily3: Spartan;
   --primaryfontFamily4: Spartan;
@@ -30,11 +31,11 @@
   --background-color2: #e9eaea;
   --container: 15%;
   --card-outline-width: 1px;
-  --primary-color_-0: #60F0B9;
-  --primary-color_-1: #7F7EFF;
-  --primary-color_-2: #FAFA48;
-  --primary-color_-3: #E0FA8C;
-  --primary-color_-4: #CFCFCF;
+  --primary-color_-0: #92a3fd;
+  --primary-color_-1: #45efb5;
+  --primary-color_-2: #888CDB;
+  --primary-color_-3: #FA7FB0;
+  --primary-color_-4: #FCBB8B;
   --spacer_-0: 0;
   --spacer_-1: 1rem;
   --spacer_-2: 2rem;
@@ -47,11 +48,11 @@
   --spacer-K-s_-3: 0.4rem;
   --spacer-K-s_-4: 0.5rem;
   --spacer-K-s_-5: 0.8rem;
-  --background-color_-0: #c8c7c7;
+  --background-color_-0: #92a3fd;
   --background-color_-1: #45efb5;
   --background-color_-2: #888CDB;
   --background-color_-3: #FA7FB0;
-  --button-background-color_-0: #c8c7c7;
+  --button-background-color_-0: #92a3fd;
   --button-background-color_-1: #45efb5;
   --button-background-color_-2: #888CDB;
   --button-background-color_-3: #FA7FB0;
@@ -60,7 +61,7 @@
   --input-background-color_-2: #FA7FB0;
   --input-border-bottom-color_-0: #ccc;
   --input-border-bottom-color_-1: #45efb5;
-  --input-border-bottom-color_-2: #c8c7c7;
+  --input-border-bottom-color_-2: #92a3fd;
   --button-background-gradient_-0: linear-gradient(to bottom right, #EF4765, #FF9A5A);
   --button-background-gradient_-1: linear-gradient(to bottom right, #4766ef, #5ad0ff);
   --button-box-shadow_-0: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
@@ -259,6 +260,10 @@ textarea {
 } 
 ._vh1 {
     height: 100vh;
+}
+
+._vw1 {
+    width: 100vw;
 }
 
 ._cont {
@@ -4089,18 +4094,6 @@ list-style-position: outside;
     color: var(--primary-color_-4);
 }
 
-._c_p1_b {
-    color: color(var(--primary-color1) blackness(-80%));
-}
-
-._c_p1_s {
-    color: color(var(--primary-color1) shade(+ 70%));
-}
-
-._c_p1_t {
-    color: color(var(--primary-color1) tint(+ 70%));
-}
-
 ._c_i1 {
     color: var(--color-icon);
 }
@@ -5627,7 +5620,7 @@ opacity: 0.5;
 }
 
 ._btn1c0:hover {
-background-color: #959494;
+background-color: #5f70ca;
 box-shadow: rgba(0, 0, 0, 0.05) 0 5px 30px, rgba(0, 0, 0, 0.05) 0 1px 4px;
 opacity: 1;
 transform: translateY(0);
