@@ -16,7 +16,7 @@ const modulePatuVarPath =
   require("../../scripts/constants/patucoConfig.js").path.patucoModule +
   "/src/templates/styles/patucoVariables.js";
 
-const userVariables = require(fs.existsSync(pathUserVar)
+const userVariables = require(fs.existsSync(pathUserVar + "/CSSvariables.js")
   ? pathUserVar + "/CSSvariables.js"
   : "../../templates/styles/uservar.js");
 
