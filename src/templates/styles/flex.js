@@ -1,9 +1,5 @@
 const flex = [
   {
-    name: "_d_n",
-    items: ["display: none"],
-  },
-  {
     name: "_d_b",
     items: ["display: block"],
   },

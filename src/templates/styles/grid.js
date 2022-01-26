@@ -25,6 +25,42 @@ const grid = [
   width: 90%;
   left: calc(50% - (90% / 2));
 } 
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px
+  }
+
+.sm\:flex {
+  display: flex;
+}
+
+.sm\:w-1\/3 {
+  width: 33%;
+}
+
+.sm\:w-2\/3 {
+  width: 66%;
+}
+}
+
+@media (min-width: 768px) {
+.container {
+  max-width: 768px;
+}
+
+.md\:w-1\/3 {
+  width: 33%;
+}
+
+.md\:w-2\/3 {
+  width: 66%;
+}
+
+.md\:w-770 {
+  width: 770px;
+}
+}
 `,
   },
   {
