@@ -119,6 +119,9 @@ Import and export components, views, models or whatever you need...
         </ul>
          <li><a href="#Create_CSS_File_In_Your_Project">Create_CSS_File_In_Your_Project</a></li>
         <ul>
+        </ul>
+         <li><a href="#Create_snippet_file_for_VS">Create_snippet_file_for_VS</a></li>
+        <ul>
           <!-- <li><a href="#curvemodifier">CurveModifier</a></li> -->
         </ul>
       </ul>
@@ -312,6 +315,8 @@ The collections will be saved in the directory indicated when configuring the Pa
 ## <br>Update_CSS_template
 
 ## <br>Create_CSS_File_In_Your_Project
+   
+## <br>Create_snippet_file_for_VS
 
 ## <br>Templates
 
