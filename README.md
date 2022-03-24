@@ -336,3 +336,5 @@ The collections will be saved in the directory indicated when configuring the Pa
 
 ## <br>Inject_Components_Automatically
    
+## <br>Inject_Components_Automatically
+   
