@@ -15,23 +15,9 @@ You can save templates with code to inject it into any file.
 
 # <br>Quick start:
 
-<br><br><img align="left" src="https://media.giphy.com/media/ObNTw8Uzwy6KQ/giphy.gif" width="30px">&nbsp;**_If you want to try it before it's ready..._**
-
-1. Clone the repo
+1. Install packages globally
    ```sh
-   git clone https://github.com/joselrdg/patuco.git
-   ```
-2. Install NPM packages
-   ```sh
-   npm install
-   ```
-3. Create symbolic link in global folder:
-   ```sh
-   npm link (in package dir)
-   ```
-4. Start CLI patuco:
-   ```sh
-   patuco
+   npm install -g patucostrap
    ```
 
 Copy-paste the stylesheet <link> into your <head> before all other stylesheets to load our CSS.
