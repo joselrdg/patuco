@@ -1,6 +1,6 @@
 {
   "name": "patucostrap",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Css library to speed up the creation of the style and layout of web pages.",
   "main": "patucostrap.js",
   "scripts": {
